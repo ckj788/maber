@@ -10,7 +10,7 @@ import { Resend } from 'resend';
 import { readFile } from 'fs/promises';
 
 /********************* 新增代码 start ************************/
-import { getReportByOrderId, saveOrUpdateReport } from './models/reportStore.js';
+import { getReportByOrderId, saveOrUpdateReport, getDbStatus, pool } from './models/reportStore.js';
 /********************* 新增代码 end ************************/
 
 // ★★★ 新增：Stripe
@@ -603,6 +603,83 @@ app.post('/api/stripe/create-intent', async (req, res) => {
   } catch (e) {
     console.error('create-intent error:', e);
     res.status(400).json({ error: e.message });
+  }
+});
+
+// 数据库探针接口（用于诊断连接状态和表结构）
+app.get('/api/db-debug', async (req, res) => {
+  try {
+    const status = getDbStatus();
+    const connStr = process.env.DATABASE_URL || '';
+    const maskedConn = connStr.replace(/:([^:@]+)@/, ':****@'); // 隐藏敏感密码
+
+    if (!connStr) {
+      return res.json({
+        ok: false,
+        error: 'DATABASE_URL is missing or empty in environment variables',
+        ...status
+      });
+    }
+
+    if (!pool) {
+      return res.json({
+        ok: false,
+        error: 'Database pool is not initialized (null)',
+        maskedConnectionString: maskedConn,
+        ...status
+      });
+    }
+
+    // 运行测试查询
+    let timeResult = null;
+    let timeError = null;
+    try {
+      const tRes = await pool.query('SELECT NOW()');
+      timeResult = tRes.rows[0].now;
+    } catch (e) {
+      timeError = e.message;
+    }
+
+    let tableExists = null;
+    let tableExistsError = null;
+    try {
+      const existsRes = await pool.query(
+        "SELECT EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'maber_reports')"
+      );
+      tableExists = existsRes.rows[0].exists;
+    } catch (e) {
+      tableExistsError = e.message;
+    }
+
+    let tableRowsCount = null;
+    let tableRowsError = null;
+    if (tableExists) {
+      try {
+        const countRes = await pool.query('SELECT COUNT(*) FROM maber_reports');
+        tableRowsCount = countRes.rows[0].count;
+      } catch (e) {
+        tableRowsError = e.message;
+      }
+    }
+
+    res.json({
+      ok: !timeError && !tableExistsError,
+      databaseUrlConfigured: true,
+      maskedConnectionString: maskedConn,
+      ...status,
+      time: timeResult,
+      timeQueryError: timeError,
+      tableExists: tableExists,
+      tableExistsQueryError: tableExistsError,
+      tableRowsCount: tableRowsCount,
+      tableRowsQueryError: tableRowsError
+    });
+  } catch (e) {
+    res.status(500).json({
+      ok: false,
+      error: e.message,
+      stack: e.stack
+    });
   }
 });
 

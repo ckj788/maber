@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const connectionString = process.env.DATABASE_URL;
-let pool = null;
+export let pool = null;
 let useLocalDb = false;
 const localDbPath = path.join(__dirname, '..', '..', 'tmp', 'reports_db.json');
 
@@ -129,3 +129,12 @@ export async function saveOrUpdateReport(orderId, payload, emailed = false, firs
     console.error(`❌ saveOrUpdateReport PG error for orderId=${orderId}:`, err);
   }
 }
+
+export function getDbStatus() {
+  return {
+    useLocalDb,
+    poolInitialized: !!pool,
+    localDbPath
+  };
+}
+
