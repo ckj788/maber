@@ -34,12 +34,12 @@ if (!connectionString) {
   // Initialize database table on startup
   pool.query(`
     CREATE TABLE IF NOT EXISTS reports (
-      orderId VARCHAR(255) PRIMARY KEY,
-      payload TEXT NOT NULL,
-      emailed INTEGER DEFAULT 0,
-      firstSentAt BIGINT,
-      lastSentAt BIGINT,
-      ts BIGINT
+      maber_order_id VARCHAR(255) PRIMARY KEY,
+      maber_payload TEXT NOT NULL,
+      maber_emailed INTEGER DEFAULT 0,
+      maber_first_sent_at BIGINT,
+      maber_last_sent_at BIGINT,
+      maber_ts BIGINT
     )
   `).catch(err => {
     console.error('❌ Database table initialization failed, falling back to local file storage:', err);
@@ -73,18 +73,18 @@ export async function getReportByOrderId(orderId) {
     console.log(`[localDb] fetching report for orderId=${orderId}`);
     const db = readLocalDb();
     const row = db[orderId];
-    return row ? JSON.parse(row.payload) : {};
+    return row ? JSON.parse(row.maber_payload || row.payload) : {};
   }
 
   try {
-    const res = await pool.query('SELECT payload FROM reports WHERE orderId = $1', [orderId]);
+    const res = await pool.query('SELECT maber_payload FROM reports WHERE maber_order_id = $1', [orderId]);
     const row = res.rows[0];
-    return row ? JSON.parse(row.payload) : {};
+    return row ? JSON.parse(row.maber_payload) : {};
   } catch (err) {
     console.error(`❌ getReportByOrderId error for orderId=${orderId}, falling back to local storage:`, err);
     const db = readLocalDb();
     const row = db[orderId];
-    return row ? JSON.parse(row.payload) : {};
+    return row ? JSON.parse(row.maber_payload || row.payload) : {};
   }
 }
 
@@ -97,12 +97,12 @@ export async function saveOrUpdateReport(orderId, payload, emailed = false, firs
   try {
     const db = readLocalDb();
     db[orderId] = {
-      orderId,
-      payload: JSON.stringify(payload),
-      emailed: emailedInt,
-      firstSentAt: firstSentAt || (db[orderId]?.firstSentAt) || null,
-      lastSentAt: lastSentAt || ts,
-      ts
+      maber_order_id: orderId,
+      maber_payload: JSON.stringify(payload),
+      maber_emailed: emailedInt,
+      maber_first_sent_at: firstSentAt || (db[orderId]?.maber_first_sent_at) || (db[orderId]?.firstSentAt) || null,
+      maber_last_sent_at: lastSentAt || ts,
+      maber_ts: ts
     };
     writeLocalDb(db);
     console.log(`[localDb] saved report for orderId=${orderId}`);
@@ -116,14 +116,14 @@ export async function saveOrUpdateReport(orderId, payload, emailed = false, firs
 
   try {
     await pool.query(`
-      INSERT INTO reports (orderId, payload, emailed, firstSentAt, lastSentAt, ts)
+      INSERT INTO reports (maber_order_id, maber_payload, maber_emailed, maber_first_sent_at, maber_last_sent_at, maber_ts)
       VALUES ($1, $2, $3, $4, $5, $6)
-      ON CONFLICT(orderId) DO UPDATE SET
-        payload = EXCLUDED.payload,
-        emailed = EXCLUDED.emailed,
-        firstSentAt = COALESCE(reports.firstSentAt, EXCLUDED.firstSentAt),
-        lastSentAt = EXCLUDED.lastSentAt,
-        ts = EXCLUDED.ts
+      ON CONFLICT(maber_order_id) DO UPDATE SET
+        maber_payload = EXCLUDED.maber_payload,
+        maber_emailed = EXCLUDED.maber_emailed,
+        maber_first_sent_at = COALESCE(reports.maber_first_sent_at, EXCLUDED.maber_first_sent_at),
+        maber_last_sent_at = EXCLUDED.maber_last_sent_at,
+        maber_ts = EXCLUDED.maber_ts
     `, [orderId, JSON.stringify(payload), emailedInt, firstSentAt, lastSentAt, ts]);
   } catch (err) {
     console.error(`❌ saveOrUpdateReport PG error for orderId=${orderId}:`, err);
