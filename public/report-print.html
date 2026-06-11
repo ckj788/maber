@@ -860,28 +860,64 @@
 
 
 
-    /* 从多来源加载映射（不变） */
+    /* 从多来源加载映射（优化：并行/缓存） */
     async function maybeLoadMaps(seed) {
-      if (seed && seed.jointMap && typeof seed.jointMap === 'object') JOINT_MAP = seed.jointMap;
-      if (seed && seed.personaMap && typeof seed.personaMap === 'object') PERSONA_MAP = seed.personaMap;
+      let updated = false;
+      if (seed && seed.jointMap && typeof seed.jointMap === 'object') {
+        JOINT_MAP = seed.jointMap;
+        updated = true;
+      }
+      if (seed && seed.personaMap && typeof seed.personaMap === 'object') {
+        PERSONA_MAP = seed.personaMap;
+        updated = true;
+      }
 
       const q = new URLSearchParams(location.search);
       const jointFromUrl = parseJSONMaybe(q.get('jointMap'));
       const personaFromUrl = parseJSONMaybe(q.get('personaMap'));
-      if (jointFromUrl && typeof jointFromUrl === 'object') JOINT_MAP = jointFromUrl;
-      if (personaFromUrl && typeof personaFromUrl === 'object') PERSONA_MAP = personaFromUrl;
+      if (jointFromUrl && typeof jointFromUrl === 'object') {
+        JOINT_MAP = jointFromUrl;
+        updated = true;
+      }
+      if (personaFromUrl && typeof personaFromUrl === 'object') {
+        PERSONA_MAP = personaFromUrl;
+        updated = true;
+      }
 
       async function tryFetchJson(url) {
-        try { const r = await fetch(url, { cache: 'no-store' }); if (!r.ok) return null; return await r.json(); }
-        catch { return null; }
+        try {
+          const r = await fetch(url);
+          if (!r.ok) return null;
+          return await r.json();
+        } catch {
+          return null;
+        }
       }
+
+      const promises = [];
       if (!seed?.jointMap && !jointFromUrl) {
-        const j = await tryFetchJson('/assets/joint-map.json'); if (j && typeof j === 'object') JOINT_MAP = j;
+        promises.push(tryFetchJson('/assets/joint-map.json').then(j => {
+          if (j && typeof j === 'object') {
+            JOINT_MAP = j;
+            updated = true;
+          }
+        }));
       }
       if (!seed?.personaMap && !personaFromUrl) {
-        const p = await tryFetchJson('/assets/persona-map.json'); if (p && typeof p === 'object') PERSONA_MAP = p;
+        promises.push(tryFetchJson('/assets/persona-map.json').then(p => {
+          if (p && typeof p === 'object') {
+            PERSONA_MAP = p;
+            updated = true;
+          }
+        }));
       }
+
+      if (promises.length > 0) {
+        await Promise.all(promises);
+      }
+      return updated;
     }
+
 
     /* ======== 统一把 payload 还原成页面使用的 seed ======== */
     function seedFromPayload(p) {
@@ -1163,7 +1199,7 @@
       }
     }
 
-    /* ========= 初始化 ========= */
+    /* ========= 初始化（优化：即时渲染+后台拉取） ========= */
     (async function init() {
       const q = new URLSearchParams(location.search);
       const orderID = q.get('orderID') || q.get('orderId') || '';
@@ -1171,32 +1207,60 @@
       let seed = null;
       if (window.__REPORT_DATA__) seed = window.__REPORT_DATA__;
 
-      if (!seed && orderID) {
+      // 1. 优先尝试从本地缓存中加载，实现 0 秒即时呈现
+      if (!seed) {
+        const fromLS = readFromStorage();
+        if (fromLS && (!orderID || fromLS.orderId === orderID)) {
+          seed = fromLS;
+        }
+      }
+
+      // 2. 如果存在缓存数据，立即渲染
+      if (seed) {
+        renderAll(seed);
+        // 后台加载地图配置，如果有变化则增量更新
+        maybeLoadMaps(seed).then((updated) => {
+          if (updated) renderAll(seed);
+        });
+      }
+
+      // 3. 后台发起网络请求获取最新数据（用于首次加载或更新缓存）
+      if (orderID) {
         try {
           const res = await fetch(`/api/report/${encodeURIComponent(orderID)}`);
           if (res.ok) {
             const data = await res.json();
-            seed = seedFromPayload(data);
-            if (seed) {
+            const newSeed = seedFromPayload(data);
+            if (newSeed) {
+              const seedStr = JSON.stringify(seed);
+              const newSeedStr = JSON.stringify(newSeed);
+
               try {
                 localStorage.setItem('maber:payload', JSON.stringify(data));
                 if (data.email) localStorage.setItem('maber:email', data.email);
                 localStorage.setItem('maber:orderId', orderID);
               } catch (e) {}
+
+              // 仅在数据确实发生变化，或者之前没有渲染成功时，才重新渲染
+              if (seedStr !== newSeedStr) {
+                seed = newSeed;
+                await maybeLoadMaps(seed);
+                renderAll(seed);
+              }
             }
           }
         } catch (e) {
-          console.warn('Failed to fetch report from API, falling back to local storage:', e);
+          console.warn('Failed to fetch/update report from API:', e);
         }
       }
 
+      // 4. 如果仍无数据，以本地存储为最终兜底
       if (!seed) {
         const fromLS = readFromStorage();
-        seed = { ...fromLS, ...seed };
+        seed = fromLS || {};
+        await maybeLoadMaps(seed);
+        renderAll(seed);
       }
-
-      await maybeLoadMaps(seed);
-      renderAll(seed || {});
 
       try { if (window.opener) window.opener.postMessage({ type: 'MABER_NEED_DATA' }, '*'); } catch (e) { }
 
@@ -1261,6 +1325,13 @@
     window.addEventListener('load', centerSvgLabels);
     window.addEventListener('resize', centerSvgLabels);
   </script>
+  <!-- Vercel Web Analytics & Speed Insights -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 
 </html>
