@@ -1,0 +1,1266 @@
+<!-- 报告模板 -->
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MABER — Report (Screenshot Mail)</title>
+  <meta name="theme-color" content="#000000" />
+
+  <script>
+    (function () {
+      var q = new URLSearchParams(location.search || '');
+      if (q.get('export') === '1') {
+        document.documentElement.setAttribute('data-export', '1');
+      }
+    })();
+  </script>
+
+  <style>
+    :root {
+      --bg: #000000;
+      --ink: #f3f3f1;
+      --ink-dim: #c9c9c5;
+      --frame: #1b1b1b;
+      --line: rgba(255, 255, 255, .28);
+      --radius: 14px;
+      --shadow: 0 8px 30px rgba(0, 0, 0, .45);
+      --maxw: 980px;
+    }
+
+    :root[data-export="1"] {
+      --maxw: 100vw;
+    }
+
+    :root[data-export="1"] .wrap {
+      max-width: none;
+      width: 100vw;
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html,
+    body {
+      height: 100%
+    }
+
+    html {
+      background: #000
+    }
+
+    body {
+      margin: 0;
+      background: #000000;
+      color: #f3f3f1;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 28px auto;
+      padding: 0 18px;
+      display: grid;
+      gap: 18px
+    }
+
+    .card {
+      background: #000;
+      border: 1px solid #1b1b1b;
+      border-radius: 14px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, .45);
+      padding: 18px
+    }
+
+    .muted {
+      color: #c9c9c5;
+      white-space: pre-wrap;
+    }
+
+    h1 {
+      font-size: clamp(22px, 4.2vw, 32px);
+      margin: 0
+    }
+
+    h2 {
+      font-size: 20px;
+      margin: 0 0 6px 0;
+      break-after: avoid
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-variant: small-caps;
+      letter-spacing: .08em
+    }
+
+    .brand .logo {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 35% 35%, #fff 0%, #f4f4f4 16%, transparent 38%),
+        conic-gradient(from 220deg, rgba(255, 255, 255, .6), rgba(255, 255, 255, .15), rgba(255, 255, 255, 0));
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, .15), inset 0 0 18px rgba(255, 255, 255, .12)
+    }
+
+    .brand span {
+      font-weight: 600;
+      letter-spacing: .06em
+    }
+
+    .meta {
+      font-size: 13px
+    }
+
+    .welcome {
+      font-size: 18px;
+      margin: 6px 0 0 0
+    }
+
+    .tri {
+      overflow: hidden;
+      border-radius: 12px
+    }
+
+    .persona-row {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 16px;
+      align-items: center;
+    }
+
+    @media (max-width:820px) {
+      .persona-row {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .o-big {
+      font-size: 108px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 2px;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .portrait {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid #1b1b1b;
+      background: #000
+    }
+
+    .forecast {
+      display: grid;
+      gap: 8px
+    }
+
+    .forecast-line {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap
+    }
+
+    .forecast-line b {
+      white-space: nowrap
+    }
+
+    .chip {
+      border: 1px solid #1b1b1b;
+      background: #0c0c0d;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-weight: 700;
+      letter-spacing: .3px
+    }
+
+    .age-blocks {
+      display: grid;
+      gap: 12px
+    }
+
+    .age-card {
+      padding: 12px;
+      border: 1px solid #1b1b1b;
+      border-radius: 12px;
+      background: #0c0c0d
+    }
+
+    .age-code {
+      font-weight: 800;
+      font-size: 18px;
+      margin-bottom: 6px
+    }
+
+    .age-card .title {
+      font-weight: 700;
+      margin: 6px 0 6px
+    }
+
+    .hidden {
+      display: none
+    }
+
+    @media print {
+      @page {
+        size: A4;
+        margin: 0
+      }
+
+      html,
+      body {
+        background: #000
+      }
+
+      body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact
+      }
+
+      .wrap {
+        width: 190mm;
+        max-width: none;
+        margin: 0 auto;
+        padding: 8mm 10mm;
+        gap: 10mm
+      }
+
+      .card {
+        box-shadow: none;
+        border-color: #111;
+        background: #000
+      }
+
+      header.card,
+      .tri,
+      .persona-row,
+      .age-card,
+      .forecast-line,
+      .portrait,
+      img,
+      svg {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .card {
+        break-inside: auto;
+        page-break-inside: auto
+      }
+
+      .persona-row {
+        display: table;
+        table-layout: fixed;
+        width: 100%
+      }
+
+      .persona-row>* {
+        display: table-cell;
+        vertical-align: middle
+      }
+
+      .portrait {
+        max-height: 90mm;
+        object-fit: cover
+      }
+
+      .age-blocks {
+        display: block !important
+      }
+
+      .age-blocks .age-card {
+        margin-bottom: 6mm
+      }
+
+      h1,
+      h2 {
+        margin: 0 0 4mm 0
+      }
+
+      p {
+        orphans: 3;
+        widows: 3
+      }
+
+
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 10px 16px; border-radius: 10px; text-decoration: none; cursor: pointer; user-select: none;
+      border: 1px solid #2a2a2a; background: #fff; color: #000; font-weight: 600;
+      transition: opacity .2s, background .2s, transform 0.1s;
+    }
+    .btn.secondary { background: transparent; color: #f3f3f1; border-color: #3a3a3a }
+    .btn:active { transform: translateY(1px); }
+    .download-bar {
+      position: sticky; top: 0; left: 0; right: 0;
+      background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
+      border-bottom: 1px solid #1b1b1b; padding: 12px 20px; z-index: 10000;
+      display: flex; align-items: center; justify-content: space-between; gap: 15px;
+    }
+    @media print {
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="no-print download-bar">
+    <div style="font-size: 14px; font-weight: 500; color: #b8b8b8; font-variant: small-caps; letter-spacing: 0.08em; display: flex; align-items: center; gap: 8px;">
+      <div class="logo" style="width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff 0%, #f4f4f4 16%, transparent 38%), conic-gradient(from 220deg, rgba(255,255,255,0.6), rgba(255,255,255,0.15), rgba(255,255,255,0)); box-shadow: 0 0 0 1px rgba(255,255,255,0.15), inset 0 0 18px rgba(255,255,255,0.12)"></div>
+      <span>MABER Report Viewer</span>
+    </div>
+    <div style="display: flex; gap: 10px;">
+      <a href="./index.html" class="btn secondary">🏠 Back to Home</a>
+      <button id="downloadPdfBtn" class="btn">📥 Download PDF</button>
+    </div>
+  </div>
+  <div class="wrap">
+
+    <header class="card">
+      <div class="topbar">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <span>MABER</span>
+        </div>
+      </div>
+      <p class="welcome">Hi <b id="name"></b>. The cosmos speaks in numbers, and your personal frequency is now
+        revealed. What follows is not a prediction, but a reflection—a detailed blueprint of the archetypal forces that
+        shape your journey. May it bring you resonance and insight.
+
+      </p>
+      <p class="muted meta">
+    　Date of brith： <b id="dob"></b>　Time：<b id="tob"></b>　Order NO：<b id="orderId"></b>　Core Archetype：<b id="oVal"></b>
+      </p>
+    </header>
+
+    <section class="card">
+      <div class="tri">
+        <svg id="pyramid" viewBox="-120 -120 1440 960" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <style>
+              .blk {
+                fill: #111;
+                font-weight: 800;
+                paint-order: stroke fill;
+                stroke: rgba(0, 0, 0, .12);
+                stroke-width: 1px
+              }
+
+              .on-neutral {
+                fill: #111;
+                stroke: rgba(0, 0, 0, .25);
+                stroke-width: 1.1px
+              }
+
+              *[stroke] {
+                vector-effect: non-scaling-stroke
+              }
+            </style>
+            <filter id="shadowSoft" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity=".18" />
+            </filter>
+            <filter id="triGlow" x="-40%" y="-40%" width="180%" height="180%">
+              <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#ffffff" flood-opacity=".12" />
+            </filter>
+            <marker id="arrowHead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6"
+              orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 Z" fill="rgba(255, 255, 255, .28)" />
+            </marker>
+          </defs>
+
+          <polygon points="600,160 220,660 980,660" fill="transparent" stroke="rgba(255, 255, 255, .28)" stroke-width="1.6"
+            filter="url(#triGlow)" />
+          <line x1="295" y1="560" x2="902" y2="560" stroke="rgba(255, 255, 255, .28)" stroke-width="1.2" />
+          <line x1="404" y1="420" x2="796" y2="420" stroke="rgba(255, 255, 255, .28)" stroke-width="1.2" />
+          <line x1="600" y1="160" x2="600" y2="660" stroke="rgba(255, 255, 255, .28)" stroke-width="1.2" />
+
+          <g id="main-star" fill="#e64646" stroke="rgba(255,255,255,.35)" stroke-width="1"
+            transform="translate(600,260)">
+            <polygon points="0,-18 5,-6 18,-6 8,2 12,15 0,7 -12,15 -8,2 -18,-6 -5,-6" />
+          </g>
+
+          <text x="160" y="210" fill="#f3f3f1" font-size="22" font-weight="700">Core Archetype</text>
+          <line x1="240" y1="206" x2="520" y2="260" stroke="rgba(255, 255, 255, .28)" stroke-width="1.6"
+            marker-end="url(#arrowHead)" />
+
+          <rect x="290" y="565" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+            filter="url(#shadowSoft)" data-for="I_val" /><text id="I_val" class="blk">I</text>
+          <rect x="460" y="565" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+            filter="url(#shadowSoft)" data-for="J_val" /><text id="J_val" class="blk">J</text>
+          <rect x="620" y="565" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+            filter="url(#shadowSoft)" data-for="K_val" /><text id="K_val" class="blk">K</text>
+          <rect x="790" y="565" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+            filter="url(#shadowSoft)" data-for="L_val" /><text id="L_val" class="blk">L</text>
+
+          <rect x="460" y="445" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+            filter="url(#shadowSoft)" data-for="M_val" /><text id="M_val" class="blk">M</text>
+          <rect x="620" y="445" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+            filter="url(#shadowSoft)" data-for="N_val" /><text id="N_val" class="blk">N</text>
+
+          <rect x="540" y="300" width="120" height="110" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+            filter="url(#shadowSoft)" data-for="O_val" /><text id="O_val" class="on-neutral">O</text>
+
+          <rect x="460" y="30" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+            filter="url(#shadowSoft)" data-for="Q_val" /><text id="Q_val" class="blk">Q</text>
+          <rect x="620" y="30" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+            filter="url(#shadowSoft)" data-for="P_val" /><text id="P_val" class="blk">P</text>
+          <rect x="540" y="-80" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+            filter="url(#shadowSoft)" data-for="R_val" /><text id="R_val" class="blk">R</text>
+
+          <rect x="60" y="565" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+            filter="url(#shadowSoft)" data-for="T_val" /><text id="T_val" class="blk">T</text>
+          <rect x="-80" y="565" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+            filter="url(#shadowSoft)" data-for="S_val" /><text id="S_val" class="blk">S</text>
+          <rect x="-10" y="445" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+            filter="url(#shadowSoft)" data-for="U_val" /><text id="U_val" class="blk">U</text>
+
+          <rect x="1160" y="565" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+            filter="url(#shadowSoft)" data-for="V_val" /><text id="V_val" class="blk">V</text>
+          <rect x="1020" y="565" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+            filter="url(#shadowSoft)" data-for="W_val" /><text id="W_val" class="blk">W</text>
+          <rect x="1090" y="445" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+            filter="url(#shadowSoft)" data-for="X_val" /><text id="X_val" class="blk">X</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Core Archetype</h2>
+      <div class="persona-row">
+        <p class="o-big" id="oBig">—</p>
+        <img id="personaImg" class="portrait" alt="Persona" src="" />
+      </div>
+      <div class="persona-title" id="personaTitle">—</div>
+      <div id="personaText" class="muted"></div>
+    </section>
+
+    <section class="card">
+      <h2>Decoding Ages 21-40</h2>
+      <div id="age_21_40" class="age-blocks"></div>
+    </section>
+
+    <section class="card">
+      <h2>Decoding Ages 41-60</h2>
+      <div id="age_41_60" class="age-blocks"></div>
+    </section>
+
+    <section class="card">
+      <h2>Decoding Ages 61-80</h2>
+      <div id="age_61_80" class="age-blocks"></div>
+    </section>
+
+    <div id="codes" class="hidden"></div>
+
+    <footer class="card" style="text-align:center;color:var(--ink-dim)">
+      We appreciate you beginning your journey with us · © MABER
+    </footer>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+    /* ========= 基础工具 ========= */
+    const DEFAULT_EARLY = ["IJM", "IMT", "JMS", "TSU"];
+    const DEFAULT_MID = ["MNO", "MOP", "NOQ", "QPR"];
+    const DEFAULT_LATE = ["KLN", "KNV", "LNW", "VWX"];
+
+    function $(id) { return document.getElementById(String(id || '').replace(/^#/, '')); }
+    function reduce1(n) { n = Math.abs(parseInt(n || 0, 10)); if (!n) return 0; while (n > 9) n = String(n).split('').reduce((a, b) => a + parseInt(b, 10), 0); return n; }
+    function parseJSONMaybe(str) { if (!str) return null; try { return JSON.parse(str); } catch { return null; } }
+
+    /* DOB → I..X */
+    function deriveABCD_EFGH(iso) {
+      const [y, m, d] = (iso || '').split('-'); if (!y || !m || !d) return null;
+      const Y = String(y).padStart(4, '0'), M = String(m).padStart(2, '0'), D = String(d).padStart(2, '0');
+      return { A: +D[0], B: +D[1], C: +M[0], Dd: +M[1], E: +Y[0], F: +Y[1], G: +Y[2], H: +Y[3] };
+    }
+    function computeTriangleFromDob(iso) {
+      const b = deriveABCD_EFGH(iso); if (!b) return null;
+      const I = reduce1(b.A + b.B), J = reduce1(b.C + b.Dd), K = reduce1(b.E + b.F), L = reduce1(b.G + b.H);
+      const M = reduce1(I + J), N = reduce1(K + L), O = reduce1(M + N);
+      const Q = reduce1(N + O), P = reduce1(M + O), R = reduce1(Q + P);
+      const T = reduce1(I + M), S = reduce1(J + M), U = reduce1(T + S);
+      const V = reduce1(K + N), W = reduce1(L + N), X = reduce1(V + W);
+      return { I, J, K, L, M, N, O, Q, P, R, T, S, U, V, W, X };
+    }
+
+    /* 居中 SVG 文本 */
+    function centerSvgLabels() {
+      const svg = $('pyramid'); if (!svg) return;
+      svg.querySelectorAll('rect[data-for]').forEach(r => {
+        const id = r.getAttribute('data-for'), t = $(id); if (!t) return;
+        const x = +r.getAttribute('x') || 0, y = +r.getAttribute('y') || 0, w = +r.getAttribute('width') || 0, h = +r.getAttribute('height') || 0;
+        const cx = x + w / 2, cy = y + h / 2; t.setAttribute('x', cx); t.setAttribute('y', cy);
+        t.setAttribute('text-anchor', 'middle'); t.setAttribute('dominant-baseline', 'middle');
+        let fs = Math.round(Math.min(w, h) * 0.42); if (id === 'O_val') fs = Math.round(Math.min(w, h) * 0.44); t.setAttribute('font-size', fs);
+      });
+    }
+
+    /* ========= 文案映射（留白） ========= */
+    let JOINT_MAP = {
+      "112": {
+        "title": "Execution & Communication",
+        "text": "Strengths: You are naturally confident in communication, skilled at building bridges not only between people but even between nations. Whether it’s major diplomatic affairs or delicate personal coordination, you handle it with ease. Your words carry influence and persuasiveness, making you a trusted mediator and connector.\n\nWeaknesses: Confidence can sometimes turn into over-independence, keeping you locked in a world of 'self-dialogue' and neglecting your partner or team. This tendency can lead to separation in relationships—whether long-distance, estrangement, or even permanent partings. You also tend to start with plans but abandon them halfway, leaving things unfinished. Overexpressing may even attract toxic or manipulative people working against you.\n\nAdvice: Learn to leverage others—knowing when to depend on others and achieve win-win cooperation is key to changing your destiny. Use your eloquence and communication skills to gain resources, but temper your sharpness to avoid careless words turning into trouble. Later marriage may suit you better, as time allows you to gain more wisdom and stability. Keep reading and learning to avoid detours, turning confidence into steady capability."
+      },
+      "123": {
+        "title": "Expression & Authority",
+        "text": "Strengths: You are articulate and expressive, born with stage presence, making you an outstanding speaker or lecturer. Your words carry authority and quickly gain others’ trust. In groups, your sharp perspectives energize the atmosphere, making you well-suited for fields like education, public speaking, media, or sales.\n\nWeaknesses: Strong expression often comes with indecisive action. You start fast but struggle with persistence, leading to half-finished outcomes. Your blunt honesty can also be a double-edged sword—a single unfiltered remark may unintentionally offend and damage key relationships.\n\nAdvice: To make eloquence a true asset, strengthen your ability to follow through. Set short-term goals, push every speech or plan forward with a clear timeline, and practice pausing three seconds before speaking to avoid impulsive slip-ups. You are well-suited for public roles—teacher, actor, lecturer, or corporate trainer—but balance professional ambition with personal relationships by pairing confidence with listening."
+      },
+      "134": {
+        "title": "Creativity & Synthesis",
+        "text": "Strengths: You are not only expressive but also quick to summarize, giving you an excellent memory. Creative and goal-oriented, you often generate unique ideas. You combine strategy and creative execution in a distinctive way, making you the team’s 'inspiration and synthesizer.'\n\nWeaknesses: However, you often reflect only after things are done, which can leave you feeling wronged or overly sentimental. Sensitive and somewhat dependent, you crave stability on one hand but novelty on the other, leading to emotional swings that affect efficiency.\n\nAdvice: Learn to set clear expectations and goals beforehand to avoid later regret. Keep journals, track emotions, or hold retrospectives to transform feelings into logic. You are well-suited for creative planning, brand design, or strategic work, but beware of the trap of 'too many ideas, too little execution.' Sync emotions with actions to stabilize your creative output."
+      },
+      "145": {
+        "title": "Stability & Goals",
+        "text": "Strengths: You excel at setting goals through analysis and deep thought. Once you decide on a direction, you persist and have the ability to achieve it. Your steadiness and reliability reassure others, making you a dependable executor in teams. You thrive in planning and organizational roles, keeping complex tasks in order.\n\nWeaknesses: Over-caution makes you prone to missing opportunities. You may have many plans that stay only on paper, lacking the courage to act. You crave security and shy away from risk; in relationships, you often rely on your partner’s drive rather than carrying the pressure yourself.\n\nAdvice: You need to balance steadiness with breakthroughs. Break long-term goals into short, actionable steps, and appoint accountability partners to push you. Collaborating with strong leaders pulls you forward while you ensure execution. Learn to take occasional risks—trial and error accelerates growth."
+      },
+      "156": {
+        "title": "Wealth Through Expansion",
+        "text": "Strengths: You are born with 'external wealth'—opportunities come when you step out. Bold and exploratory, you are not confined by familiar environments and can expand in new arenas. Ambitious and principled, you earn others’ trust, especially in cross-regional or international development.\n\nWeaknesses: If confined to a small environment, you risk falling into unhealthy habits and financial loss. Stubborn and arrogant at times, you may become overly critical of others. You may also spend impulsively. Sticking too rigidly to principles can cause you to miss flexibility.\n\nAdvice: Proactively expand into other regions or overseas. Broaden your vision and scope, and your fortune will rise with it. Learn investing and financial management to prevent money loss. In new environments, avoid rushing to control; first observe and learn, then gradually build your stage. Seeking guidance and leveraging others will help your 'external wealth' accumulate."
+      },
+      "167": {
+        "title": "Wisdom & Charisma",
+        "text": "Strengths: You possess near-intuitive insight, quickly seeing through people and situations. Your wisdom attracts resources and networks, helping you build from scratch. Independent and resilient, you solve problems effectively and often bring fresh ideas.\n\nWeaknesses: Relying too heavily on money to maintain relationships drains you and may drag you into unhealthy connections. Fond of luxury and indulgence, you may overspend and struggle with financial balance.\n\nAdvice: Use your wisdom and foresight instead of relying on money. Practice discipline and direct spending toward learning, investment, and business growth. You are well-suited for roles as a connector or consultant, using judgment and vision to create value rather than 'buying' relationships. Build financial planning so money becomes an asset, not a burden."
+      },
+      "178": {
+        "title": "Leadership & Responsibility",
+        "text": "Strengths: You have a natural leadership aura, strong sense of responsibility, and willingness to take charge. Loyal and generous, you build strong relationships, thrive in business, and have the potential to lead teams to growth. With strategic vision, you unite people and expand markets.\n\nWeaknesses: You tend to shoulder too much for others, taking on stress or even blame that isn’t yours. Loans or favors may not be repaid, and trust may be broken. Though ambitious, you may lack confidence in short-term goals and waver at critical moments.\n\nAdvice: Learn 'boundaried giving.' Before helping others, confirm agreements or written commitments to avoid short-term generosity turning into long-term burdens. You’re suited for large projects and cross-border ventures, especially those involving travel or international resources. Build both financial and trust boundaries—generosity is good, but keep bottom lines."
+      },
+      "189": {
+        "title": "Responsibility & Results",
+        "text": "Strengths: You have a strong sense of responsibility and execution, remaining steady under pressure and delivering results. Perfectionist tendencies drive your focus on detail and quality, giving others confidence to rely on you in critical moments. People entrust you with important tasks knowing you will push them through.\n\nWeaknesses: Insisting on 'doing everything yourself' can overload you, causing exhaustion and even health issues (especially cardiovascular). Your reluctance to trust others means you may miss chances to leverage help.\n\nAdvice: Learn to distinguish between 'must do yourself' and 'can delegate.' Upgrade perfectionism into 'high standards plus healthy boundaries,' allowing 80% completion projects to move forward. Health management must be routine—regular exercise and stress release are vital. You are best in roles balancing management and execution, but build a reliable team to achieve both success and well-being."
+      },
+      "191": {
+        "title": "Achievement & Independence",
+        "text": "Strengths: Extremely independent, you seek to achieve through personal ability. Self-reliant and courageous, you shine in entrepreneurial or highly autonomous roles. You enjoy challenges and want to keep results in your own hands, proving your value through performance.\n\nWeaknesses: Independence can slip into isolation. You may focus solely on work while neglecting emotional and relational needs. Even in success, you may feel lonely, and over-focus on career can lead to separation in relationships. Lack of trust in others may also create tension in collaboration.\n\nAdvice: Learn to 'share success' and 'share pressure.' In business, find reliable partners, turning your independence into leadership plus teamwork. In relationships, actively nurture bonds and allocate time for companionship. True achievement includes not only career success but also harmony in emotions and life."
+      },
+      "213": {
+        "title": "Expression & Leadership",
+        "text": "Strengths: You can confidently express yourself the moment you speak, with traits similar to lecturers or trainers. You know how to use language to build influence, carry authority in public settings, and skillfully set the tone—especially excelling in market development and training.\n\nWeaknesses: In conversation, you may easily become self-centered, turning expression into 'giving orders.' At the start of relationships you are friendly, but when things don’t go as expected, your strong and commanding style of communication can pressure others. If your sense of authority is not moderated, it may harm relationships.\n\nAdvice: Learn to add 'questions' before expressing yourself, and replace some directives with listening. You are well-suited for education, training, or market development, but you must balance 'authority' with 'approachability.' Make it a habit to review after each interaction: Did your words offer support, or add pressure? Turn authority into guidance, so others willingly follow."
+      },
+      "224": {
+        "title": "Patience & Planning",
+        "text": "Strengths: You excel at patiently expressing well-laid plans. Calm and orderly, you are empathetic and eager to help, giving people a sense of security. Within a team, you act as a stabilizer, transmitting ideas in a gentle way.\n\nWeaknesses: You crave security so much that you lack adventurous spirit and avoid taking risks. In communication, you may inadvertently reveal what should be kept private, leading others to hold back trust. Your personality tends toward softness, and you may slip into passivity with insufficient drive.\n\nAdvice: Build self-protection and learn to keep secrets—treat them as responsibilities. Try small, low-risk adventures to build courage. You are well-suited for service, consulting, or education fields requiring patience and detail. Remember: stability is your strength, but stepping out of your comfort zone will lead to breakthroughs."
+      },
+      "235": {
+        "title": "Goals & Communication",
+        "text": "Strengths: Clear in your goals and direction, you combine communication with execution. Skilled in technique, you influence others through both words and actions, showing strong follow-through. In teams or relationships, your straightforwardness and principles earn respect.\n\nWeaknesses: Stubborn by nature, you may insist on your views during disagreements, sometimes with aggression. Quick-tempered and outspoken, you may unintentionally hurt others with blunt words. Emotional swings can disrupt smooth cooperation.\n\nAdvice: Practice pausing three seconds before responding, filtering emotions first. Maintain principles but allow flexibility. You are well-suited for careers needing goals and communication skills—sales, management, or operations. Strengthen emotional management, such as writing down triggers and planning alternative reactions. Softer communication will make your execution even more effective."
+      },
+      "246": {
+        "title": "Oratory & Wealth",
+        "text": "Strengths: You are born with strong eloquence and communication, able to clearly present planned ideas and turn them into wealth and opportunities. Your speech shows wisdom, reliability, and intelligence, winning others’ trust. You thrive in sales, promotion, or consulting.\n\nWeaknesses: Overthinking and hesitation may cause you to miss opportunities. On financial topics, you may appear cautious or anxious, missing out on rewards that come from acting decisively.\n\nAdvice: Fully use your 'making money through words' strength. Build standardized scripts or speaking frameworks to boost persuasiveness. Avoid delay and over-analysis—adopt an 'action first' habit. You are especially suited to turning communication into income through service, consulting, or sales. Remember: wealth often belongs to those who speak up and act immediately."
+      },
+      "257": {
+        "title": "Principles & Popularity",
+        "text": "Strengths: You naturally carry strong charisma and are often the center of attention. Principled and outspoken, you are straightforward and free-spirited, and people are drawn to your honesty and authenticity.\n\nWeaknesses: Directness can become rigidity, making you inflexible. Overly blunt words may unintentionally hurt others. You may show favoritism in relationships, leading some to see you as lacking balance. Though popular, you may miss deeper cooperation opportunities.\n\nAdvice: Keep your authenticity, but learn to adjust communication styles. At key moments, replace bluntness with questions and understanding. You are well-suited for environments rich in human connections—PR, sales, media, or entrepreneurship. Cultivate inclusiveness so people of different backgrounds feel welcome. Your network will become your greatest asset."
+      },
+      "268": {
+        "title": "Wisdom & Career",
+        "text": "Strengths: Your words carry wisdom, and you excel at delivering value through communication. In services, sales, or finance, you quickly build trust through sharp insight and emotional sensitivity, turning it into wealth and opportunities.\n\nWeaknesses: Discussions of money and career may bring you stress and burdens. Constant comparison to prove yourself can exhaust you. Financial topics may trigger anxiety, straining relationships.\n\nAdvice: See money and career as tools for growth, not burdens. Replace comparison with 'value exchange,' so your wisdom truly becomes wealth. You fit well in sales, education, or finance—anywhere expression and wisdom combine. Build a light financial plan to ease stress. Balance wisdom in expression with emotional management, and you will go further."
+      },
+      "279": {
+        "title": "Initiative & Benefactors",
+        "text": "Strengths: Cheerful and approachable, you attract helpful supporters when you actively communicate, especially with younger people or the opposite sex. Sincere and friendly, you have many friends and are often the mood-lifter in teams or social groups.\n\nWeaknesses: Without initiative, or if you passively wait, you may miss valuable help. Men may encounter romantic distractions that weaken true support. Being too easygoing, you may take important relationships for granted.\n\nAdvice: Keep your openness and initiative—communication is the key to attracting opportunities. Learn to distinguish genuine benefactors from fleeting relationships. You thrive in careers requiring large networks—PR, market expansion, or community management. Build the skill of maintaining long-term relationships, not just relying on charm but on mutual trust and value exchange."
+      },
+      "281": {
+        "title": "Pressure & Achievement",
+        "text": "Strengths: You unleash potential under pressure, turning responsibility into motivation and achieving remarkable results. Responsible, hardworking, and skilled in sales or business, you have the potential to become a top performer. Fast in driving projects, you are seen as reliable and accountable.\n\nWeaknesses: You tend to absorb all the pressure yourself, lacking healthy outlets. Busyness and responsibility often leave you feeling lonely and neglecting emotional needs. Though you deliver results, your mind and body risk burnout over time.\n\nAdvice: Learn to divide and delegate stress—don’t stay in a constant state of tension. Build a healthy rhythm of exercise, meditation, or travel to recharge. You are well-suited for high-performance industries such as sales, investment, or entrepreneurship, but avoid 'burning yourself out for results.' Remember: true champions are not lone sprinters, but leaders who help teams win consistently."
+      },
+      "292": {
+        "title": "Wisdom & Strategy",
+        "text": "Strengths: You have natural strategic vision and enjoy giving advice through experience and examples, earning you the reputation of a 'military strategist' type. You think thoroughly before acting, fitting roles such as consultant, mediator, or resource integrator. You excel at sharing successful cases, earning trust and followers.\n\nWeaknesses: Lack of action often traps you in 'thinking and talking a lot but doing little.' You may rely too heavily on personal experience, requiring hardships at younger ages to form your conclusions.\n\nAdvice: Put strategy into practice—transform from 'advisor only' into a balance of action and wisdom. You are well-suited for consulting, integration, or investment advising, but avoid 'all talk, no action.' Build collaborative teams—let others execute while you oversee planning and control. By combining experience with execution, your wisdom will create lasting achievements."
+      },
+      "314": {
+        "title": "Action & Reflection",
+        "text": "Strengths: You are hardworking and diligent, and after taking action you know how to summarize and reflect, allowing you to grow quickly from experience. You have a practical spirit, unafraid of effort, valuing process and learning. In teams, you are often the dependable executor, willing to prove yourself through action.\n\nWeaknesses: You may focus too much on the process while overlooking the ultimate goal, leading to 'working hard but not always effectively.' Your endurance can be lacking, requiring external encouragement to persevere. Emotionally sensitive, you can be impulsive and insecure, often feeling misunderstood by others.\n\nAdvice: Learn to clarify goals before acting, and frame your reflections around being result-oriented. Without direction, effort risks going in circles. Set 'milestone goals' and 'result reviews,' and find a mentor or partner to give objective feedback. You are well-suited for roles combining execution and optimization—like project management, process improvement, or quality enhancement. Blending emotional management with goal orientation will allow your efforts to truly turn into results."
+      },
+      "325": {
+        "title": "Passion & Communication",
+        "text": "Strengths: You are energetic and passionate, speak openly, and quickly build connections with others. When you communicate proactively, your goals are often easier to achieve. You have natural charisma—your words set the tone and inspire others to follow your rhythm. Your enthusiasm and straightforwardness make you feel authentic and trustworthy.\n\nWeaknesses: Because of your impatience, you may speak too quickly and ignore the consequences of your words. Over-trusting, you risk being taken advantage of or exploited. Your bluntness, if unchecked, may cause misunderstandings or unnecessary trouble.\n\nAdvice: Keep your enthusiasm and honesty, but practice pausing three seconds before speaking. Learn to blend passion with wisdom so your words carry more power. You are suited for education, culture, and marketing—any field requiring expression and interaction. Build a habit of reviewing key conversations afterward: which words had a positive impact, and which need adjustment? This way, your communication talent becomes a true source of success."
+      },
+      "336": {
+        "title": "Action & Wealth",
+        "text": "Strengths: Grounded and proactive, you take steady action that, with persistence, accumulates wealth. You have a keen sensitivity to beauty and quality, and you devote yourself fully to what you love. With sharp intuition, when combined with patience, your actions can bring rewards in both wealth and life.\n\nWeaknesses: You can be impulsive and emotional. When lacking patience, you may rush results or take shortcuts, leading to losses. In financial matters, you are easily tempted—especially vulnerable to gambling or speculation, which can carry heavy costs.\n\nAdvice: Harness your action-orientation, but make 'planning' the prerequisite. For any investment or financial decision, write down pros, cons, and risks before acting. You are suited for fields requiring detail and steadiness, such as financial planning, investment management, or art collecting. Stay disciplined, avoid gambling or speculation, and your wealth journey will be sustainable."
+      },
+      "347": {
+        "title": "Leadership & Action",
+        "text": "Strengths: Quick-thinking and responsive, you combine planning with execution. You favor hands-on leadership, standing side by side with your team. Your personal charisma attracts people, rallying them to act together. You are a natural coach-type leader, guiding others step by step.\n\nWeaknesses: At times, your words and actions don’t align, and your impatience can push people away. Overly cautious and risk-averse, you may miss valuable opportunities. Your social circle may shift frequently, making it hard to maintain stable, long-term relationships.\n\nAdvice: Keep your 'leading by doing' style, but learn trust and delegation. Within teams, reduce suspicion and show more support. Focus on building long-term stable connections, and reduce emotional volatility. You fit well in areas requiring fast decision-making and teamwork, such as entrepreneurship, project operations, or team management. Remember: true leadership is not only leading the charge, but also inspiring people to stay with you long-term."
+      },
+      "358": {
+        "title": "Negotiation & Goals",
+        "text": "Strengths: You excel in communication and negotiation, able to handle complex relationships with the presence to 'seal the deal' at critical moments. Decisive and goal-driven, you easily gain influence in business and partnerships. Others often trust your boldness and authority.\n\nWeaknesses: Emotionally sensitive, you are easily provoked. While your temper cools quickly, outbursts at key moments may damage the bigger picture. In pursuing goals, impulsiveness can put excessive pressure on yourself.\n\nAdvice: Combine your negotiation talent with emotional control—you are a natural 'power negotiator.' In business, politics, or management, you have the potential to become a central figure. Give yourself a daily 'three-minute cool-down' before making big decisions. Careers in business negotiation, investment, or public relations are ideal. Your strength is 'goals plus execution'—stabilize your mindset and you will steer situations with authority."
+      },
+      "369": {
+        "title": "Intelligence & Wealth",
+        "text": "Strengths: Smart and quick, you act decisively and seize money-making opportunities. You enjoy exploring different paths to achieve goals and know how to leverage resources, often accumulating wealth through practice. Generous and sincere with friends, you expand opportunities through relationships.\n\nWeaknesses: Your cleverness may backfire—you may overthink and get stuck in ideas rather than action. You spend freely, sometimes even trading money for short-term results, leading to imbalance. Without long-term planning, you may cycle through 'earning and spending' without growth.\n\nAdvice: Keep your sharpness, but build clear long-term wealth goals. Use a 'savings + investment' dual-track approach to avoid impulsive spending. You are suited for opportunity-driven fields like investment, entrepreneurship, or creative industries. Remember, true wealth comes not from 'buying chances' but from steady management. Bridge dreams and reality, and your intelligence will yield lasting results."
+      },
+      "371": {
+        "title": "Talent & Connections",
+        "text": "Strengths: Talented and creative, with strong communication, you naturally attract supporters and benefactors. With active engagement, you achieve more. You excel at connecting resources through thought and language, acting as a bridge in cooperation.\n\nWeaknesses: Distrustful and quick-tempered, emotional outbursts may push benefactors away. In big decisions, hesitation may cause missed opportunities. Excessive defensiveness can block genuine cooperation.\n\nAdvice: Keep your talent and creativity, but practice trust and openness. Less suspicion and more understanding will stabilize your network. You are suited for fields requiring creativity and collaboration—cultural industries, creative planning, or social platforms. Build emotional balance mechanisms (like exercise or journaling) to steady your mindset. Benefactors are near you—keeping them depends on your attitude."
+      },
+      "382": {
+        "title": "Responsibility & Communication",
+        "text": "Strengths: Strongly responsible, you shoulder pressure in communication and often gain unexpected opportunities from it. Active and diligent, you enjoy helping others, making you a trustworthy partner. In cooperation and teamwork, you often become the key problem-solver.\n\nWeaknesses: Emotional and quick-tempered, you may speak impulsively and unintentionally hurt others. Over-pursuit of power and responsibility may leave you exhausted, conflicted, and even harm health or relationships.\n\nAdvice: Learn 'measured responsibility'—don’t carry everything alone. Communication framed around 'win-win' will turn stress into motivation. You fit management, sales, or consulting—fields requiring responsibility plus communication. Offset negative energy with good deeds—participating in charity or community work balances your energy and strengthens relationships."
+      },
+      "393": {
+        "title": "Talent & Practice",
+        "text": "Strengths: Gifted and skillful, you have hands-on abilities in crafts, arts, cooking, or similar fields. Intuitive and smart, you grow by learning through practice. You act decisively and verify ideas through doing, making you a classic 'learn by doing' type.\n\nWeaknesses: You may get stuck in details, overly self-assured, and reluctant to ask for help. This may cause you to miss bigger opportunities. Emotionally stubborn, you may struggle in relationships and repeat conflicts.\n\nAdvice: Use your talent and skills—turn hobbies into expertise, then into long-term value. You are suited for specialized paths such as art, craftsmanship, or coaching. Learn to step out of your narrow circle and take external feedback to increase market value. Don’t fear seeking help—collaboration can multiply your talent many times over."
+      },
+      "415": {
+        "title": "Thinking & Planning",
+        "text": "Strengths: You excel at thinking and reflection, carefully planning before acting with clear logic and strong organizational skills. Principled, sincere, and approachable, you easily gain others’ trust. You are goal-oriented and willing to commit to long-term directions, making you suited for strategic and planning roles.\n\nWeaknesses: You may overthink and fall into analysis paralysis, delaying action. Perfectionist tendencies can make you hesitant and lead to unfinished efforts. When lacking confidence, hesitation may cause you to miss the best timing.\n\nAdvice: Keep your planning strength, but build a 'quick trial and error' habit so planning and action form a closed loop. You are suited for fields requiring deep thought and long-term vision, such as strategic consulting, research, or education. Find a strong executor as a partner to complement you. Don’t let perfectionism hold you back—remember, 80% completed is more valuable than 100% imagined."
+      },
+      "426": {
+        "title": "Expression & Wealth",
+        "text": "Strengths: You are skilled in communication, able to express complex ideas clearly and powerfully. With strong sales ability and natural charisma, you create value through words. When you speak up, wealth and opportunity often follow.\n\nWeaknesses: Without confidence or clarity, you may stay silent, missing good opportunities. At times you care too much about others’ opinions, making your expression less decisive and reducing results you could otherwise achieve.\n\nAdvice: You are a classic 'earn through words' type, suited for sales, services, or training. Build the confidence to speak up at key moments—don’t hand opportunities to others. Incorporate stories and examples into your communication to increase persuasiveness. Wealth lies in opening your mouth—the more you practice communication, the greater your value."
+      },
+      "437": {
+        "title": "Strategy & Action",
+        "text": "Strengths: Careful and calculating, you excel at planning and can quickly create clear action plans. Skilled at networking, you know how to win support from others. When you act proactively, you move situations forward quickly, gathering benefactors and achieving results.\n\nWeaknesses: If unclear about your goals, you may act impulsively and lose the trust of supporters. Your mindset determines whether you attract allies or toxic people; when emotionally unbalanced, you risk being used or drawn into unnecessary conflicts.\n\nAdvice: Use your combined skills of planning and execution by aligning goals with resources. You are suited for management, entrepreneurship, or finance—fields needing quick decisions and resource integration. Focus on emotional stability—don’t let impulse cost you benefactors. Review regularly: 'Is this strategic, or just emotional?' Clear distinction will draw more allies."
+      },
+      "448": {
+        "title": "Flexibility & Wisdom",
+        "text": "Strengths: You enjoy planning and excel at analyzing and strategizing, finding clear logic and direction in complex situations. Your wisdom and talent make you the 'think tank' in many people’s eyes. When you execute plans, you wield great influence.\n\nWeaknesses: Too many plans and too much pressure can leave you stuck in theory, lacking execution. You may fall into overthinking, with insufficient action to realize goals. Being overly critical may also cause you to miss rare opportunities.\n\nAdvice: Your wisdom suits academic, research, or consulting fields requiring deep thought. If you start a business or take projects alone, you may get overwhelmed. Practice 'subtractive planning'—focus only on the top two tasks at a time, turning thought into action. You are better suited as an expert, professor, or advisor rather than a lone entrepreneur."
+      },
+      "459": {
+        "title": "Direction & Results",
+        "text": "Strengths: You are highly goal-driven, steady, and principled. With the right direction, you consistently achieve results. Focused and persistent, you maintain clarity even in complex environments, embodying entrepreneurial spirit. You pursue outcomes and are not easily distracted.\n\nWeaknesses: At times you may pursue goals too rigidly, ignoring balance along the way. Your thinking may become black-and-white, lacking nuance. If goals are unclear, your efforts may drain away without results.\n\nAdvice: Your strength lies in persistence and execution, but you must learn flexible thinking. Before setting goals, ask: 'Does this align with my long-term vision?' You are suited for entrepreneurship, investment, or business management. Develop hobbies to release pressure and balance your intense pursuit of results, ensuring mental and physical well-being."
+      },
+      "461": {
+        "title": "Wealth & Wisdom",
+        "text": "Strengths: Diligent and steady-minded, you are gifted in financial planning and wealth management. Sensitive to money matters, you can create sound financial plans for yourself and others, making you a 'financial strategist.' You have a clear vision of wealth and the ability to execute it.\n\nWeaknesses: Critical and exacting, you may drive away friends or partners with overly high standards. Sometimes too rational, you may place excessive weight on money, creating tension between finances and relationships. Your inner loneliness can make deep sharing difficult.\n\nAdvice: You are well-suited for finance, wealth planning, or consulting. Remember: wealth is not the only measure of value. Learn to show care in relationships, not just through money. Allow space for emotional flexibility, and your life will be more complete."
+      },
+      "472": {
+        "title": "Strategy & Support",
+        "text": "Strengths: Sharp and analytical, you excel at planning and problem-solving. Patient and practical, you provide others with clear direction. Experienced benefactors often appear to help you, and your wisdom makes you a trusted advisor.\n\nWeaknesses: Doubtful and hesitant, you may overthink and fear risk. Relying too heavily on others’ opinions can make you miss the right timing. You sometimes remain stuck at 'saying' without moving to 'doing,' preventing ideas from landing.\n\nAdvice: You are well-suited to roles like consultant, advisor, or planner—others see you as a strategist. But balance analysis with more action. Seize opportunities when benefactors help; don’t stop at discussion. With less suspicion and more trust, you’ll unlock greater value in teams and partnerships."
+      },
+      "483": {
+        "title": "Execution & Responsibility",
+        "text": "Strengths: A natural executor, you take responsibility and implement plans effectively. With clear thinking and strong expertise, you are the backbone of any team. Responsible and diligent, you thrive in structured environments and earn recognition for your professionalism.\n\nWeaknesses: Prone to stress, you may overthink and get stuck in details. Too much planning with weak execution leaves you busy without results. Stubborn and repetitive, you may complicate life with over-analysis. In relationships, pressure and attachment may cause setbacks.\n\nAdvice: You fit stable systems like corporations, government, or education, where professionalism and responsibility stand out. As a leader, avoid over-planning without execution; as an employee, you are a trusted planner and executor. Regularly simplify your goals into 'the three most important tasks' to reduce stress significantly."
+      },
+      "494": {
+        "title": "Strategy & Achievement",
+        "text": "Strengths: You possess strategic thinking, planning life from a big-picture perspective. With clear direction, you know how to manage yourself step by step toward success. Thorough in thought and long-sighted, you carve out a place for yourself in career or business.\n\nWeaknesses: You may overthink, dwelling on past or future while neglecting present action. Over-analysis can make you miss fleeting opportunities. Excessive worry scatters energy and may even harm your health.\n\nAdvice: Use your strategic edge but dare to turn plans into reality. You are suited for entrepreneurship, business management, or long-term investment. But remember: strategy requires execution—vision alone is not enough. Set 'short-term milestones' to ensure strategy becomes action. Seize opportunities instead of waiting for perfection, or your strategy may remain only on paper."
+      },
+      "516": {
+        "title": "Diligence & Exploration",
+        "text": "Strengths: You are resilient and determined, unafraid to venture far for opportunities. Adaptable in new environments, you have the potential to pioneer across regions. You stick to your principles and carry a self-reliant spirit.\n\nWeaknesses: Stubborn and self-centered, you may persist in the wrong field or direction, making it difficult to turn back. Though proactive, you may focus too much on yourself and ignore outside reminders or chances to cooperate.\n\nAdvice: Your vision suits development abroad or across regions, where you are more likely to succeed. Fields like international trade, cross-border e-commerce, tourism, or global business fit you well. Learn to stay flexible within persistence—look back and adjust direction in time. If you turn stubbornness into focus, your efforts will yield stronger results."
+      },
+      "527": {
+        "title": "Goals & Expression",
+        "text": "Strengths: Goal-oriented and outspoken, you speak directly and persuasively, naturally influencing others. With strong presence, good looks, and a clean, sharp impression, you inspire trust through credibility and consistency.\n\nWeaknesses: Too blunt in speech, you may come across as rigid or hurtful. Your probing, principle-driven style can feel overly forceful, affecting relationships. Though you attract many supporters, being too selective may push some away.\n\nAdvice: You fit leadership, legal, negotiation, or speaking roles. Learn to add softness to expression—don’t insist on being right in everything. Persistence is a virtue, but persistence with warmth will strengthen your relationships. Before important communication, practice perspective-taking: this preserves principles while earning broader support."
+      },
+      "538": {
+        "title": "Action & Influence",
+        "text": "Strengths: With strong communication and social skills, you easily connect with strangers. Goal-driven, you gain power and recognition through effort. You thrive in sales, market expansion, and PR, often achieving outstanding results.\n\nWeaknesses: Emotional and hot-tempered, you may destroy long-term gains with impulsive outbursts. Impatient, you push too hard at critical moments, backfiring. Easily swayed by outside forces, you may lose your own rhythm.\n\nAdvice: Balance active action with patience and emotional control. You excel at 'kick-starting' markets or projects, but need teamwork for long-term stability. Use meditation, exercise, or journaling to manage emotions and avoid rash decisions. If you refine your temperament, your communication strengths and drive will convert into lasting influence."
+      },
+      "549": {
+        "title": "Thoroughness & Results",
+        "text": "Strengths: You favor thorough planning and set clear steps toward goals. Logical and disciplined, you achieve results steadily when on the right path. Calm and methodical, you are trusted as a stable force in complex matters.\n\nWeaknesses: Overly stubborn and perfectionist, you may stay on the wrong path once chosen, leading to setbacks. Excessive focus on planning may make you ignore changing realities.\n\nAdvice: You are suited for strategic planning, research, or law—fields requiring rigorous logic. Learn to leave flexibility in plans, allowing for uncertainty. Don’t 'cling to plans' rigidly, or you risk being trapped. Build a habit of review—turn mistakes into material for improvement. Your results will then be stronger and more sustainable."
+      },
+      "551": {
+        "title": "Independence & Achievement",
+        "text": "Strengths: Clear in goals and resistant to outside influence, you act decisively with strong resilience under pressure. Independent and bold, you carve paths on your own—a natural entrepreneur type.\n\nWeaknesses: Too stubborn, you may go to extremes. Pride or obsession may cause missed opportunities. Impatient and emotional, your refusal to admit mistakes risks breaking relationships or partnerships.\n\nAdvice: You fit independent and decisive paths—entrepreneurship, self-employment, or leadership. Remember: stubbornness is not the same as principles—true maturity includes compromise. Practice listening, especially in relationships, so self-focus doesn’t alienate those around you. Your power is great, but only with cooperation will your success be lasting."
+      },
+      "562": {
+        "title": "Wealth & Value",
+        "text": "Strengths: Clear-minded and money-aware, you manage resources wisely. Responsible and hardworking, you commit effort toward goals. You distinguish necessary spending from waste—'spend right to grow wealth.'\n\nWeaknesses: Overly cautious or picky, you may fuss over small matters. In big opportunities, hesitation may cause you to miss out. Over time, thriftiness without generosity may narrow your vision.\n\nAdvice: You are suited for finance, education, or cultural fields. Learn to be more generous—'give to gain.' Instead of penny-pinching, invest in yourself or promising ventures. Engage in charity or good deeds—when you let go, more returns will come to you."
+      },
+      "573": {
+        "title": "Benefactors & Opportunities",
+        "text": "Strengths: Confident and refined, you attract powerful allies and high-level resources. You connect easily with elites and capable partners. With high standards and pursuit of quality, you often receive crucial help from benefactors.\n\nWeaknesses: If too proud or unwilling to engage, you may miss opportunities. Ego or aloofness may distance you from benefactors, making you seem unapproachable and losing support.\n\nAdvice: You are suited for business, PR, branding, or politics—fields requiring resource integration and networking. Take the initiative to approach benefactors—don’t let pride create distance. Stay humble and give back; your network will deepen. You naturally attract high-level resources—use them wisely to go further."
+      },
+      "584": {
+        "title": "Mission & Planning",
+        "text": "Strengths: With strong purpose, you enjoy making grand future plans. Creative and visionary, you bring novel ideas that contribute unique value to teams or society. Responsible, you align personal goals with others’ needs.\n\nWeaknesses: Sometimes lost in distant visions, you struggle to live in the present. Fond of dreaming but weaker in execution, your plans may stay conceptual. You pile on pressure, appearing busy without focus.\n\nAdvice: You suit strategy, branding, or education—fields requiring vision. Break 'ten-year dreams' into 'three-month actions,' grounding ideals step by step. Focus on immediate wins as foundations for bigger goals. Big planning matters, but only action makes it real."
+      },
+      "595": {
+        "title": "Courage & Breakthrough",
+        "text": "Strengths: Clear in direction and determined, you embrace challenges boldly. Adventurous and fearless, you carry the aura of a leader. Even in hardship, you force breakthroughs with courage and drive.\n\nWeaknesses: Stubborn and extreme, you may cross risk boundaries. Sometimes reckless, 'all or nothing' thinking can backfire. Without self-restraint, you may act outside rules, risking conflict or even illegality.\n\nAdvice: You are suited for entrepreneurship, pioneering markets, or any field needing bold breakthroughs. You radiate a commanding presence, but must temper sharpness. True strength is not reckless—it is knowing when to act and when to hold back. Blend courage with wisdom, daring with discipline, and you will remain undefeated in larger arenas."
+      },
+      "617": {
+        "title": "Wisdom & Perception",
+        "text": "Strengths: Strong and independent, you have sharp insight and use wisdom to understand others. Empathetic and compassionate, you connect well in relationships. Gifted in communication, you often attract opportunities and wealth through eloquence.\n\nWeaknesses: At times overly emotional, you may let feelings interfere with judgment. In money or relationships, kindness can lead to losses. You may also keep 'something in reserve,' like secret funds or private space, undermining transparency.\n\nAdvice: You are suited for psychology, counseling, sales, or media—fields requiring empathy and wisdom. Keep emotions balanced in expression, and spend rationally to avoid financial stress from vanity or impulse. When wisdom is paired with restraint, you become a trusted 'wise partner.'"
+      },
+      "628": {
+        "title": "Oratory & Wealth",
+        "text": "Strengths: Highly expressive and persuasive, you win resources and influence with words. Suited for sales, marketing, or consulting, you quickly open doors. Sharp and adaptable, you are a natural 'deal closer.'\n\nWeaknesses: You may chase shortcuts, aiming for quick results. In financial matters, indecision can bring stress. At times, you speak carelessly or exaggerate, weakening others’ trust.\n\nAdvice: Choose careers relying on persuasion and communication. Remember: wealth grows through patience and long-term effort, not just quick wins. Honor commitments—don’t promise what you can’t deliver. When steady, your eloquence turns into enduring wealth."
+      },
+      "639": {
+        "title": "Investment & Adventure",
+        "text": "Strengths: Clever and resourceful, you spot wealth opportunities and enjoy multiplying money through action. With investment vision and wide social circles, you are generous with friends and gain opportunities through goodwill.\n\nWeaknesses: Impulsive spending can cause waste. Addicted to 'money games,' you may invest without long-term plans, creating cycles of earning and losing. Restless for novelty, you risk scattered focus.\n\nAdvice: Finance, investment, and trade fit you well. But true wealth comes from accumulation, not constant turnover. Control consumption, reduce speculative bets, and adopt compounding strategies. With clear goals and discipline, your quick sense for opportunities turns into lasting financial freedom."
+      },
+      "641": {
+        "title": "Planning & High Standards",
+        "text": "Strengths: Intelligent and insightful, you are meticulous in planning and strategy. Disciplined with spending and investing, you use money rationally. You value learning and self-improvement, investing in knowledge and skills.\n\nWeaknesses: Overly critical or nitpicky, you may be hard to get along with. Too cautious with money and relationships, you risk missing opportunities. Excessive rationality can make you seem cold and hinder deeper bonds.\n\nAdvice: You fit financial planning, academia, or high-end consulting. Turn 'caution' into 'wisdom'—balance risk control with trust and openness. Focus on the bigger picture, not just small gains. Add warmth to rationality for a more well-rounded life and stronger benefactor support."
+      },
+      "652": {
+        "title": "Caution & Preservation",
+        "text": "Strengths: Careful and thorough, you think before acting. Skilled in money management, you save and conserve well—a natural financial caretaker. Responsible and rational, you avoid reckless risks.\n\nWeaknesses: Over-caution may turn into stinginess. Focused too much on money, you risk appearing rigid or miserly, limiting opportunities and relationships.\n\nAdvice: Careers in accounting, finance, or insurance suit you. But wealth isn’t only saved—it’s earned. Practice generosity and strategic spending to let money flow and multiply. With a mindset of sharing, people will trust and cooperate with you more."
+      },
+      "663": {
+        "title": "Investment & Risk",
+        "text": "Strengths: Bold and decisive, you seize money-making chances and embrace risk. When handled well, you accumulate wealth and breakthroughs through steady action.\n\nWeaknesses: Prone to impulsive investing, you may lack rational planning. You earn fast but spend fast, making it hard to keep wealth. Quick-tempered, you risk emotional decisions that lead to cycles of gain and loss.\n\nAdvice: You suit fast-paced industries like securities, short-term investments, or project incubation. But set 'stop-loss lines' to avoid reckless losses. Develop long-term strategies instead of chasing constant change. With calm focus, your courage and sharpness will bring real financial growth."
+      },
+      "674": {
+        "title": "Generosity & Benefactors",
+        "text": "Strengths: Naturally generous, you give money, time, or resources to others. This openness attracts benefactors and support, earning goodwill and trust. You know 'wealth flows when it circulates,' creating strong reputations and connections.\n\nWeaknesses: Misplaced generosity may lead to spending money to buy relationships or over-relying on money to sustain ties, resulting in loss without return. When giving is motivated by utility rather than sincerity, trust weakens.\n\nAdvice: You fit roles in networking, philanthropy, or partnerships. Stay authentic—give before seeking return, but also discern true allies from opportunists. Do good deeds sincerely, without rushing for payback. When generosity becomes stable character, you attract not only people but lasting trust and wealth cycles."
+      },
+      "685": {
+        "title": "Effort & Virtue",
+        "text": "Strengths: With strong responsibility and mission, you build the future through diligence and wisdom. Focused and persistent, you don’t give up easily in the face of hardship. Steady and serious, you achieve reliable progress. Your persistence and accountability give you the potential for great accomplishments.\n\nWeaknesses: Wealth may come with struggle and stress, making you emotional or tempted to 'solve problems with money.' Without balance, effort brings short-term success but long-term fatigue, harming health and relationships.\n\nAdvice: You fit careers of 'honest wealth' like education, culture, medicine, or public service. Use charity and good deeds to balance financial energy—virtue often unblocks wealth flow. Avoid speculative paths or chasing fast profits. Remember: wealth is built gradually, with consistent positive energy leading to smoother success."
+      },
+      "696": {
+        "title": "Investment & Adventure",
+        "text": "Strengths: Bold and risk-taking, you invest money and resources confidently. A natural investor, you grow wealth through capital operations and compounding. With courage and presence, you stand out in business and career.\n\nWeaknesses: You may push risk into gambling. Greed or impatience may turn solid plans into reckless bets, causing losses. At times you lack calmness, lured by short-term gain.\n\nAdvice: Long-term investment and steady ventures suit you better than speculation. Develop rational financial thinking, turning 'risk-taking' into 'calculated risk.' Set clear bottom lines to avoid collapse from impulsive bets. Remember: wealth is built on persistence and patience, not all-or-nothing gambles."
+      },
+      "718": {
+        "title": "Independence & Leadership",
+        "text": "Strengths: Strong-willed and self-reliant, you naturally project leadership. You guide teams calmly under pressure, earning trust through charisma and authority. Willing to shoulder responsibility, you rely on yourself rather than others—a classic 'self-driven' type.\n\nWeaknesses: Overemphasis on independence can make you resist cooperation or reject genuine help, leaving you isolated. Stubborn confidence may draw you into unnecessary trouble or even cause you to take blame for others.\n\nAdvice: You fit entrepreneurship, management, or market development—roles requiring initiative. But avoid becoming a 'lonely general.' Learn to leverage and trust others. Don’t casually act as guarantor or agree to risky favors. True leadership is not only independence, but inspiring others to stand with you."
+      },
+      "729": {
+        "title": "Attraction & Benefactors",
+        "text": "Strengths: Warm, empathetic, and approachable, you naturally attract people and benefactors. Friends are many, and supporters often appear selflessly. You also draw romantic attention, often from older partners, gaining inspiration and help from relationships.\n\nWeaknesses: Emotionally, you may be overly indulgent or dependent, losing initiative. Indecision causes missed opportunities. In complex relationships, caring too much about others may erode your sense of self.\n\nAdvice: Suited for social, PR, cultural, or education fields requiring strong connections. Learn to distinguish true benefactors from fleeting romances, keeping focus on long-term goals. Stay gentle and kind, but set boundaries. With principles in place, benefactor luck becomes lasting career support."
+      },
+      "731": {
+        "title": "Creativity & Connections",
+        "text": "Strengths: Talented and creative, you solve problems with fresh thinking. You easily attract recognition and support, converting inspiration into value. Thoughtful and innovative, you bridge ideas with opportunity.\n\nWeaknesses: Quick-tempered and suspicious, you risk damaging relationships through doubt or emotional reactions. Though your circle is wide, it may lack stability, and bonds can fade quickly. In love, attachment may bring loneliness.\n\nAdvice: Best suited for artistic creation, brand strategy, or entrepreneurial incubation—roles requiring ideas and innovation. Build patience and nurture long-term ties, avoiding constant suspicion or defensiveness. Let go of rigid attachments and embrace tolerance; then your network truly becomes a source of wealth and opportunity."
+      },
+      "742": {
+        "title": "Wisdom & Strategy",
+        "text": "Strengths: Analytical and logical, you excel at planning and future strategy. Surrounded by mentors and experienced guides, you often receive advice that helps overcome obstacles. Calm and rational, you bring clarity to complexity.\n\nWeaknesses: Overthinking delays action. Risk-averse, you linger in safe zones, missing opportunities. Sometimes you avoid responsibility, letting others take chances that could have been yours.\n\nAdvice: Suited for research, teaching, or strategic planning. Practice 'less thinking, more doing.' Each plan should be followed by one small action step. Benefactors may guide your direction, but execution is your task. Turning wisdom into action is the key to wealth."
+      },
+      "753": {
+        "title": "Connections & Trials",
+        "text": "Strengths: With wide networks, you easily meet capable partners or subordinates. Naturally authoritative and goal-driven, you mobilize resources to move teams forward. Your charisma and action combine to quickly build influence.\n\nWeaknesses: Prone to betrayal or sabotage from 'hidden enemies.' Manipulating relationships for gain risks backlash. In emotional moments, you may attract legal or personal conflicts, damaging reputation and connections.\n\nAdvice: Careers in management, law, or team leadership suit you. But avoid exploiting others or relying on tricks to manage ties. Build sincerity and transparency—only then do 'trials of relationships' turn into true benefactor support. Lead with integrity, and others will follow long-term."
+      },
+      "764": {
+        "title": "Benefactors & Wisdom",
+        "text": "Strengths: Lucky and magnetic, you often meet benefactors at critical times. Support flows to you, especially in knowledge or capital. Beyond assistance, you attract wealth opportunities—even family inheritance or technical legacy.\n\nWeaknesses: If you treat relationships transactionally—seeking only personal gain—you risk pushing away true supporters. Opportunism or calculation can sour ties, causing benefactors to withdraw.\n\nAdvice: You fit careers in consulting, resource integration, or partnerships. Remember: true benefactors are drawn by character, not money. Stay grateful and give back; sharing blessings multiplies your good fortune. Value longevity over short-term gain, turning helpers into lifelong allies."
+      },
+      "775": {
+        "title": "Giving & Return",
+        "text": "Strengths: Generous and loyal, you are willing to go all-in for friends, teams, or even strangers. Your passion and faithfulness attract strong support. As a natural leader, you gather people with ease.\n\nWeaknesses: If giving is motivated by expectation of return, benefactors retreat and opportunists may appear. Impatience for results damages relationships, leaving bonds short-lived.\n\nAdvice: You suit management, entrepreneurship, or team-based industries. Practice 'give first, gain later.' Focus on building trust over immediate profit. After each act of giving, ask: 'What value did I leave behind?' When generosity becomes a character strength, your allies become a lasting foundation."
+      },
+      "786": {
+        "title": "Responsibility & Challenge",
+        "text": "Strengths: Life brings many benefactors, especially supervisors or the opposite sex, often pressuring you toward growth. With resilience, you thrive when facing challenges directly. Under pressure, you transform, harvesting wealth and success. After storms, your rainbow is brighter than others’.\n\nWeaknesses: Failure to bear stress leads to financial or relational collapse. You may be swayed or constrained by romantic or financial ties, paying high costs. Fear of pressure may cause you to surrender opportunities.\n\nAdvice: Finance, management, or entrepreneurship—challenging industries—fit you well. Learn to distinguish 'growth pressure' from 'draining pressure.' Keep the former, cut the latter. Build resilience through exercise, meditation, or routine. Facing stress head-on turns heavy burdens into steps toward greatness."
+      },
+      "797": {
+        "title": "Charisma & Confidence",
+        "text": "Strengths: With excellent people skills, you make friends quickly. Charismatic and approachable, you act as a 'magnet for connections,' easily drawing opportunities in work and life. Support often arrives quickly and abundantly.\n\nWeaknesses: If you treat relationships as tools, jealousy or sabotage may follow. Relying too much on borrowed influence without building deep trust leaves ties hollow and fragile.\n\nAdvice: Suited for social, marketing, community, or cultural roles requiring fast connections. But remember: many acquaintances don’t equal strong allies. Focus on cultivating a few reliable, long-term partners. With sincerity and patience, your wide circle turns into solid support for lasting success."
+      },
+      "819": {
+        "title": "Pressure & Responsibility",
+        "text": "Strengths: You are naturally responsible, choosing to shoulder burdens instead of passing them on. With leadership qualities, you willingly sacrifice for family, team, or career. Your endurance and reliability make you a trusted pillar in others’ eyes.\n\nWeaknesses: Excessive responsibility keeps you in long-term high stress. You may feel lonely, as if 'everyone depends on me, but I depend on no one.' Over time, this may risk cardiovascular issues.\n\nAdvice: Suited for management, entrepreneurship, or public service roles requiring accountability. But learn to delegate. Create a 'responsibility checklist' to separate what must be yours and what can be assigned. True responsibility means building systems and teams that function independently. Balance work with life to safeguard both health and career."
+      },
+      "821": {
+        "title": "Pressure & Expression",
+        "text": "Strengths: Gifted in speech, you use communication to gain support under stress. You’re unafraid to speak up in critical moments, winning trust and resources through words. Skilled in sales and negotiation, you turn pressure into a stage for achievement.\n\nWeaknesses: At times stubborn and conflicted, you resist cooperation and shoulder burdens alone. You may overvalue flattery while ignoring constructive criticism.\n\nAdvice: Ideal for sales, negotiation, and PR—fields where 'communication creates value.' True communication is not persuasion but win-win connection. Practice listening and cooperation. Speak your needs honestly in times of stress, and support will arrive. Your words can be both weapon and bridge."
+      },
+      "832": {
+        "title": "Pressure & Emotion",
+        "text": "Strengths: Quick-witted and intuitive, you spot problems under stress and resolve crises through communication. You thrive in chaos, often turning crises into opportunities. Social interactions help release pressure, so benefactors appear when needed.\n\nWeaknesses: Emotional volatility is your challenge. Under stress, impulsive words may hurt others, with regret afterward. Impatience and mood swings impair judgment, harming both relationships and opportunities.\n\nAdvice: Well-suited for fast-response industries like media, marketing, or sales. Learn emotional regulation: delay responses—three deep breaths or a three-minute break—before speaking. This transforms words from 'hurting' to 'winning.' In relationships, avoid letting mood swings create distance; gentle communication preserves harmony."
+      },
+      "843": {
+        "title": "Pressure & the Second-in-Command",
+        "text": "Strengths: Sharp-minded and calm under stress, you excel at planning and problem-solving. As a strategist or deputy, you use wisdom and patience to guide leaders toward sound decisions.\n\nWeaknesses: Lacking final decision-making drive, you hesitate under heavy stress. Forced into a primary leadership role, you may lose direction or suffer mental strain. In relationships, ambiguity may cause instability.\n\nAdvice: Suited for consulting, education, research, or government roles as a 'think tank.' Don’t force yourself into being the lead—play to your natural strength as advisor or strategist. Practice turning ideas into action and avoid overthinking without execution. In love, seek partners who provide stability and direction."
+      },
+      "854": {
+        "title": "Pressure & Vision",
+        "text": "Strengths: Creative and visionary, you see future directions clearly under stress. Your foresight helps you seize opportunities early, positioning you as a forward-looking leader.\n\nWeaknesses: Under pressure, you may retreat into daydreams, losing touch with reality. Fantasies and pessimism can cause you to miss present opportunities and erode grounded relationships.\n\nAdvice: Ideal for strategic or forward-thinking fields like branding, research, or investment. Use 'vision breakdowns': each long-term goal must be split into three immediate weekly steps. In relationships, focus on present companionship instead of distant futures. Reality is your best soil—plant your visions there."
+      },
+      "865": {
+        "title": "Wisdom & Pressure",
+        "text": "Strengths: With wisdom and resilience, you don’t crumble under stress—instead, you grow curious and determined. You dig deep into problems, finding breakthroughs where others give up. Persistence gives you the potential for lasting success.\n\nWeaknesses: Overwhelming stress can drive you into harmful coping: overspending, obsessing, or stubbornly pursuing the wrong path. This drains wealth and damages both career and relationships.\n\nAdvice: Suited for research, consulting, education, or cultural fields. Apply wisdom to 'creating value,' not feeding negative emotions. Build habits of altruism—teaching, mentoring, charity. Good deeds shift fixation into positive flow, attracting benefactors. When wisdom is paired with kindness, it becomes endless wealth and opportunity."
+      },
+      "876": {
+        "title": "Pressure & Opposite-Sex Support",
+        "text": "Strengths: Hardworking and proactive, you seek resources under pressure. Opposite-sex benefactors are especially key, often providing timely support that drives success. With courage under stress, you achieve results by stepping up.\n\nWeaknesses: Relying too much on such support without independence risks financial loss or emotional entanglements. If help is withdrawn, you may panic or choose poorly.\n\nAdvice: Suited for PR, sales, and cultural exchange—fields requiring cooperation. Maintain the principle: 'leverage help, don’t depend on it.' Regularly review: what did I achieve alone vs. with others’ aid? Gradually strengthen independence. With balance, you’ll gain support without losing stability."
+      },
+      "887": {
+        "title": "Pressure & Emotional Management",
+        "text": "Strengths: Responsible and reliable, you step up under stress rather than run away. This attracts strong benefactor support. Your energy shines under pressure, often amplifying your influence and leadership.\n\nWeaknesses: Pressure stirs mood swings, making you irritable and straining personal ties. Anger may push away friends or partners, turning supporters into strangers. Long-term, this risks broken relationships or marriage.\n\nAdvice: Suited for leadership or entrepreneurial roles. But emotional management is essential for sustaining happiness and career. Establish outlets: exercise, art, meditation, or healthy routines. In relationships, practice 'delayed responses' during conflict to avoid hurtful words. Benefactors appear when you are calm, not when you explode."
+      },
+      "898": {
+        "title": "Pressure & Power",
+        "text": "Strengths: Highly driven, you maintain execution even under extreme pressure. With ambition and perseverance, you often rise quickly in career and wealth, admired for visible success.\n\nWeaknesses: Prone to 'busywork,' solving others’ problems while ignoring your own needs. Heavy stress threatens health—men should watch heart issues, women gynecological concerns. Concern with others’ opinions adds unnecessary burdens.\n\nAdvice: Suited for entrepreneurship, corporate leadership, or public service. True power isn’t 'carrying more,' but 'delegating wisely.' Build effective teams and distribute responsibility. Prioritize health: balanced diet, regular exercise, stable routines. Don’t live only for applause—refocus on your desired outcomes. Pressure then becomes true strength."
+      },
+      "911": {
+        "title": "Opportunity & Independence",
+        "text": "Strengths: Highly creative and independent, you seize opportunities quickly with personal ability and show distinctive leadership flair. With vision and courage to open new paths, you are a natural pioneer whose charisma draws attention and sets trends.\n\nWeaknesses: Excessive pursuit of independence can turn into isolation. Wanting to handle everything alone leaves you exhausted. In relationships, emphasizing freedom too much may neglect your partner’s needs, creating tension.\n\nAdvice: Ideal for research, art, or entrepreneurship—fields requiring independent thought. But independence is not isolation. Learn to collaborate, combining your creativity with others’ resources to amplify impact. In relationships, practice sharing instead of carrying everything yourself. Many of your opportunities will come from team synergy, not solo effort."
+      },
+      "922": {
+        "title": "Opportunity & Communication",
+        "text": "Strengths: A natural communicator, you leverage patience and detailed dialogue to win wealth and connections. Acting as a 'strategist,' you provide clear advice when others seek guidance. With strong strategic vision, you see paths overlooked by others.\n\nWeaknesses: Talking more than doing holds you back. Plans may stay on paper without follow-through. Overanalysis leads to hesitation and missed opportunities.\n\nAdvice: Well-suited for consulting, planning, education, or resource integration. But align words with actions—make an 'action pledge': for every suggestion you make, commit to one concrete step. Partnering with practical types helps anchor your wisdom in reality."
+      },
+      "933": {
+        "title": "Opportunity & Action",
+        "text": "Strengths: Quick-witted and creative, you spot opportunities and act fast to turn them into results. You enjoy managing family and career planning, bringing order to situations. Skilled in crafts or talents, you win people over with practical expertise.\n\nWeaknesses: Impatience leads to short-lived enthusiasm. Impulsiveness or stubbornness makes you miss long-term gains. Frequent direction changes leave you dabbling instead of mastering.\n\nAdvice: Suited for design, creativity, or entrepreneurship. But persistence matters. Use a '90-day no quit plan'—commit to one field for at least three months. More opportunities don’t mean all must be pursued; selection is more important than volume. Wisdom is knowing what to let go."
+      },
+      "944": {
+        "title": "Planning & Opportunity",
+        "text": "Strengths: Strong in planning and logic, you have long-term vision and break complex situations into executable steps. With both entrepreneurial and scholarly traits, you excel at refinement and iteration.\n\nWeaknesses: Overthinking and constant changes keep you from execution. Goals shift too often, turning planning into empty talk and causing missed timing.\n\nAdvice: Great for research, strategy, or finance. Learn to focus—commit to one clear goal without frequent changes. Use a 'goal freeze period': once chosen, hold steady for at least six months. Think less, act more—this transforms opportunities into wealth."
+      },
+      "955": {
+        "title": "Direction & Stubbornness",
+        "text": "Strengths: You seize opportunities decisively, locking onto targets without wavering. With strong will and bold execution, you advance ahead of hesitant peers.\n\nWeaknesses: Stubbornness and ego often trip you up. Short-term obsession blinds you to long-term value. Acting selfishly or breaking rules turns chances into setbacks.\n\nAdvice: Suited for entrepreneurship, negotiations, or market expansion. But temper your willpower with wisdom. Use a 'three-question self-check': Does this follow principles? Does this harm relationships? Is it worth holding onto? If not, let go."
+      },
+      "966": {
+        "title": "Wisdom & Wealth",
+        "text": "Strengths: With sharp financial intuition, you spot and maximize opportunities in investment, entrepreneurship, or resource integration. What others see as ordinary, you often turn into high returns. Naturally gifted in capital growth, you multiply resources.\n\nWeaknesses: Being picky or greedy makes you miss wealth. Seeking perfect conditions makes you ignore real opportunities. Taking on too much scatters focus, weakening results.\n\nAdvice: Well-suited for finance, startups, or project management. Remember: wealth lies in accuracy, not volume. Use a 'one thing at a time' rule—rank opportunities and focus only on the top priority. Concentrated effort lets your 'gold touch' shine."
+      },
+      "977": {
+        "title": "Connections & Opportunity",
+        "text": "Strengths: Charismatic and approachable, you easily expand networks and tap into opportunities. With natural social magnetism, you act as a bridge and resource hub for others.\n\nWeaknesses: Treating relationships as mere transactions attracts opportunists. Surrounded by shallow or false ties, betrayal becomes a risk. Benefactors and detractors coexist, and your choices determine which thrive.\n\nAdvice: Great for PR, business, or social enterprises. Practice 'give first, ask later'—sincerity builds real protection. Use a 'network tier method': separate genuine allies from opportunists. With discernment, your social capital becomes your strongest asset."
+      },
+      "988": {
+        "title": "Opportunity & Pressure",
+        "text": "Strengths: Ambitious and resilient, you thrive under stress, seizing resources at critical moments. With strong drive and persistence, you often rise above competition.\n\nWeaknesses: Greed leads to overcommitment, creating crushing pressure. Constant busyness drains health—men face heart or kidney risks, women reproductive issues. Without limits, desire consumes instead of fuels you.\n\nAdvice: Ideal for executives, entrepreneurs, or investors. But power and wealth aren’t endless games. Set clear boundaries and schedule breaks. Adopt an 'annual audit'—review necessary vs. unnecessary pressures. Protect health and balance, as they secure lasting results."
+      },
+      "999": {
+        "title": "Opportunity & Extremes",
+        "text": "Strengths: Blessed with abundant opportunities, you accumulate wealth and resources easily. Sharp business instincts let you act quickly where others hesitate. Suited for large-scale ventures, you build assets and legacies across generations.\n\nWeaknesses: Too many opportunities scatter your focus. Without discipline, you keep switching goals and miss the big ones. Life swings polarize: extreme success or failure, fulfillment or loneliness—depending on focus.\n\nAdvice: Fit for large, long-term industries like real estate, investment, or family enterprises. Apply the 'three-to-five rule': dedicate life to only three to five main pursuits. Success comes from focus and endurance, not spreading thin. Guard what matters most to turn endless chances into lasting wealth and happiness."
+      }
+    };
+
+    let PERSONA_MAP = {
+      "1": { "title": "The Origin", "text": "A born initiator with a clear North Star, you move first, decide fast, and set the weather for everyone else. People follow because your clarity cuts through noise; your real mastery begins when you trade control for clean boundaries and transform raw drive into leadership others can trust for the long run. You don’t just win—you define the game and invite others into a field you’ve designed with intention.\n\nLead with questions that enroll ownership (“How would you do it?”), choose one audacious priority per cycle, and slow pivotal decisions by a single breath so wisdom can catch up to will. Practice delegation as energetic hygiene: hand off what doesn’t need your signature touch and set acceptance criteria so standards stay high. In love, signal safety through clarity rather than pressure; at work, convert quick wins into assets—documentation, brand equity, repeatable funnels.\n\nMorning intent: hand on heart—“I create safety through clarity, not control.”\nAffirmation: I lead with courage and clarity, and I welcome support." },
+      "2": { "title": "The Mediator", "text": "You read the room, soften conflict, and make connection feel like home. Your kindness isn’t weakness—it’s architecture for trust—but it turns heavy when you trade your needs for harmony. Balance, in your code, isn’t 50/50; it’s honest and mutual. When you include yourself in the circle of care, your presence becomes both gentle and powerful.\n\nName your need first, then collaborate; your “no” protects the sanctity of your “yes.” Co-design agreements in love (how we argue, how we repair, alone time) and price invisible labor at work—your care creates value and should be valued. Build a weekly “decision solo”—two quiet hours where you choose without polling the room; then tell the room.\n\nAn evening ritual—shoulders soft, jaw unclenched, one clear boundary spoken aloud—resets your field.\nAffirmation: My compassion includes me; my boundaries are love in action." },
+      "3": { "title": "The Muse", "text": "You light up spaces with wit and bright ideas. Applause finds you easily; prosperity finds you when play marries practice and inspiration learns to land. You’re the natural broadcaster—stories become momentum, and momentum becomes culture when your spark is shaped into finished work.\n\nChoose one “canon project” for 90 days and make it unmissable: daily protected creation time before metrics or messages; a public shipping cadence so ideas harden into artifacts—videos, designs, courses. Schedule novelty instead of chasing it (exploration days, travel sprints) so freshness and commitment can co-exist. In love, keep the spark by creating together; at work, turn heat into long-tail assets (evergreen content, licensing, memberships).\n\nA three-minute free-write before drafting turns static into signal.\nAffirmation: My inspiration is steady; my creations land and last." },
+      "4": { "title": "The Builder", "text": "You turn chaos into systems, deadlines into deliveries, and promises into ledgers. People relax around you because things get finished. Yet safety isn’t stasis; growth begins where your structure meets smart risk and a little play. Order, in your world, isn’t a cage—it’s the runway for bigger flights.\n\nKeep your engine steady while piloting small, asymmetric bets: reserve 5% of time or budget for high-potential experiments and run a 90-day SOP audit to prevent calcification. Make progress visible—roadmaps, Kanban, working demos—so influence grows with reliability. In love, ritualize romance (predictable rhythms plus tiny surprises); in money, upgrade “saving” into allocation—emergency, growth, joy.\n\nWeekly close: two lists—what shipped, what to simplify—so order stays alive.\nAffirmation: I create freedom through structure and grow safely through smart risk." },
+      "5": { "title": "The Voyager", "text": "You learn by living, persuade by experience, and blossom when horizons stay open. The medicine is paradoxical: design freedom into your commitments so adventure fuels mastery instead of escaping it. When choice is honored on purpose, you become consistent without feeling confined.\n\nCap open projects at three and refuse a fourth until one lands clean. Write “adventure clauses” into life and love—solo days, personal quests, latitude to roam—so intimacy breathes. Swap impulse spending for an “experience investment ledger”: trips and trainings that expand skills, stories, and status. Movement is your reset button—walks, dance, travel sprints—so restlessness turns into renewal. At work, you’re a market scout; ship recaps and frameworks so exploration compounds.\n\nAffirmation: Freedom is my responsibility; I choose and I complete." },
+      "6": { "title": "The Healer", "text": "You stabilize teams, beautify spaces, and keep promises long after the applause. Your love multiplies when generosity stands beside boundaries and worth meets pricing—care is not free; it’s priceless and therefore must be priced. When you protect your energy, your nurture becomes renewable.\n\nRetire the inner ledger for a week and notice where help turns into a hidden invoice; then craft boundary scripts that are kind and clear. In partnership, make invisible labor visible—co-create a “home & emotional workload” map and rebalance seasonally. Professionally, charge for outcomes, not hours, and design packages that include care without burning you out.\n\nMorning rule: one act of self-nourishment before serving anyone else.\nAffirmation: I nourish the world and protect myself with clear, loving limits." },
+      "7": { "title": "The Sage", "text": "You hunt the pattern under the pattern, trust evidence, and speak only when it counts. Insight is your currency; action is your amplifier. Perfection delays impact—truth wants a body. When you give your conclusions legs, your accuracy becomes influence.\n\nAdopt the 72-hour rule: any conclusion must trigger one smallest executable next step within three days. Keep an Evidence Journal separating data from hunch so your intuition gets cleaner, not colder. Alternate “debate days” with “no-analysis days” in love so hearts get equal airtime. Professionally, design controlled experiments—pilot, measure, iterate—and publish your frameworks; authority accrues to those who share their method.\n\nNight ritual: write three questions, sleep on them, let the subconscious compute.\nAffirmation: I honor evidence and act before perfection is required." },
+      "8": { "title": "The Power", "text": "You orchestrate resources, hold pressure, and deliver outcomes with receipts. Control is a fine starter; trust is the only finisher. You scale when you share power and build assets that work while you rest. Lead like an engine room: steady, precise, and designed for endurance.\n\nSet a quarterly failure budget and run experiments bold enough to teach. Delegate 30% with crisp standards and review cadence; your job becomes orchestration, not constant intervention. Hold one weekly meeting about people, not metrics—safety is the soil of performance. Move from income to assets: equity, brand, media, systems, and leaders you’ve grown. In love, codify shared goals and money rhythms; sovereignty plus alliance beats dominance every time.\n\nAffirmation: I create value with power and multiply it by trust." },
+      "9": { "title": "The Empath", "text": "You dream of a kinder world and move people through meaning. The work is loving without leaking. Your heart becomes inexhaustible when your edges are honored and your giving is structured to sustain you too. Compassion expands when it’s carried by design.\n\nTranslate ideals into three executable steps and one metric; swap one unpaid obligation for one paid, values-aligned service. In relationships, write boundaries into the bond—help limits, alone time, emotional budgets—and let repair be a practice, not a punishment. Professionally, choose impact fields but refuse “discounts in the name of love”; charge fairly, deliver deeply, and build coalitions that share the load. Evening ritual: gratitude, release, recommit—three lines, then rest.\n\nAffirmation: My heart is vast, and my boundaries make it sustainable." }
+    };
+
+
+
+    /* 从多来源加载映射（不变） */
+    async function maybeLoadMaps(seed) {
+      if (seed && seed.jointMap && typeof seed.jointMap === 'object') JOINT_MAP = seed.jointMap;
+      if (seed && seed.personaMap && typeof seed.personaMap === 'object') PERSONA_MAP = seed.personaMap;
+
+      const q = new URLSearchParams(location.search);
+      const jointFromUrl = parseJSONMaybe(q.get('jointMap'));
+      const personaFromUrl = parseJSONMaybe(q.get('personaMap'));
+      if (jointFromUrl && typeof jointFromUrl === 'object') JOINT_MAP = jointFromUrl;
+      if (personaFromUrl && typeof personaFromUrl === 'object') PERSONA_MAP = personaFromUrl;
+
+      async function tryFetchJson(url) {
+        try { const r = await fetch(url, { cache: 'no-store' }); if (!r.ok) return null; return await r.json(); }
+        catch { return null; }
+      }
+      if (!seed?.jointMap && !jointFromUrl) {
+        const j = await tryFetchJson('/assets/joint-map.json'); if (j && typeof j === 'object') JOINT_MAP = j;
+      }
+      if (!seed?.personaMap && !personaFromUrl) {
+        const p = await tryFetchJson('/assets/persona-map.json'); if (p && typeof p === 'object') PERSONA_MAP = p;
+      }
+    }
+
+    /* ======== 统一把 payload 还原成页面使用的 seed ======== */
+    function seedFromPayload(p) {
+      if (!p || typeof p !== 'object') return null;
+      const form = p.form || {};
+      return {
+        name: form.name || p.name || '',
+        gender: form.gender || p.gender || '',
+        dob: form.dob || p.dob || '',
+        tob: form.tob || p.tob || '',
+        email: p.email || localStorage.getItem('maber:email') || '',
+        orderId: p.orderId || localStorage.getItem('maber:orderId') || '',
+        tri: p.tri || null,
+        early: Array.isArray(p.early) ? p.early : null,
+        mid: Array.isArray(p.mid) ? p.mid : null,
+        late: Array.isArray(p.late) ? p.late : null,
+        codes: Array.isArray(p.codes) ? p.codes : null,
+        persona: p.persona || (p.tri && p.tri.O) || ''
+      };
+    }
+
+    /* ========= 数据来源（URL / opener / storage） ========= */
+    function readFromStorage() {
+      // 1) 新版：优先尝试统一存储的 'maber:payload'
+      const payload = parseJSONMaybe(localStorage.getItem('maber:payload'));
+      const byPayload = seedFromPayload(payload);
+      if (byPayload && (byPayload.tri || byPayload.dob)) return byPayload;
+
+      // 2) 兼容旧版散列键
+      const j = (k) => { try { return JSON.parse(localStorage.getItem(k) || 'null') } catch (e) { return null } };
+      return {
+        name: localStorage.getItem('maber:name') || '', gender: localStorage.getItem('maber:gender') || '',
+        dob: localStorage.getItem('maber:dob') || '', tob: localStorage.getItem('maber:tob') || '',
+        orderId: localStorage.getItem('maber:orderId') || '',
+        tri: j('maber:tri'), early: j('maber:early'), mid: j('maber:mid'), late: j('maber:late'),
+        codes: j('maber:codes'), persona: localStorage.getItem('maber:persona') || localStorage.getItem('maber:o') || '',
+        email: localStorage.getItem('maber:email') || ''
+      };
+    }
+    function buildSeedFromQuery() {
+      const q = new URLSearchParams(location.search);
+      const seed = {
+        orderId: q.get('orderID') || q.get('orderId') || '',
+        email: q.get('email') || '',
+        name: q.get('name') || '',
+        gender: q.get('gender') || '',
+        dob: q.get('dob') || '',
+        tob: q.get('tob') || '',
+        persona: q.get('persona') || ''
+      };
+      const tri = parseJSONMaybe(q.get('tri'));
+      const early = parseJSONMaybe(q.get('early'));
+      const mid = parseJSONMaybe(q.get('mid'));
+      const late = parseJSONMaybe(q.get('late'));
+      const codes = parseJSONMaybe(q.get('codes'));
+      if (tri && typeof tri === 'object') seed.tri = tri;
+      if (Array.isArray(early)) seed.early = early;
+      if (Array.isArray(mid)) seed.mid = mid;
+      if (Array.isArray(late)) seed.late = late;
+      if (Array.isArray(codes)) seed.codes = codes;
+
+      if (!seed.tri && seed.dob) {
+        const t = computeTriangleFromDob(seed.dob);
+        if (t) seed.tri = t;
+      }
+      return seed;
+    }
+
+    function buildSeedFromOpener() {
+      try {
+        if (!window.opener) return null;
+
+        // 1) 新版：opener 直接挂了完整 payload
+        if (window.opener.__maberPayload) {
+          const s = seedFromPayload(window.opener.__maberPayload);
+          if (s && (s.tri || s.dob)) return s;
+        }
+
+        // 2) 兼容旧版：只挂了 tri 和 form
+        const tri = window.opener.__maberTri || null;
+        const form = window.opener.__maberForm || {};
+        if (!tri) return null;
+        return {
+          name: form.name || '',
+          dob: form.dob || '',
+          tob: form.tob || '',
+          gender: localStorage.getItem('maber:gender') || '',
+          email: localStorage.getItem('maber:email') || '',
+          orderId: '',
+          tri,
+          early: JSON.parse(localStorage.getItem('maber:early') || 'null') || DEFAULT_EARLY,
+          mid: JSON.parse(localStorage.getItem('maber:mid') || 'null') || DEFAULT_MID,
+          late: JSON.parse(localStorage.getItem('maber:late') || 'null') || DEFAULT_LATE,
+          persona: String(tri.O || 1)
+        };
+      } catch (e) { return null; }
+    }
+
+    /* ========= 渲染 ========= */
+    function fillHeader(d) {
+      $('name').textContent = d.name || '';
+      const genderEl = $('gender');
+      if (genderEl) {
+        genderEl.textContent = ({ male: '男', female: '女' })[d.gender] || d.gender || '';
+      }
+      $('dob').textContent = d.dob || ''; $('tob').textContent = d.tob || '';
+      $('orderId').textContent = d.orderId || '';
+    }
+    function renderTriangle(tri) {
+      const map = { I: 'I_val', J: 'J_val', K: 'K_val', L: 'L_val', M: 'M_val', N: 'N_val', O: 'O_val', Q: 'Q_val', P: 'P_val', R: 'R_val', T: 'T_val', S: 'S_val', U: 'U_val', V: 'V_val', W: 'W_val', X: 'X_val' };
+      for (const k in map) { const el = $(map[k]); if (el) el.textContent = (tri && tri[k] != null) ? String(tri[k]) : ''; }
+      centerSvgLabels();
+    }
+    function personaImagePath(o) { return `/assets/personas/${o}.png`; }
+    function renderPersona(pOrO) {
+      const o = reduce1(pOrO || 1) || 1;
+      $('oVal').textContent = o;
+      $('oBig').textContent = o;
+      const p = PERSONA_MAP[String(o)] || { title: '—', text: '' };
+      $('personaTitle').textContent = p.title || '—';
+      $('personaText').innerHTML = (p.text || '').replace(/\n/g, '<br>');
+      const img = $('personaImg'); img.crossOrigin = 'anonymous'; img.src = personaImagePath(o); img.alt = `Persona ${o}`;
+    }
+    function tripletToCode(tri, trip) { const a = tri?.[trip[0]], b = tri?.[trip[1]], c = tri?.[trip[2]]; return '' + reduce1(a) + reduce1(b) + reduce1(c); }
+
+    function renderCodes(tri, early, mid, late, codesIn) {
+      const box = $('codes'); if (!box) return;
+      const groups = [...(early || DEFAULT_EARLY), ...(mid || DEFAULT_MID), ...(late || DEFAULT_LATE)];
+      const codes = Array.isArray(codesIn) && codesIn.length === 12 ? codesIn
+        : (tri ? groups.map(t => tripletToCode(tri, t)) : []);
+      try { localStorage.setItem('maber:codes', JSON.stringify(codes)); } catch (e) { }
+    }
+    function renderForecastSummary(tri, early, mid, late) {
+      const box = $('forecastLines'); if (!box) return; box.innerHTML = '';
+      const makeLine = (label, trips) => {
+        const row = document.createElement('div'); row.className = 'forecast-line';
+        const title = document.createElement('b'); title.textContent = label; row.appendChild(title);
+        (trips || []).forEach(t => {
+          const chip = document.createElement('span'); chip.className = 'chip';
+          chip.textContent = tripletToCode(tri, t);
+          row.appendChild(chip);
+        });
+        return row;
+      };
+      box.appendChild(makeLine('21–40 岁预测', early || DEFAULT_EARLY));
+      box.appendChild(makeLine('41–60 岁预测', mid || DEFAULT_MID));
+      box.appendChild(makeLine('61–80 岁预测', late || DEFAULT_LATE));
+    }
+    function renderAgeBlocks(containerId, tri, trips) {
+      const box = $(containerId); box.innerHTML = '';
+      (trips || []).forEach((trip) => {
+        const code = tripletToCode(tri, trip);
+        const data = JOINT_MAP && JOINT_MAP[code] ? JOINT_MAP[code] : null;
+        const wrap = document.createElement('div'); wrap.className = 'age-card';
+        const codeEl = document.createElement('div'); codeEl.className = 'age-code'; codeEl.textContent = code || '—';
+        wrap.appendChild(codeEl);
+        const body = document.createElement('div');
+        if (data) {
+          body.innerHTML = `<div class="title">${data.title || ''}</div><div class="muted">${data.text || ''}</div>`;
+        } else {
+          body.innerHTML = `<div class="muted">未匹配到说明</div>`;
+        }
+        wrap.appendChild(body);
+        box.appendChild(wrap);
+      });
+    }
+    function renderAll(d) {
+      fillHeader(d);
+      const tri = d.tri || (d.dob ? computeTriangleFromDob(d.dob) : null) || {};
+      renderTriangle(tri);
+      renderPersona(d.persona || tri.O);
+      const early = d.early || DEFAULT_EARLY, mid = d.mid || DEFAULT_MID, late = d.late || DEFAULT_LATE;
+      renderForecastSummary(tri, early, mid, late);
+      renderAgeBlocks('age_21_40', tri, early);
+      renderAgeBlocks('age_41_60', tri, mid);
+      renderAgeBlocks('age_61_80', tri, late);
+      renderCodes(tri, d.early, d.mid, d.late, d.codes);
+      window.__REPORT_READY__ = true;
+    }
+
+    /* ========= 截图流工具（与按钮导出一致） ========= */
+    function ensureCrossOrigin(root) {
+      root.querySelectorAll('img').forEach(img => {
+        if (!img.getAttribute('crossorigin')) img.setAttribute('crossorigin', 'anonymous');
+      });
+    }
+    async function waitForImages(root) {
+      const imgs = [...root.querySelectorAll('img')].filter(i => !i.complete || i.naturalWidth === 0);
+      if (!imgs.length) return;
+      await Promise.all(imgs.map(img => new Promise(res => { img.onload = img.onerror = () => res(); })));
+    }
+    async function freezeLayout() {
+      if (document.fonts && document.fonts.ready) {
+        try { await document.fonts.ready; } catch (e) { }
+      }
+      await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+      await new Promise(r => setTimeout(r, 120));
+    }
+    function getHtml2PdfOptions(el) {
+      const bg = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#0b0b0c';
+      return {
+        margin: 0,
+        image: { type: 'png', quality: 1 },
+        html2canvas: {
+          scale: 2, useCORS: true, allowTaint: true,
+          backgroundColor: bg,
+          scrollX: 0, scrollY: 0,
+          windowWidth: Math.ceil(el.getBoundingClientRect().width),
+          windowHeight: Math.ceil(el.getBoundingClientRect().height)
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: false },
+        pagebreak: { mode: ['css', 'legacy'], avoid: ['.persona-row', '.age-card', '.tri', '.forecast-line'] }
+      };
+    }
+    async function buildScreenshotPDFBlob() {
+      if (!window.__REPORT_READY__) { await new Promise(r => setTimeout(r, 200)); }
+      const el = document.querySelector('.wrap'); if (!el) return null;
+
+      window.scrollTo(0, 0);
+      ensureCrossOrigin(el);
+      await waitForImages(el);
+      const rect = el.getBoundingClientRect();
+      await freezeLayout();
+
+      const canvas = await html2canvas(el, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#000000',
+        scrollX: 0,
+        scrollY: 0,
+        windowWidth: el.clientWidth,
+        windowHeight: el.clientHeight
+      });
+
+      const imgData = canvas.toDataURL('image/jpeg', 0.98);
+
+      const pdfWidth = 210; // 210mm wide (Standard A4 width)
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      const jsPDF = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: [pdfWidth, pdfHeight]
+      });
+
+      pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+      return pdf.output('blob');
+    }
+
+    /* ========= 交付：opener 优先，其次 POST，最后下载兜底 ========= */
+    async function deliverPDF(blob, filename, meta) {
+      let delivered = false;
+      try {
+        if (window.opener && typeof window.opener.postMessage === 'function') {
+          const buf = await blob.arrayBuffer();
+          window.opener.postMessage({ type: 'MABER_PDF_READY', filename, meta, buffer: buf }, '*');
+          delivered = true;
+        }
+      } catch (e) { }
+
+      if (!delivered && meta?.email) {
+        try {
+          const fd = new FormData();
+          fd.append('file', new File([blob], filename, { type: 'application/pdf' }));
+          fd.append('email', meta.email || '');
+          fd.append('name', meta.name || '');
+          fd.append('orderId', meta.orderId || '');
+          await fetch('/api/report/send', { method: 'POST', body: fd });
+          delivered = true;
+        } catch (e) { }
+      }
+
+      if (!delivered) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = filename;
+        document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      }
+    }
+
+    /* ========= 初始化 ========= */
+    (async function init() {
+      const q = new URLSearchParams(location.search);
+      const orderID = q.get('orderID') || q.get('orderId') || '';
+
+      let seed = null;
+      if (window.__REPORT_DATA__) seed = window.__REPORT_DATA__;
+
+      if (!seed && orderID) {
+        try {
+          const res = await fetch(`/api/report/${encodeURIComponent(orderID)}`);
+          if (res.ok) {
+            const data = await res.json();
+            seed = seedFromPayload(data);
+            if (seed) {
+              try {
+                localStorage.setItem('maber:payload', JSON.stringify(data));
+                if (data.email) localStorage.setItem('maber:email', data.email);
+                localStorage.setItem('maber:orderId', orderID);
+              } catch (e) {}
+            }
+          }
+        } catch (e) {
+          console.warn('Failed to fetch report from API, falling back to local storage:', e);
+        }
+      }
+
+      if (!seed) {
+        const fromLS = readFromStorage();
+        seed = { ...fromLS, ...seed };
+      }
+
+      await maybeLoadMaps(seed);
+      renderAll(seed || {});
+
+      try { if (window.opener) window.opener.postMessage({ type: 'MABER_NEED_DATA' }, '*'); } catch (e) { }
+
+      // —— 注册前端 PDF 下载按钮事件 —— //
+      const downloadBtn = $('downloadPdfBtn');
+      if (downloadBtn) {
+        downloadBtn.addEventListener('click', async () => {
+          downloadBtn.disabled = true;
+          downloadBtn.textContent = '⏳ Generating...';
+          try {
+            const blob = await buildScreenshotPDFBlob();
+            if (blob) {
+              const name = ($('name')?.textContent || '').trim() || 'report';
+              const orderId = ($('orderId')?.textContent || '').trim();
+              const filename = `MABER_${name}${orderId ? '_' + orderId : ''}.pdf`;
+              
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = filename;
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+              URL.revokeObjectURL(url);
+            }
+          } catch (e) {
+            console.error('Download failed:', e);
+            alert('Failed to generate PDF. Please try using browser print (Ctrl+P / Cmd+P).');
+          } finally {
+            downloadBtn.disabled = false;
+            downloadBtn.textContent = '📥 Download PDF';
+          }
+        });
+      }
+
+      // —— 仅在导出模式（?export=1）下才执行自动截图与发送 —— //
+      const isExport = document.documentElement.getAttribute('data-export') === '1';
+      if (isExport) {
+        try {
+          const blob = await buildScreenshotPDFBlob();
+          if (blob) {
+            const name = ($('name')?.textContent || '').trim() || 'report';
+            const orderId = ($('orderId')?.textContent || '').trim();
+            const filename = `MABER_${name}${orderId ? '_' + orderId : ''}.pdf`;
+            await deliverPDF(blob, filename, { email: seed.email || '', name: seed.name || name, orderId: seed.orderId || orderId });
+          }
+        } catch (e) { }
+      }
+    })();
+
+    window.addEventListener('message', (e) => {
+      const msg = e && e.data;
+      if (msg?.type === 'MABER_REPORT_DATA') {
+        const seed = msg.payload || msg.data || msg.seed || null;
+        if (seed && (seed.tri || seed.dob)) {
+          try { window.__REPORT_DATA__ = seed; } catch (_) { }
+          renderAll(seed);
+        }
+      }
+    });
+    window.addEventListener('storage', () => { renderAll(readFromStorage()); });
+    window.addEventListener('load', centerSvgLabels);
+    window.addEventListener('resize', centerSvgLabels);
+  </script>
+</body>
+
+</html>

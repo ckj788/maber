@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Privacy — MABER</title>
+<meta name="theme-color" content="#0b0b0c" />
+<base target="_self">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+<style>
+:root{
+  --brand:#000000;
+  --bg:#000000;
+  --ink:#f3f3f1;
+  --ink-dim:#c9c9c5;
+  --line:#e6e6e2;
+  --frame:#1b1b1b;
+  --ring:rgba(230,230,226,.25);
+  --pearl-1:#f4f3f1; --pearl-2:#e7e5e2;
+  --moon-1:#ecebe7;  --moon-2:#dedcd7;
+  --inkwash-1:#eae7f0; --inkwash-2:#dcd6e8;
+  --radius:14px; --shadow:0 10px 30px rgba(0,0,0,.45); --maxw:1120px;
+}
+*{box-sizing:border-box} html,body{height:100%} body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter","Helvetica Neue",Arial,sans-serif;
+  line-height:1.7;
+  letter-spacing:.01em;
+}
+.serif{font-family:"Iowan Old Style","Georgia","Garamond","Times New Roman",serif}
+h1,h2,h3{margin:0 0 .5rem 0; font-weight:500; letter-spacing:.01em}
+h1{font-size:clamp(36px,6vw,64px); line-height:1.04}
+h2{font-size:clamp(24px,4vw,36px)}
+a{color:inherit; text-decoration:none}
+.container{width:100%; max-width:var(--maxw); margin:0 auto; padding:0 24px}
+
+/* --- Header --- */
+.nav{
+  position:fixed; inset:0 0 auto 0; height:60px; z-index:30;
+  display:flex; align-items:center;
+  background:linear-gradient(180deg, var(--brand), color-mix(in oklab, var(--brand), #000 35%));
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.nav-inner{display:flex; align-items:center; justify-content:space-between}
+.brand{display:flex; gap:12px; align-items:center; font-variant:small-caps; letter-spacing:.08em; cursor:pointer}
+.logo{width:26px;height:26px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #fff 0%, #f4f4f4 16%, transparent 38%),
+             conic-gradient(from 220deg, rgba(255,255,255,.6), rgba(255,255,255,.15), rgba(255,255,255,0));
+  box-shadow:0 0 0 1px rgba(255,255,255,.15), inset 0 0 18px rgba(255,255,255,.12)}
+.nav-right{display:flex; gap:16px; align-items:center}
+.nav-link{
+  display:inline-flex; align-items:center; justify-content:center; padding:8px 10px;
+  font-size:14px; letter-spacing:.05em; transition:.25s;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  text-transform: uppercase;
+}
+.nav-link:hover{
+    transform:translateY(-1px);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+/* --- Background --- */
+canvas#galaxy{
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  filter:contrast(105%) brightness(102%);
+}
+
+/* --- Layout & Content --- */
+.main-wrap{position:relative; z-index:2; min-height:100vh; display: flex; flex-direction: column;}
+.content{
+    width:100%;
+    max-width:820px;
+    margin:0 auto;
+    padding: 120px 24px 80px;
+    flex-grow: 1;
+}
+.page-title{
+  font-family:"Iowan Old Style","Georgia","Garamond","Times New Roman",serif;
+  font-weight:600; font-size:clamp(40px,7vw,64px); line-height:1.06; letter-spacing:.02em;
+  background:linear-gradient(180deg, var(--pearl-1) 0%, var(--pearl-2) 45%, var(--inkwash-2) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  text-shadow:0 1px 0 rgba(255,255,255,.06), 0 10px 30px rgba(0,0,0,.35);
+  margin-bottom: 8px;
+}
+.sub{font-size:13px; letter-spacing:.18em; font-variant:small-caps; color:var(--ink-dim); margin-bottom: 40px;}
+.card{
+    padding:28px 32px;
+    border:1px solid var(--frame);
+    border-radius:14px;
+    background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
+    box-shadow:var(--shadow)
+}
+.card .philosophy {
+    text-align: center;
+    margin-bottom: 2em;
+    padding-bottom: 2em;
+    border-bottom: 1px solid var(--frame);
+}
+.card .philosophy h3 {
+    font-size: 22px;
+}
+.card .policy-section {
+    margin-bottom: 2em;
+}
+.card .policy-section:last-child {
+    margin-bottom: 0;
+}
+.card h3 {
+    margin-bottom: 1em;
+    font-size: 18px;
+    color: var(--ink);
+    font-family: "Iowan Old Style","Georgia",serif;
+}
+.card p {
+    color: var(--ink-dim);
+    margin-top: 0;
+}
+.card p b, .card p strong {
+    color: var(--ink);
+    font-weight: 600;
+}
+.card a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+.card a:hover {
+    color: var(--pearl-1);
+}
+
+/* --- Footer（与 contact.html 一致） --- */
+.footer{
+  position:relative;
+  z-index: 2;
+  border-top:1px solid rgba(255,255,255,.08);
+  padding:40px 0 30px;
+  color:#fff;
+  background:linear-gradient(180deg, color-mix(in oklab, var(--brand), #000 20%), var(--brand));
+}
+.footer .row{display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px; align-items:start}
+.footer .brand{font-size:22px}
+.footer a{color:#fff; text-decoration:none; letter-spacing:.05em; font-size:14px}
+.footer a:hover{text-decoration:underline; text-underline-offset:3px}
+.footer ul{list-style:none; padding:0; margin:0; display:grid; gap:10px}
+.footer .right{display:flex; flex-direction:column; align-items:flex-end; gap:10px;}
+.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; letter-spacing:.08em}
+@media (max-width:980px){
+  .footer .row{grid-template-columns:1fr}
+  .footer .right{align-items:flex-start}
+}
+/* Social icons */
+.social.icons-only {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 22px;
+}
+.social.icons-only a,
+.social.icons-only .placeholder{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:28px;height:28px;
+  opacity:.9;transition:transform .2s ease, opacity .2s ease;
+}
+.social.icons-only a:hover{
+  opacity:1;transform:translateY(-1px) scale(1.05);
+}
+.social.icons-only svg{width:24px;height:24px;display:block}
+.social.icons-only .placeholder{opacity:.45;cursor:default}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="brand serif" href="./index.html"><div class="logo" aria-hidden="true"></div><span>MABER</span></a>
+    <div class="nav-right">
+      <a class="nav-link" href="./what-is-maber.html">What is MABER</a>
+      <a class="nav-link" href="./shop.html">Shop</a>
+    </div>
+  </div>
+</nav>
+
+<canvas id="galaxy" aria-hidden="true"></canvas>
+
+<main class="main-wrap">
+  <div class="content">
+    <h1 class="page-title">Privacy Policy</h1>
+    <p class="sub">Effective: 2025-09-01</p>
+    <div class="card">
+      <div class="philosophy">
+        <h3 class="serif">Our Philosophy</h3>
+        <p>Welcome to MABER. Your trust is the foundation of our work. Our privacy policy is simple: we collect the absolute minimum data required to generate your personalized report, and <b>we do not store your personal report data</b> after it's created. This document explains the details.</p>
+      </div>
+
+      <div class="policy-section">
+        <h3>Who We Are</h3>
+        <p>MABER (“we,” “us”) offers numerology-based content and tools for self-discovery (our “Services”). For any questions about this policy, please reach out to us at <a href="mailto:support@maber.xyz">support@maber.xyz</a>.</p>
+      </div>
+
+      <div class="policy-section">
+        <h3>The Data We Process</h3>
+        <p>To create your personalized report, we process two types of information: <b>Information You Provide</b> (Your name, date of birth, and email address) and <b>Transactional Data</b> (handled by our payment processor, PayPal; we do not see or store your credit card information).</p>
+      </div>
+      
+      <div class="policy-section">
+        <h3>How We Use Your Data</h3>
+        <p>Your data is used exclusively to fulfill your request. Your birth details are used once for the calculation and then immediately discarded. Your email address is used once to deliver your purchased PDF report. We will not send you marketing emails unless you explicitly consent.</p>
+      </div>
+
+      <div class="policy-section">
+        <h3>Data Sharing</h3>
+        <p>We do not, and will never, sell your personal data. The only service provider who handles your data is our payment processor for the purpose of completing your transaction. We do not share your personalization data (name, date of birth) with them.</p>
+      </div>
+
+      <div class="policy-section">
+        <h3>Our Policy Regarding Children</h3>
+        <p>Our Services are accessible to users of all ages. However, to make a purchase, you must be at least 18 years old or have the permission of a parent or legal guardian. We do not knowingly collect personal data from children under 13 in compliance with privacy regulations.</p>
+      </div>
+
+      <div class="policy-section">
+        <h3>Data Storage & Retention</h3>
+        <p>Our core privacy promise is that <b>we do not store your personal report data.</b> The information you enter is processed transiently and is not saved in our database. The only information we may retain for customer support purposes is your Order ID and the email address used for delivery.</p>
+      </div>
+
+      <div class="policy-section">
+        <h3>Your Rights & Choices</h3>
+        <p>As we do not retain your personal report data, there is no data for us to provide access to, correct, or delete after your report is generated. For questions about your order, please contact us with your Order ID.</p>
+      </div>
+
+      <div class="policy-section">
+        <h3>Cookies</h3>
+        <p>We use minimal, essential cookies to ensure the basic functionality of our website. You can manage or disable cookies through your browser settings.</p>
+      </div>
+
+      <div class="policy-section">
+        <h3>Third-Party Services</h3>
+        <p>Our website contains links to our payment processor (PayPal). Any information you provide to them is governed by their own privacy policy.</p>
+      </div>
+
+      <div class="policy-section">
+        <h3>Changes to This Policy</h3>
+        <p>We may update this policy from time to time. Any changes will be reflected on this page with an updated effective date.</p>
+      </div>
+
+      <div class="policy-section">
+        <h3>How to Contact Us</h3>
+        <p>For any questions or concerns regarding your privacy, please email us at <a href="mailto:support@maber.xyz">support@maber.xyz</a>.</p>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container row">
+    <div>
+      <div class="brand serif"><span class="logo" aria-hidden="true"></span><span>MABER</span></div>
+      <p style="font-size:13px;color:var(--ink-dim);margin-top:8px;">Numerology & Mysticism<br/>Blending East & West</p>
+    </div>
+    <div>
+      <ul class="mono">
+        <li><a href="./about.html">ABOUT</a></li>
+        <li><a href="./faq.html">FAQ</a></li>
+        <li><a href="./contact.html">CONTACT</a></li>
+        <li><a href="./privacy.html">PRIVACY</a></li>
+      </ul>
+    </div>
+    <div class="right mono">
+      <div class="social icons-only">
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/maberxyz/" target="_blank" rel="noopener" aria-label="Instagram @maberxyz">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+          </svg>
+        </a>
+        <!-- X -->
+        <a href="https://x.com/MaberFate" target="_blank" rel="noopener" aria-label="X (Twitter) @MaberFate">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M18.244 3H21l-6.51 7.438L22.5 21h-5.5l-4.3-5.2L7.5 21H3l6.9-7.88L1.5 3h5.6l3.94 4.77L18.244 3zm-1.006 16h1.4L8.94 5H7.536L17.238 19z"/>
+          </svg>
+        </a>
+        <!-- TikTok 占位 -->
+        <a href="https://www.tiktok.com/@maber.xyz" target="_blank" rel="noopener" aria-label="TikTok @maber.xyz">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M14.5 3v4.2a6 6 0 0 0 4 1.5v3a9 9 0 0 1-4-1.1V16a5 5 0 1 1-5-5c.34 0 .67.03 1 .1V14a2 2 0 1 0 2 2V3h2z"/>
+          </svg>
+        </a>
+      </div>
+      <small style="color:var(--ink-dim);margin-top:8px;">© 2025 MABER</small>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* 星空背景 */
+function initGalaxy(){
+  const c = document.getElementById('galaxy'); if (!c) return;
+  const ctx = c.getContext('2d'); let w,h,dpr=Math.min(devicePixelRatio||1,2);
+  const stars=[]; const COUNT=180; const R = 400; const ATTRACT_MULT = 3;
+  let mouse={x:null,y:null}, Rpx=R*dpr; const rnd=(a,b)=>a+Math.random()*(b-a);
+  function resize(){ w=c.width=innerWidth*dpr; h=c.height=innerHeight*dpr; c.style.width=innerWidth+'px'; c.style.height=innerHeight+'px'; Rpx=R*dpr; }
+  function init(){ stars.length=0; for(let i=0;i<COUNT;i++){ stars.push({x:rnd(0,w),y:rnd(0,h),r:rnd(.4,1.4)*dpr,a:rnd(.35,.85),z:rnd(.2,1)});} }
+  addEventListener('mousemove', e=>{ mouse.x=e.clientX*dpr; mouse.y=e.clientY*dpr; });
+  addEventListener('mouseleave', ()=>{ mouse.x=null; mouse.y=null; });
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    const g=ctx.createRadialGradient(w*.5,h*.4,0,w*.5,h*.4,Math.max(w,h)*.7);
+    g.addColorStop(0,'rgba(255,255,255,0.02)'); g.addColorStop(1,'rgba(0,0,0,0.35)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+    for(const s of stars){
+      const baseV=s.z*0.12; s.y+=baseV; if(s.y>h) s.y-=h;
+      if(mouse.x!=null){
+        const dx=mouse.x-s.x,dy=mouse.y-s.y,d2=dx*dx+dy*dy;
+        if(d2<Rpx*Rpx){ const d=Math.sqrt(d2)||1, inf=1-(d/Rpx), ux=dx/d, uy=dy/d;
+          s.x+=ux*baseV*2*ATTRACT_MULT*inf; s.y+=uy*baseV*2*ATTRACT_MULT*inf; }
+      }
+      if(s.x<0) s.x+=w; if(s.x>w) s.x-=w; if(s.y<0) s.y+=h; if(s.y>h) s.y-=h;
+      ctx.globalAlpha=s.a+Math.sin((s.x+s.y)*.0015)*.08;
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle='#ffffff'; ctx.fill();
+      if(s.r>1.2){ ctx.globalAlpha=.25; ctx.beginPath(); ctx.arc(s.x,s.y,s.r*2.2,0,Math.PI*2); ctx.fillStyle='rgba(255,255,255,0.10)'; ctx.fill(); }
+    }
+    ctx.globalAlpha=1; requestAnimationFrame(draw);
+  }
+  function onResize(){ resize(); init(); }
+  resize(); init(); draw(); addEventListener('resize', onResize);
+}
+document.addEventListener('DOMContentLoaded', initGalaxy);
+</script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>About — MABER</title>
+<meta name="theme-color" content="#0b0b0c" />
+<base target="_self">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+
+<style>
+:root{
+  --brand:#000000; --bg:#000000; --ink:#f3f3f1; --ink-dim:#c9c9c5;
+  --line:#e6e6e2; --frame:#1b1b1b; --ring:rgba(230,230,226,.25);
+  --pearl-1:#f4f3f1; --pearl-2:#e7e5e2; --moon-1:#ecebe7; --moon-2:#dedcd7;
+  --inkwash-1:#eae7f0; --inkwash-2:#dcd6e8;
+  --radius:14px; --shadow:0 10px 30px rgba(0,0,0,.45); --maxw:1120px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter","Helvetica Neue",Arial,sans-serif;
+  line-height:1.6; letter-spacing:.01em;
+}
+.serif{font-family:"Iowan Old Style","Georgia","Garamond","Times New Roman",serif}
+h1,h2,h3{margin:0 0 1rem 0; font-weight:500; letter-spacing:.01em}
+h1{font-size:clamp(36px,6vw,64px); line-height:1.04}
+h2{font-size:clamp(28px,4.5vw,40px); line-height:1.2;}
+a{color:inherit; text-decoration:none}
+.container{width:100%; max-width:var(--maxw); margin:0 auto; padding:0 24px}
+.meta{color:var(--ink-dim); font-size:13px}
+
+/* ★ 1. 头部导航: 样式与主页/what-is-maber页面统一 */
+.nav{
+  position:fixed; inset:0 0 auto 0; height:60px; z-index:20;
+  display:flex; align-items:center;
+  background:linear-gradient(180deg, var(--brand), color-mix(in oklab, var(--brand), #000 35%));
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.nav-inner{display:flex; align-items:center; justify-content:space-between}
+.brand{display:flex; gap:12px; align-items:center; font-variant:small-caps; letter-spacing:.08em; cursor:pointer}
+.logo{width:26px;height:26px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #fff 0%, #f4f4f4 16%, transparent 38%),
+             conic-gradient(from 220deg, rgba(255,255,255,.6), rgba(255,255,255,.15), rgba(255,255,255,0));
+  box-shadow:0 0 0 1px rgba(255,255,255,.15), inset 0 0 18px rgba(255,255,255,.12)}
+.nav-right{display:flex; gap:16px; align-items:center}
+.nav-link{
+  display:inline-flex; align-items:center; justify-content:center; padding:8px 10px;
+  font-size:14px; letter-spacing:.05em; transition:.25s;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  text-transform: uppercase;
+}
+.nav-link:hover{
+    transform:translateY(-1px);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+/* 星空与柔光背景 */
+canvas#galaxy{position:fixed; inset:0; z-index:0; pointer-events:none; filter:contrast(105%) brightness(102%)}
+.halo{
+  position:fixed; top:-20vh; left:50%; width:140vmax; height:140vmax; transform:translateX(-50%);
+  background:radial-gradient(closest-side, rgba(255,255,255,.09), transparent 55%);
+  mix-blend-mode:screen; pointer-events:none; z-index:1;
+}
+main, header, footer { position:relative; z-index:2; }
+
+/* 页面整体布局 */
+.main-wrap{min-height:calc(100vh - 60px); padding-top:90px; padding-bottom:64px}
+.page-head{width:100%; max-width:980px; margin:0 auto 8px; padding:0 24px; display:grid; gap:6px}
+.page-title{
+  font-family:"Iowan Old Style","Georgia","Garamond","Times New Roman",serif;
+  font-weight:600; font-size:clamp(42px,7vw,78px); line-height:1.04; letter-spacing:.02em;
+  background:linear-gradient(180deg, var(--pearl-1) 0%, var(--pearl-2) 45%, var(--inkwash-2) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  text-shadow:0 1px 0 rgba(255,255,255,.06), 0 10px 30px rgba(0,0,0,.35);
+}
+.sub{font-size:13px; letter-spacing:.18em; font-variant:small-caps; color:var(--ink-dim)}
+
+/* ★ 2. 侧边目录: 样式与what-is-maber页面统一 */
+.scroll{width:100%; max-width:1100px; margin:40px auto 0; padding:0 24px; display:grid; grid-template-columns:200px 1fr; gap:30px}
+@media (max-width:980px){ .scroll{grid-template-columns:1fr} }
+
+.rail{position:sticky; top:84px; align-self:start; display:grid; gap:14px; height:fit-content; opacity:.95}
+.rail a{
+  display:grid; grid-template-columns:30px 1fr; gap:12px; align-items:center;
+  padding:8px; border-radius:8px;
+  transition:.25s;
+}
+.rail a:hover{
+    background: rgba(255, 255, 255, 0.05);
+    transform:translateX(2px);
+}
+.sig{
+  display:inline-flex; align-items:center; justify-content:center;
+  font-size:24px;
+  line-height: 1;
+  color: var(--ink-dim);
+}
+.rail span{
+    font-size:15px;
+    letter-spacing:.02em;
+    color: var(--ink);
+}
+@media (max-width:980px){
+    .rail {
+        position: static;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        border-bottom: 1px solid var(--frame);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+}
+
+/* ★ 3. 正文卡片: 样式与what-is-maber页面统一 */
+.content{width:100%; max-width:880px; display:grid; gap:24px}
+.section{scroll-margin-top: 80px;} /* 保证锚点定位准确 */
+.card{padding:24px 28px; border:1px solid var(--frame); border-radius:14px;
+  background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)); box-shadow:var(--shadow)}
+.card h2{font-family:"Iowan Old Style","Georgia","Times New Roman",serif}
+.rule{height:1px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent); border:none; margin:1rem 0}
+.kicker{letter-spacing:.18em; font-variant:small-caps; color:var(--ink-dim); font-size:12px}
+.card p { color: var(--ink-dim); }
+.card p strong { color: var(--ink); }
+.grid{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+@media (max-width:980px){ .grid{grid-template-columns:1fr} }
+.callout{border:1px dashed rgba(255,255,255,.18); border-radius:14px; background:rgba(255,255,255,.02); padding:16px; font-size:15px; line-height:1.7}
+.badge{display:inline-block; padding:.28rem .7rem; border:1px solid rgba(255,255,255,.18); border-radius:999px; font-size:12px; color:var(--ink-dim); letter-spacing:.12em}
+.soft{color:var(--ink-dim)} .soft ul{margin:.25rem 0 0 1.25rem} .soft li{margin:.25rem 0}
+.symbol{opacity:.8; font-size: 0.7em; vertical-align: middle; margin-left: 0.2em;}
+
+
+/* Footer */
+.footer{
+  position:relative;
+  margin-top:60px;
+  border-top:1px solid rgba(255,255,255,.08);
+  padding:40px 0 30px;
+  color:#fff;
+  background:linear-gradient(180deg, color-mix(in oklab, var(--brand), #000 20%), var(--brand));
+}
+.footer .row{display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px; align-items:start}
+.footer .brand{font-size:22px}
+.footer a{color:#fff; text-decoration:none; letter-spacing:.05em; font-size:14px}
+.footer a:hover{text-decoration:underline; text-underline-offset:3px}
+.footer ul{list-style:none; padding:0; margin:0; display:grid; gap:10px}
+.footer .right{display:flex; flex-direction:column; align-items:flex-end; gap:10px;}
+.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; letter-spacing:.08em}
+@media (max-width:980px){
+  .footer .row{grid-template-columns:1fr}
+  .footer .right{align-items:flex-start}
+}
+
+/* --- Social icons only --- */
+.social.icons-only{display:flex; flex-direction:row; justify-content:flex-end; align-items:center; gap:22px;}
+.social.icons-only a,.social.icons-only .placeholder{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;opacity:.9;transition:transform .2s ease, opacity .2s ease;}
+.social.icons-only a:hover{opacity:1;transform:translateY(-1px) scale(1.05);}
+.social.icons-only svg{width:24px;height:24px;display:block}
+.social.icons-only .placeholder{opacity:.45;cursor:default}
+</style>
+</head>
+
+<body>
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="brand serif" href="./index.html"><div class="logo" aria-hidden="true"></div><span>MABER</span></a>
+    <div class="nav-right">
+      <a class="nav-link" href="./what-is-maber.html">What is MABER</a>
+      <a class="nav-link" href="./shop.html">Shop</a>
+    </div>
+  </div>
+</nav>
+
+<canvas id="galaxy" aria-hidden="true"></canvas>
+<div class="halo" aria-hidden="true"></div>
+
+<main class="main-wrap">
+  <header class="page-head">
+    <h1 class="page-title">About</h1>
+    <p class="sub">Origins & Intent · ✶</p>
+  </header>
+
+  <div class="scroll">
+    <aside class="rail">
+      <a href="#origin" aria-label="Go to Origin"><div class="sig">१</div><span>Origin</span></a>
+      <a href="#vision" aria-label="Go to Vision"><div class="sig">२</div><span>Vision</span></a>
+      <a href="#method" aria-label="Go to Method"><div class="sig">३</div><span>Method</span></a>
+      <a href="#offer"  aria-label="Go to Offer"><div class="sig">४</div><span>Offer</span></a>
+      <a href="#ethics" aria-label="Go to Ethics"><div class="sig">५</div><span>Ethics</span></a>
+      <a href="#join"   aria-label="Go to Join"><div class="sig">६</div><span>Join</span></a>
+    </aside>
+
+    <div class="content">
+      <section id="origin" class="section card">
+        <h2 class="serif">Origin<span class="symbol">१</span></h2>
+        <hr class="rule">
+        <p><strong>MABER</strong> was born from a small circle of explorers devoted to mysticism and inner growth—people who study numerology, read charts, pull tarot, and borrow from psychology. In years of practice we felt two truths at once: ancient systems still carry voltage; modern life keeps asking for meaning and contact. Our answer was a simple dare—<em>blend East and West into a precise, contemporary tool</em>—so more people can touch that wisdom quickly and well. Thus the MABER Life Code emerged.</p>
+      </section>
+
+      <section id="vision" class="section card">
+        <h2 class="serif">Vision<span class="symbol">२</span></h2>
+        <hr class="rule">
+        <p>Our mission is clear: let old esoteric languages feel new—beautiful, concise, actionable. We treat numerology and astrology as <em>languages</em> and <em>mirrors</em>, not verdicts. Through MABER, people meet their inner weather honestly and find resonance with others.</p>
+        <p>MABER leans West in structure (Pythagorean reduction; clean triads), while honoring Eastern philosophy—balance, reciprocity, cultivation. The result is universal yet culturally sensitive: wherever you’re from, the words land.</p>
+      </section>
+
+      <section id="method" class="section card">
+        <h2 class="serif">Method<span class="symbol">३</span></h2>
+        <hr class="rule">
+        <div class="grid">
+          <div>
+            <p><strong>Beyond generic lines.</strong> We built a layered decoding model: baseline number energies, childhood & family imprint, unconscious needs, and relational patterns. The goal isn’t flattery—it’s orientation.</p>
+            <p><strong>From insight to action.</strong> Readings are shaped as a triad—<em>Core Drive</em>, <em>Supporting Traits</em>, and the <em>Integrating Force</em> that restores balance when life tilts.</p>
+          </div>
+          <div class="callout">
+            <p class="kicker">A familiar reaction</p>
+            <p><em>“Even if I wasn’t sure about mysticism, this gave me a way to hold my chaos.”</em> We build for that: coherence that frees the next choice.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="offer" class="section card">
+        <h2 class="serif">Offer<span class="symbol">४</span></h2>
+        <hr class="rule">
+        <div class="grid">
+          <div>
+            <p><span class="badge">Personalized Life-Code Report (Paid)</span></p>
+            <p>Your private dossier: primary code + companion numbers, strengths & blind spots, inner drivers & early imprints, money/vocation patterns, and love dynamics. Expect concrete practices, timing notes, and gentle rituals.</p>
+          </div>
+          <div>
+            <p><span class="badge">The MABER Circle (Community)</span></p>
+            <p>Self-inquiry is richer together. Our private circle hosts seasonal prompts, live Q&A, and peer stories so you can compare patterns and borrow courage—your path, witnessed.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="ethics" class="section card">
+        <h2 class="serif">Ethics & Care<span class="symbol">५</span></h2>
+        <hr class="rule">
+        <ul class="soft">
+          <li><strong>Your data is yours.</strong> No selling. Clear consent and deletes.</li>
+          <li><strong>Agency first.</strong> Numbers orient; they never decide. You write the plot.</li>
+          <li><strong>Respect for culture.</strong> West-leaning clarity, East-leaning balance—no caricature.</li>
+        </ul>
+      </section>
+
+      <section id="join" class="section card">
+        <h2 class="serif">Join the Journey<span class="symbol">६</span></h2>
+        <hr class="rule">
+        <p>Start with the home page reading. If the mirror rings true, unlock your <strong>Personalized Report (PDF)</strong> and step into the <strong>MABER Circle</strong>. We’ll be here as you test, refine, and grow. You are not fated—you are oriented.</p>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container row">
+    <div>
+      <div class="brand serif"><span class="logo" aria-hidden="true"></span><span>MABER</span></div>
+      <p style="font-size:13px;color:var(--ink-dim);margin-top:8px;">Numerology & Mysticism<br/>Blending East & West</p>
+    </div>
+    <div>
+      <ul class="mono">
+        <li><a href="./about.html">ABOUT</a></li>
+        <li><a href="./faq.html">FAQ</a></li>
+        <li><a href="./contact.html">CONTACT</a></li>
+        <li><a href="./privacy.html">PRIVACY</a></li>
+      </ul>
+    </div>
+    <div class="right mono">
+      <div class="social icons-only">
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/maberxyz/" target="_blank" rel="noopener" aria-label="Instagram @maberxyz">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+          </svg>
+        </a>
+
+        <!-- X -->
+        <a href="https://x.com/MaberFate" target="_blank" rel="noopener" aria-label="X (Twitter) @MaberFate">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M18.244 3H21l-6.51 7.438L22.5 21h-5.5l-4.3-5.2L7.5 21H3l6.9-7.88L1.5 3h5.6l3.94 4.77L18.244 3zm-1.006 16h1.4L8.94 5H7.536L17.238 19z"/>
+          </svg>
+        </a>
+
+        <!-- TikTok（占位，无链接） -->
+        <a href="https://www.tiktok.com/@maber.xyz" target="_blank" rel="noopener" aria-label="TikTok @maber.xyz">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M14.5 3v4.2a6 6 0 0 0 4 1.5v3a9 9 0 0 1-4-1.1V16a5 5 0 1 1-5-5c.34 0 .67.03 1 .1V14a2 2 0 1 0 2 2V3h2z"/>
+          </svg>
+        </a>
+      </div>
+      <small style="color:var(--ink-dim);margin-top:8px;">© 2025 MABER</small>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function initGalaxy(){
+  const c = document.getElementById('galaxy'); if (!c) return;
+  const ctx = c.getContext('2d'); let w,h,dpr=Math.min(devicePixelRatio||1,2);
+  const stars=[]; const COUNT=180; const R = 400; const ATTRACT_MULT = 3;
+  let mouse={x:null,y:null}, Rpx=R*dpr; const rnd=(a,b)=>a+Math.random()*(b-a);
+
+  function resize(){ w=c.width=innerWidth*dpr; h=c.height=innerHeight*dpr;
+    c.style.width=innerWidth+'px'; c.style.height=innerHeight+'px'; Rpx=R*dpr; }
+  function init(){ stars.length=0;
+    for(let i=0;i<COUNT;i++){ stars.push({x:rnd(0,w),y:rnd(0,h),r:rnd(.4,1.4)*dpr,a:rnd(.35,.85),z:rnd(.2,1)}); }
+  }
+  addEventListener('mousemove', e=>{ mouse.x=e.clientX*dpr; mouse.y=e.clientY*dpr; });
+  addEventListener('mouseleave', ()=>{ mouse.x=null; mouse.y=null; });
+
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    const g=ctx.createRadialGradient(w*.5,h*.4,0,w*.5,h*.4,Math.max(w,h)*.7);
+    g.addColorStop(0,'rgba(255,255,255,0.02)'); g.addColorStop(1,'rgba(0,0,0,0.35)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+
+    for(const s of stars){
+      const baseV=s.z*0.12; s.y+=baseV; if(s.y>h) s.y-=h;
+      if(mouse.x!=null){
+        const dx=mouse.x-s.x,dy=mouse.y-s.y,d2=dx*dx+dy*dy;
+        if(d2<Rpx*Rpx){ const d=Math.sqrt(d2)||1, inf=1-(d/Rpx), ux=dx/d, uy=dy/d;
+          s.x+=ux*baseV*2*ATTRACT_MULT*inf; s.y+=uy*baseV*2*ATTRACT_MULT*inf; }
+      }
+      if(s.x<0) s.x+=w; if(s.x>w) s.x-=w; if(s.y<0) s.y+=h; if(s.y>h) s.y-=h;
+      ctx.globalAlpha=s.a+Math.sin((s.x+s.y)*.0015)*.08;
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle='#ffffff'; ctx.fill();
+      if(s.r>1.2){ ctx.globalAlpha=.25; ctx.beginPath(); ctx.arc(s.x,s.y,s.r*2.2,0,Math.PI*2); ctx.fillStyle='rgba(255,255,255,0.10)'; ctx.fill(); }
+    }
+    ctx.globalAlpha=1; requestAnimationFrame(draw);
+  }
+
+  function onResize(){ resize(); init(); }
+  resize(); init(); draw(); addEventListener('resize', onResize);
+})();
+</script>
+</body>
+</html>

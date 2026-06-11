@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Shop — MABER</title>
+<meta name="theme-color" content="#0b0b0c" />
+<base target="_self">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+<style>
+:root{
+  --brand:#000000;
+  --bg:#000000;
+  --ink:#f3f3f1;
+  --ink-dim:#c9c9c5;
+  --line:#e6e6e2;
+  --frame:#1b1b1b;
+  --ring:rgba(230,230,226,.25);
+  --pearl-1:#f4f3f1; --pearl-2:#e7e5e2;
+  --moon-1:#ecebe7;  --moon-2:#dedcd7;
+  --inkwash-1:#eae7f0; --inkwash-2:#dcd6e8;
+  --radius:14px; --shadow:0 10px 30px rgba(0,0,0,.45); --maxw:1120px;
+}
+*{box-sizing:border-box} html,body{height:100%} body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter","Helvetica Neue",Arial,sans-serif;
+  line-height:1.6; letter-spacing:.01em;
+}
+.serif{font-family:"Iowan Old Style","Georgia","Garamond","Times New Roman",serif}
+h1,h2,h3{margin:0 0 .5rem 0; font-weight:500; letter-spacing:.01em}
+h1{font-size:clamp(36px,6vw,64px); line-height:1.04}
+h2{font-size:clamp(24px,4vw,36px)}
+a{color:inherit; text-decoration:none}
+.container{width:100%; max-width:var(--maxw); margin:0 auto; padding:0 24px}
+.meta{color:var(--ink-dim); font-size:13px}
+
+/* ★ 1. 头部导航: 样式与主页统一 */
+.nav{
+  position:fixed; inset:0 0 auto 0; height:60px; z-index:30;
+  display:flex; align-items:center;
+  background:linear-gradient(180deg, var(--brand), color-mix(in oklab, var(--brand), #000 35%));
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.nav-inner{display:flex; align-items:center; justify-content:space-between}
+.brand{display:flex; gap:12px; align-items:center; font-variant:small-caps; letter-spacing:.08em; cursor:pointer}
+.logo{width:26px;height:26px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, #fff 0%, #f4f4f4 16%, transparent 38%),
+             conic-gradient(from 220deg, rgba(255,255,255,.6), rgba(255,255,255,.15), rgba(255,255,255,0));
+  box-shadow:0 0 0 1px rgba(255,255,255,.15), inset 0 0 18px rgba(255,255,255,.12)}
+.nav-right{display:flex; gap:16px; align-items:center}
+.nav-link{
+  display:inline-flex; align-items:center; justify-content:center; padding:8px 10px;
+  font-size:14px; letter-spacing:.05em; transition:.25s;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  text-transform: uppercase;
+}
+.nav-link:hover{
+    transform:translateY(-1px);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+/* ★ 与主页一致：全屏固定星空画布 */
+canvas#galaxy{
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  filter:contrast(105%) brightness(102%);
+}
+
+/* content wrapper */
+.main-wrap{position:relative; z-index:2; display:flex; align-items:center; min-height:calc(100vh - 60px - 130px); padding-top:84px; padding-bottom:40px}
+.content{width:100%; max-width:880px; margin:0 auto; display:grid; gap:18px}
+
+/* footer */
+.footer{
+  position:relative;
+  z-index: 2;
+  margin-top:60px;
+  border-top:1px solid rgba(255,255,255,.08);
+  padding:40px 0 30px;
+  color:#fff;
+  background:linear-gradient(180deg, color-mix(in oklab, var(--brand), #000 20%), var(--brand));
+}
+.footer .row{display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px; align-items:start}
+.footer .brand{font-size:22px}
+.footer a{color:#fff; text-decoration:none; letter-spacing:.05em; font-size:14px}
+.footer a:hover{text-decoration:underline; text-underline-offset:3px}
+.footer ul{list-style:none; padding:0; margin:0; display:grid; gap:10px}
+
+/* 改为纵向排版，让图标一行 + 版权下一行 */
+.footer .right{display:flex; flex-direction:column; align-items:flex-end; gap:10px;}
+.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; letter-spacing:.08em}
+@media (max-width:980px){
+  .footer .row{grid-template-columns:1fr}
+  .footer .right{align-items:flex-start}
+}
+
+/* “正在开发中”标签样式 */
+.coming{
+  display:grid; place-items:center; gap:14px; padding:80px 12px;
+  text-align:center; position:relative;
+}
+.coming .big{
+  font-family:"Iowan Old Style","Georgia","Garamond","Times New Roman",serif;
+  font-weight:700; line-height:1.06;
+  font-size:clamp(40px,7vw,82px);
+  background:linear-gradient(180deg, var(--pearl-1) 0%, var(--pearl-2) 50%, var(--inkwash-2) 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  text-shadow:0 12px 34px rgba(0,0,0,.38);
+}
+.coming .spark{
+  width:140px; height:2px; margin:8px auto 6px;
+  background:linear-gradient(90deg, transparent, #ffffff, transparent);
+  opacity:.75; filter:blur(.4px); background-size:200% 100%;
+  animation:shine 2.8s ease-in-out infinite;
+}
+@keyframes shine{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+.coming .pitch{
+  max-width:760px; margin:0 auto;
+  font-size:clamp(16px,2.1vw,20px);
+  color:var(--ink);
+}
+
+/* --- Social icons only（新增） --- */
+.social.icons-only{display:flex; flex-direction:row; justify-content:flex-end; align-items:center; gap:22px;}
+.social.icons-only a,.social.icons-only .placeholder{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;opacity:.9;transition:transform .2s ease, opacity .2s ease;}
+.social.icons-only a:hover{opacity:1;transform:translateY(-1px) scale(1.05);}
+.social.icons-only svg{width:24px;height:24px;display:block}
+.social.icons-only .placeholder{opacity:.45;cursor:default}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="brand serif" href="./index.html"><div class="logo" aria-hidden="true"></div><span>MABER</span></a>
+    <div class="nav-right">
+      <a class="nav-link" href="./what-is-maber.html">What is MABER</a>
+      <a class="nav-link" href="./shop.html">Shop</a>
+    </div>
+  </div>
+</nav>
+
+<canvas id="galaxy" aria-hidden="true"></canvas>
+
+<main class="main-wrap">
+  <div class="container content">
+    
+    <section class="coming">
+      <h2 class="big serif">Shop is in the works</h2>
+      <div class="spark" aria-hidden="true"></div>
+      <p class="pitch">
+        We’re crafting a seamless checkout and delivery flow for personal reports, couples readings, and team grids.
+        For custom orders meanwhile, email <a href="mailto:hello@maber.app" style="text-decoration:underline;">hello@maber.app</a>.
+      </p>
+      <p class="meta">No account needed • Secure email delivery • PDF & web view</p>
+    </section>
+
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container row">
+    <div>
+      <div class="brand serif"><span class="logo" aria-hidden="true"></span><span>MABER</span></div>
+      <p style="font-size:13px;color:var(--ink-dim);margin-top:8px;">Numerology & Mysticism<br/>Blending East & West</p>
+    </div>
+    <div>
+      <ul class="mono">
+        <li><a href="./about.html">ABOUT</a></li>
+        <li><a href="./faq.html">FAQ</a></li>
+        <li><a href="./contact.html">CONTACT</a></li>
+        <li><a href="./privacy.html">PRIVACY</a></li>
+      </ul>
+    </div>
+    <div class="right mono">
+      <!-- 改为 icons-only 横排图标（与其它页面一致） -->
+      <div class="social icons-only">
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/maberxyz/" target="_blank" rel="noopener" aria-label="Instagram @maberxyz">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+          </svg>
+        </a>
+        <!-- X -->
+        <a href="https://x.com/MaberFate" target="_blank" rel="noopener" aria-label="X (Twitter) @MaberFate">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M18.244 3H21l-6.51 7.438L22.5 21h-5.5l-4.3-5.2L7.5 21H3l6.9-7.88L1.5 3h5.6l3.94 4.77L18.244 3zm-1.006 16h1.4L8.94 5H7.536L17.238 19z"/>
+          </svg>
+        </a>
+        <!-- TikTok 占位（无链接） -->
+        <a href="https://www.tiktok.com/@maber.xyz" target="_blank" rel="noopener" aria-label="TikTok @maber.xyz">
+            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M14.5 3v4.2a6 6 0 0 0 4 1.5v3a9 9 0 0 1-4-1.1V16a5 5 0 1 1-5-5c.34 0 .67.03 1 .1V14a2 2 0 1 0 2 2V3h2z"/>
+            </svg>
+        </a>
+      </div>
+      <small style="color:var(--ink-dim);margin-top:8px;">© 2025 MABER</small>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* 星空背景 */
+function initGalaxy(){
+  const c = document.getElementById('galaxy'); if (!c) return;
+  const ctx = c.getContext('2d'); let w,h,dpr=Math.min(devicePixelRatio||1,2);
+  const stars=[]; const COUNT=180; const R = 400; const ATTRACT_MULT = 3;
+  let mouse={x:null,y:null}, Rpx=R*dpr; const rnd=(a,b)=>a+Math.random()*(b-a);
+  function resize(){ w=c.width=innerWidth*dpr; h=c.height=innerHeight*dpr; c.style.width=innerWidth+'px'; c.style.height=innerHeight+'px'; Rpx=R*dpr; }
+  function init(){ stars.length=0; for(let i=0;i<COUNT;i++){ stars.push({x:rnd(0,w),y:rnd(0,h),r:rnd(.4,1.4)*dpr,a:rnd(.35,.85),z:rnd(.2,1)});} }
+  addEventListener('mousemove', e=>{ mouse.x=e.clientX*dpr; mouse.y=e.clientY*dpr; });
+  addEventListener('mouseleave', ()=>{ mouse.x=null; mouse.y=null; });
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    const g=ctx.createRadialGradient(w*.5,h*.4,0,w*.5,h*.4,Math.max(w,h)*.7);
+    g.addColorStop(0,'rgba(255,255,255,0.02)'); g.addColorStop(1,'rgba(0,0,0,0.35)');
+    ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+    for(const s of stars){
+      const baseV=s.z*0.12; s.y+=baseV; if(s.y>h) s.y-=h;
+      if(mouse.x!=null){
+        const dx=mouse.x-s.x,dy=mouse.y-s.y,d2=dx*dx+dy*dy;
+        if(d2<Rpx*Rpx){ const d=Math.sqrt(d2)||1, inf=1-(d/Rpx), ux=dx/d, uy=dy/d;
+          s.x+=ux*baseV*2*ATTRACT_MULT*inf; s.y+=uy*baseV*2*ATTRACT_MULT*inf; }
+      }
+      if(s.x<0) s.x+=w; if(s.x>w) s.x-=w; if(s.y<0) s.y+=h; if(s.y>h) s.y-=h;
+      ctx.globalAlpha=s.a+Math.sin((s.x+s.y)*.0015)*.08;
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle='#ffffff'; ctx.fill();
+      if(s.r>1.2){ ctx.globalAlpha=.25; ctx.beginPath(); ctx.arc(s.x,s.y,s.r*2.2,0,Math.PI*2); ctx.fillStyle='rgba(255,255,255,0.10)'; ctx.fill(); }
+    }
+    ctx.globalAlpha=1; requestAnimationFrame(draw);
+  }
+  function onResize(){ resize(); init(); }
+  resize(); init(); draw(); addEventListener('resize', onResize);
+}
+document.addEventListener('DOMContentLoaded', initGalaxy);
+</script>
+</body>
+</html>
