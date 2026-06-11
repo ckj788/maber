@@ -28,6 +28,7 @@ if (!connectionString) {
 } else {
   pool = new pg.Pool({
     connectionString,
+    max: 1, // 优化 Serverless 环境下的连接池大小
     ssl: connectionString ? { rejectUnauthorized: false } : false
   });
 
