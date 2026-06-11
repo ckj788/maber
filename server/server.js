@@ -25,7 +25,7 @@ const app = express();
 app.use(cors());
 
 // ========== ★★★ Stripe Webhook（必须在 express.json 之前，使用 raw body） ==========
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2024-06-20' });
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder_key_for_startup', { apiVersion: '2024-06-20' });
 
 app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   const sig = req.headers['stripe-signature'];
@@ -71,7 +71,7 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 /* =========================
  * Resend 邮件发送配置（保持不变）
  * ========================= */
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder_key_for_startup');
 const MAIL_FROM_NAME = process.env.MAIL_FROM_NAME || 'MABER';
 const MAIL_FROM_EMAIL = process.env.MAIL_FROM_EMAIL || 'onboarding@resend.dev'; // 测试期
 const MAIL_FROM = `${MAIL_FROM_NAME} <${MAIL_FROM_EMAIL}>`;
@@ -558,10 +558,11 @@ app.get('/debug/paypal', async (req, res) => {
 });
 */
 
-app.listen(PORT, () => {
-  console.log(`MABER server on http://localhost:${PORT}`);
-  // console.log(`[paypal] env=${PAYPAL_ENV} base=${PAYPAL_BASE}`); // 已禁用
-});
+if (process.env.VERCEL !== '1') {
+  app.listen(PORT, () => {
+    console.log(`MABER server on http://localhost:${PORT}`);
+  });
+}
 
 // ========== ★★★ Stripe 其余端点（前端用） ==========
 
