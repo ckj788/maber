@@ -33,7 +33,7 @@ if (!connectionString) {
 
   // Initialize database table on startup
   pool.query(`
-    CREATE TABLE IF NOT EXISTS reports (
+    CREATE TABLE IF NOT EXISTS maber_reports (
       maber_order_id VARCHAR(255) PRIMARY KEY,
       maber_payload TEXT NOT NULL,
       maber_emailed INTEGER DEFAULT 0,
@@ -77,7 +77,7 @@ export async function getReportByOrderId(orderId) {
   }
 
   try {
-    const res = await pool.query('SELECT maber_payload FROM reports WHERE maber_order_id = $1', [orderId]);
+    const res = await pool.query('SELECT maber_payload FROM maber_reports WHERE maber_order_id = $1', [orderId]);
     const row = res.rows[0];
     return row ? JSON.parse(row.maber_payload) : {};
   } catch (err) {
@@ -116,12 +116,12 @@ export async function saveOrUpdateReport(orderId, payload, emailed = false, firs
 
   try {
     await pool.query(`
-      INSERT INTO reports (maber_order_id, maber_payload, maber_emailed, maber_first_sent_at, maber_last_sent_at, maber_ts)
+      INSERT INTO maber_reports (maber_order_id, maber_payload, maber_emailed, maber_first_sent_at, maber_last_sent_at, maber_ts)
       VALUES ($1, $2, $3, $4, $5, $6)
       ON CONFLICT(maber_order_id) DO UPDATE SET
         maber_payload = EXCLUDED.maber_payload,
         maber_emailed = EXCLUDED.maber_emailed,
-        maber_first_sent_at = COALESCE(reports.maber_first_sent_at, EXCLUDED.maber_first_sent_at),
+        maber_first_sent_at = COALESCE(maber_reports.maber_first_sent_at, EXCLUDED.maber_first_sent_at),
         maber_last_sent_at = EXCLUDED.maber_last_sent_at,
         maber_ts = EXCLUDED.maber_ts
     `, [orderId, JSON.stringify(payload), emailedInt, firstSentAt, lastSentAt, ts]);
