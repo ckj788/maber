@@ -151,6 +151,7 @@ main,header,footer,.hero,.halo,#loading{position:relative;z-index:1}
 }
 .fields{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:left}
 .fields .span-2{grid-column:span 2}
+.fields label{display:flex;align-items:flex-end;min-height:34px}
 label{
   font-size:12px;letter-spacing:.08em;color:var(--ink-dim);
   display:block;margin:0 0 6px 2px;font-variant:small-caps;
@@ -985,12 +986,6 @@ input:focus{border-color:var(--line);box-shadow:0 0 0 6px var(--ring)}
           </div>
         </div>
         <div class="unlock-actions-wrapper">
-          <div class="unlock-actions">
-            <a class="btn" id="unlockReport" href="./pay.html">Unlock full report · $19.90 (Save 50% - Original $39.90)</a>
-            <div class="charity-note">
-              3–4 page PDF · personal archetype map · 5% of each report goes to Girls Who Code. We post donation screenshots annually on Instagram.
-            </div>
-          </div>
           <div class="report-summary">
             <div class="title">Your Detailed Report Includes:</div>
             <ul style="margin-bottom: 16px;">
@@ -999,6 +994,12 @@ input:focus{border-color:var(--line);box-shadow:0 0 0 6px var(--ring)}
               <li>Early / mid / late life-phase codes with prompts to navigate each chapter</li>
             </ul>
             <button class="btn secondary" id="viewStructureBtn" style="width:100%; font-size: 13px; padding: 10px; cursor: pointer;">📋 View Personalized Chapter Titles</button>
+          </div>
+          <div class="unlock-actions">
+            <a class="btn" id="unlockReport" href="./pay.html">Unlock full report · $19.90 (Save 50% - Original $39.90)</a>
+            <div class="charity-note">
+              3–4 page PDF · personal archetype map · 5% of each report goes to Girls Who Code. We post donation screenshots annually on Instagram.
+            </div>
           </div>
         </div>
       </section>
