@@ -1180,7 +1180,7 @@
         }
       } catch (e) { }
 
-      if (!delivered && meta?.email) {
+      if (!delivered && meta?.email && meta.email !== 'buyer@maber.xyz') {
         try {
           const fd = new FormData();
           fd.append('file', new File([blob], filename, { type: 'application/pdf' }));

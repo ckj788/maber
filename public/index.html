@@ -382,6 +382,67 @@ input:focus{border-color:var(--line);box-shadow:0 0 0 6px var(--ring)}
   display:grid;
   gap:8px;
 }
+.personalized-chapters {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 15px;
+}
+.chapter-item {
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+  padding-bottom: 14px;
+  text-align: left;
+}
+.chapter-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.chapter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chapter-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--pearl-2);
+}
+.chapter-teaser {
+  font-size: 13px;
+  color: var(--ink-dim);
+  line-height: 1.5;
+  margin-bottom: 8px;
+  opacity: 0.85;
+}
+.chapter-locked {
+  font-size: 11px;
+  color: #ff8a8a;
+  background: rgba(255, 138, 138, 0.06);
+  border: 1px solid rgba(255, 138, 138, 0.12);
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.chapter-code-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+.chapter-code-chip {
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 4px;
+  color: var(--ink-dim);
+  white-space: nowrap;
+}
 .charity-note{
   font-family:"Iowan Old Style","Georgia",serif;
   font-style:italic;
@@ -659,19 +720,17 @@ input:focus{border-color:var(--line);box-shadow:0 0 0 6px var(--ring)}
       <div class="alternating-layout">
         <div class="text-content">
           <div class="cipher">
-            <h1 class="cipher-title">Decode your life code in 30 seconds</h1>
-            <p class="cipher-subtitle">A NUMEROLOGY-STYLE PATTERN MAP, BUILT FROM YOUR BIRTH TIME</p>
+            <h1 class="cipher-title">Your Life Path, Decoded in 30 Seconds</h1>
+            <p class="cipher-subtitle">A PERSONAL COSMIC BLUEPRINT MAP, CALCULATED FROM YOUR BIRTH DATE</p>
           </div>
           <p class="cipher-body">
-            Instead of another horoscope, you receive a geometric signature that belongs only to you.
-            In a few seconds, we turn digits into a map you can carry into work, love, and the
-            next version of yourself.
+            Stop reading generic horoscopes. Maber turns your birth details into a precise geometric signature and a personalized 4-page life report. Discover your Core Archetype, unlock your early, mid, and late life chapters, and get immediate clarity for your career, relationships, and shadow work.
           </p>
           <div class="actions" style="margin-top:20px;">
             <a href="#ritual" class="btn">Start the ritual</a>
           </div>
           <p class="meta" style="margin-top:10px;">
-            3–4 page high-contrast PDF · delivered by email after checkout · $19.90 USD (Regular $39.90)
+            3–4 page high-contrast PDF · instant download after checkout · $19.90 USD (Regular $39.90)
           </p>
         </div>
         <div class="image-content">
@@ -689,20 +748,14 @@ input:focus{border-color:var(--line);box-shadow:0 0 0 6px var(--ring)}
   <section id="story" class="narrative-section">
     <div class="container alternating-layout reverse">
       <div class="image-content">
-        <img src="./image/1.png" alt="A depiction of Pythagoras and ancient Greek philosophy">
+        <img src="./image/cosmic_harmony.png" alt="A mystical cosmic alignment of stars and geometry">
       </div>
       <div class="text-content">
-        <h2 class="serif">The origin of “all is number”</h2>
+        <h2 class="serif">The Harmony of the Cosmos</h2>
         <p class="cipher-body">
-          More than two thousand years ago, in the salt-kissed winds of ancient Greece, a lone
-          philosopher lifted his eyes to the heavens.<br><br>
-          Pythagoras saw not chaos, but harmony. Not stars, but a silent rhythm. And he declared:
-          <strong>all is number.</strong><br><br>
-          For him, numbers were never mere marks on parchment. They were the pulse of music,
-          the dance of constellations, the hidden script of life itself. From this vision, the
-          bedrock of science and philosophy was laid.<br><br>
-          And even now, in the shadows of stone and plaster, his likeness seems to whisper:<br>
-          <em>“To know number… is to know the secret bond between yourself and the universe.”</em>
+          Long ago, ancient mystics and philosophers realized that the universe speaks in code. They saw not chaos, but harmony. Not stars, but a silent rhythm. Everything in existence vibrates to a specific frequency.<br><br>
+          Numbers aren't just for math class—they are the underlying pulse of your destiny. Maber bridges ancient wisdom with modern self-discovery, turning your birth details into a mapping of your energetic signature.<br><br>
+          It highlights your natural gifts, uncovers hidden obstacles, and reveals the timing of your life chapters, translating ancient math into coordinates you can feel in your bones.
         </p>
         <div class="actions" style="margin-top:20px;">
           <a href="#promise" class="btn">From myth to map</a>
@@ -876,13 +929,38 @@ input:focus{border-color:var(--line);box-shadow:0 0 0 6px var(--ring)}
               3–4 page PDF · personal archetype map · 5% of each report goes to Girls Who Code. We post donation screenshots annually on Instagram.
             </div>
           </div>
-          <div class="report-summary">
-            <div class="title">Your full report includes:</div>
-            <ul>
-              <li>A high-contrast PDF of your full numerical triangle and core archetype</li>
-              <li>How your pattern shows up in work, love, self-sabotage and growth loops</li>
-              <li>Early / mid / late life-phase codes with prompts to navigate each chapter</li>
-            </ul>
+          <div class="report-summary" id="personalizedReportSummary">
+            <div class="title">Your Personalized Report Structure:</div>
+            <div id="personalized-chapters" class="personalized-chapters">
+              <div class="chapter-item">
+                <div class="chapter-header">
+                  <span class="chapter-title">Chapter 1: Core Archetype</span>
+                  <span class="chapter-locked">🔒 Locked</span>
+                </div>
+                <div class="chapter-teaser">Complete assessment of your natural frequency, strengths, weaknesses, and path.</div>
+              </div>
+              <div class="chapter-item">
+                <div class="chapter-header">
+                  <span class="chapter-title">Chapter 2: Early Life-Phase (Ages 21–40)</span>
+                  <span class="chapter-locked">🔒 Locked</span>
+                </div>
+                <div class="chapter-teaser">First career transitions, relational patterns, and early shadow work.</div>
+              </div>
+              <div class="chapter-item">
+                <div class="chapter-header">
+                  <span class="chapter-title">Chapter 3: Mid Life-Phase (Ages 41–60)</span>
+                  <span class="chapter-locked">🔒 Locked</span>
+                </div>
+                <div class="chapter-teaser">Peak career ambition, wealth expansion, and stability cycles.</div>
+              </div>
+              <div class="chapter-item">
+                <div class="chapter-header">
+                  <span class="chapter-title">Chapter 4: Late Life-Phase (Ages 61–80)</span>
+                  <span class="chapter-locked">🔒 Locked</span>
+                </div>
+                <div class="chapter-teaser">Wisdom sharing, harvest, and legacy vibration codes.</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -974,6 +1052,114 @@ input:focus{border-color:var(--line);box-shadow:0 0 0 6px var(--ring)}
 <script src="vendor/flatpickr.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+  const PERSONA_TITLES = {
+    "1": "The Origin",
+    "2": "The Mediator",
+    "3": "The Muse",
+    "4": "The Builder",
+    "5": "The Voyager",
+    "6": "The Healer",
+    "7": "The Sage",
+    "8": "The Power",
+    "9": "The Empath"
+  };
+
+  const PERSONA_TEASERS = {
+    "1": "A born initiator with a clear North Star, you move first, decide fast, and set the weather for everyone else.",
+    "2": "You read the room, soften conflict, and make connection feel like home.",
+    "3": "You light up spaces with wit and bright ideas. Applause finds you easily; prosperity finds you when play marries practice...",
+    "4": "You turn chaos into systems, deadlines into deliveries, and promises into ledgers.",
+    "5": "You learn by living, persuade by experience, and blossom when horizons stay open.",
+    "6": "You stabilize teams, beautify spaces, and keep promises long after the applause.",
+    "7": "You hunt the pattern under the pattern, trust evidence, and speak only when it counts.",
+    "8": "You orchestrate resources, hold pressure, and deliver outcomes with receipts.",
+    "9": "You dream of a kinder world and move people through meaning."
+  };
+
+  const CODE_TITLES = {
+    "112": "Execution & Communication",
+    "123": "Expression & Authority",
+    "134": "Creativity & Synthesis",
+    "145": "Stability & Goals",
+    "156": "Wealth Through Expansion",
+    "167": "Wisdom & Charisma",
+    "178": "Leadership & Responsibility",
+    "189": "Responsibility & Results",
+    "191": "Achievement & Independence",
+    "213": "Expression & Leadership",
+    "224": "Patience & Planning",
+    "235": "Goals & Communication",
+    "246": "Oratory & Wealth",
+    "257": "Principles & Popularity",
+    "268": "Wisdom & Career",
+    "279": "Initiative & Benefactors",
+    "281": "Pressure & Achievement",
+    "292": "Wisdom & Strategy",
+    "314": "Action & Reflection",
+    "325": "Passion & Communication",
+    "336": "Action & Wealth",
+    "347": "Leadership & Action",
+    "358": "Negotiation & Goals",
+    "369": "Intelligence & Wealth",
+    "371": "Talent & Connections",
+    "382": "Responsibility & Communication",
+    "393": "Talent & Practice",
+    "415": "Thinking & Planning",
+    "426": "Expression & Wealth",
+    "437": "Strategy & Action",
+    "448": "Flexibility & Wisdom",
+    "459": "Direction & Results",
+    "461": "Wealth & Wisdom",
+    "472": "Strategy & Support",
+    "483": "Execution & Responsibility",
+    "494": "Strategy & Achievement",
+    "516": "Diligence & Exploration",
+    "527": "Goals & Expression",
+    "538": "Action & Influence",
+    "549": "Thoroughness & Results",
+    "551": "Independence & Achievement",
+    "562": "Wealth & Value",
+    "573": "Benefactors & Opportunities",
+    "584": "Mission & Planning",
+    "595": "Courage & Breakthrough",
+    "617": "Wisdom & Perception",
+    "628": "Oratory & Wealth",
+    "639": "Investment & Adventure",
+    "641": "Planning & High Standards",
+    "652": "Caution & Preservation",
+    "663": "Investment & Risk",
+    "674": "Generosity & Benefactors",
+    "685": "Effort & Virtue",
+    "696": "Investment & Adventure",
+    "718": "Independence & Leadership",
+    "729": "Attraction & Benefactors",
+    "731": "Creativity & Connections",
+    "742": "Wisdom & Strategy",
+    "753": "Connections & Trials",
+    "764": "Benefactors & Wisdom",
+    "775": "Giving & Return",
+    "786": "Responsibility & Challenge",
+    "797": "Charisma & Confidence",
+    "819": "Pressure & Responsibility",
+    "821": "Pressure & Expression",
+    "832": "Pressure & Emotion",
+    "843": "Pressure & the Second-in-Command",
+    "854": "Pressure & Vision",
+    "865": "Wisdom & Pressure",
+    "876": "Pressure & Opposite-Sex Support",
+    "887": "Pressure & Emotional Management",
+    "898": "Pressure & Power",
+    "911": "Opportunity & Independence",
+    "922": "Opportunity & Communication",
+    "933": "Opportunity & Action",
+    "944": "Planning & Opportunity",
+    "955": "Direction & Stubbornness",
+    "966": "Wisdom & Wealth",
+    "977": "Connections & Opportunity",
+    "988": "Opportunity & Pressure",
+    "999": "Opportunity & Extremes"
+  };
+
   initGalaxy();
   initVeil();
   if (window.flatpickr) {
@@ -1011,6 +1197,67 @@ document.addEventListener('DOMContentLoaded', () => {
       centerSvgLabels();
       revealTriangle();
       document.getElementById('unlock').hidden=false;
+
+      // Render personalized chapters structure
+      try {
+        const O_val = tri.O || 1;
+        const allCodes = computeCodes(tri, ['IJM','IMT','JMS','TSU'], ['MNO','MOP','NOQ','QPR'], ['KLN','KNV','LNW','VWX']);
+        const earlyC = allCodes.slice(0, 4);
+        const midC = allCodes.slice(4, 8);
+        const lateC = allCodes.slice(8, 12);
+        
+        const O_title = PERSONA_TITLES[O_val] || 'The Unknown';
+        const O_teaser = PERSONA_TEASERS[O_val] || '';
+        
+        const formatChip = c => `<span class="chapter-code-chip">${c} — ${CODE_TITLES[c] || 'Core Vibration'}</span>`;
+        
+        const chaptersHtml = `
+          <div class="chapter-item">
+            <div class="chapter-header">
+              <span class="chapter-title">Chapter 1: Core Archetype — The ${O_title} (Number ${O_val})</span>
+              <span class="chapter-locked">🔒 Locked</span>
+            </div>
+            <div class="chapter-teaser">${O_teaser}</div>
+            <div style="font-size: 11px; color: var(--ink-dim); opacity: 0.8; font-style: italic;">
+              [Contains: Career alignment, relationship psychology, shadow work & self-sabotage loops, destiny advice]
+            </div>
+          </div>
+          <div class="chapter-item">
+            <div class="chapter-header">
+              <span class="chapter-title">Chapter 2: Early Life-Phase (Ages 21–40)</span>
+              <span class="chapter-locked">🔒 Locked</span>
+            </div>
+            <div class="chapter-teaser">Governed by your foundational development energy and early redirection codes.</div>
+            <div class="chapter-code-chips">
+              ${earlyC.map(formatChip).join('')}
+            </div>
+          </div>
+          <div class="chapter-item">
+            <div class="chapter-header">
+              <span class="chapter-title">Chapter 3: Mid Life-Phase (Ages 41–60)</span>
+              <span class="chapter-locked">🔒 Locked</span>
+            </div>
+            <div class="chapter-teaser">Governed by your career-peak, financial accumulation, and stability cycles.</div>
+            <div class="chapter-code-chips">
+              ${midC.map(formatChip).join('')}
+            </div>
+          </div>
+          <div class="chapter-item">
+            <div class="chapter-header">
+              <span class="chapter-title">Chapter 4: Late Life-Phase (Ages 61–80)</span>
+              <span class="chapter-locked">🔒 Locked</span>
+            </div>
+            <div class="chapter-teaser">Governed by your harvest, wisdom sharing, and legacy completion blueprint.</div>
+            <div class="chapter-code-chips">
+              ${lateC.map(formatChip).join('')}
+            </div>
+          </div>
+        `;
+        const container = document.getElementById('personalized-chapters');
+        if (container) container.innerHTML = chaptersHtml;
+      } catch (e) {
+        console.warn('Personalized chapters rendering failed:', e);
+      }
 
       try{
         localStorage.setItem('maber:dob',dob);

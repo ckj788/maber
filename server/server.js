@@ -270,38 +270,9 @@ async function waitPageStable(page) {
   } catch { }
 }
 
-/* =========================
- * 邮件发送：发送含报告永久链接的邮件
- * ========================= */
 async function sendReportEmailFromPayload(payload) {
-  console.log('发送邮件', payload);
-  const reportLink = `${PUBLIC_BASE_URL}/report-print.html?orderID=${encodeURIComponent(payload.orderId)}&email=${encodeURIComponent(payload.email)}`;
-  const htmlBody = await renderTemplate('report-email.html', {
-    title: 'Your Personal Blueprint',
-    intro: 'We appreciate you beginning your journey with us.',
-    link: reportLink,
-  });
-
-  try {
-    const recipient = (payload?.email || '').trim();
-    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipient);
-    if (!ok) {
-      console.warn(`[email] invalid recipient "${recipient}", fallback to owner: ${MAIL_TO_OWNER}`);
-    }
-
-    const result = await resend.emails.send({
-      from: MAIL_FROM,
-      to: ok ? recipient : MAIL_TO_OWNER,
-      subject: `[MABER] Your Personal Blueprint：${payload.name || ''}`,
-      html: htmlBody,
-    });
-    console.log('[report] result =', result);
-  } catch (e) {
-    console.error('[report] email failed (继续流程):', e?.statusCode, e?.code, e?.message);
-    try {
-      console.error('details:', JSON.stringify(e, null, 2));
-    } catch {}
-  }
+  console.log('[email] skipping email delivery as email capture and sending is disabled.');
+  return;
 }
 
 

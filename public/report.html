@@ -72,7 +72,7 @@
       <span class="success"><span class="dot"></span> Payment successful</span>
       <h1 class="title">Your detailed report is ready</h1>
       <p class="sub" id="subcopy">
-        Your personalized blueprint is generated. We have emailed a permanent link to your inbox.
+        Your personalized blueprint has been successfully generated.
       </p>
       <div class="badge" id="emailBadge" style="display:none"></div>
     </div>
@@ -101,7 +101,7 @@
             </div>
             <button id="copyOID" class="btn icon ghost" title="Copy Order ID">📋</button>
           </div>
-          <div class="row">
+          <div class="row" style="display:none">
             <div>
               <div class="label">Email</div>
               <div class="mono" id="uemail">—</div>
@@ -111,7 +111,7 @@
         </div>
 
         <p class="note" style="margin-top:12px">
-          If you don’t see the email after previewing, please check your spam folder. Still missing? Please <a href="./contact.html" style="text-decoration:underline">contact us</a> with your Order ID.
+          Please bookmark this page or copy the report link to access it later. Need help? Please <a href="./contact.html" style="text-decoration:underline">contact us</a> with your Order ID.
         </p>
       </section>
 
@@ -147,12 +147,12 @@
     if (email)   printURL.searchParams.set('email',   email);
     const previewURL = printURL.toString();
 
-    if (email) {
+    if (email && email !== 'buyer@maber.xyz') {
       emailHint.textContent = `A link to your report has been emailed to: ${email}.`;
       emailBadge.style.display = 'inline-flex';
       emailBadge.textContent = `Email target: ${email}`;
     } else {
-      emailHint.innerHTML = `You can view your report immediately. Make sure to bookmark the link.`;
+      emailHint.innerHTML = `You can view your report immediately. Make sure to bookmark this page.`;
     }
     oidEl.textContent    = orderID || 'N/A';
     uemailEl.textContent = email   || 'N/A';
