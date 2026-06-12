@@ -986,6 +986,19 @@ input:focus{border-color:var(--line);box-shadow:0 0 0 6px var(--ring)}
           </div>
         </div>
         <div class="unlock-actions-wrapper">
+          <!-- Free Core Archetype Hook -->
+          <div class="free-archetype-hook" id="free-archetype-hook" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: var(--radius); padding: 16px 20px; text-align: left; display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px; font-family: 'Cinzel', serif; font-size: 15px; font-weight: 600; color: #fff;">
+              <span>💡</span> Your Core Archetype is <span id="hook-val">7</span>: <span id="hook-title">The Sage</span>
+            </div>
+            <div id="hook-teaser" style="font-size: 14px; color: var(--ink-dim); line-height: 1.6; font-style: italic;">
+              You hunt the pattern under the pattern, trust evidence, and speak only when it counts.
+            </div>
+            <div style="font-size: 11px; color: #a8a8a8; opacity: 0.85;">
+              ✨ <b>Free Insight</b> — Authenticated via your precise birthday geometry.
+            </div>
+          </div>
+
           <div class="report-summary">
             <div class="title">Your Detailed Report Includes:</div>
             <ul style="margin-bottom: 16px;">
@@ -996,9 +1009,10 @@ input:focus{border-color:var(--line);box-shadow:0 0 0 6px var(--ring)}
             <button class="btn secondary" id="viewStructureBtn" style="width:100%; font-size: 13px; padding: 10px; cursor: pointer;">📋 View Personalized Chapter Titles</button>
           </div>
           <div class="unlock-actions">
-            <a class="btn" id="unlockReport" href="./pay.html">Unlock full report · $19.90 (Save 50% - Original $39.90)</a>
-            <div class="charity-note">
-              3–4 page PDF · personal archetype map · 5% of each report goes to Girls Who Code. We post donation screenshots annually on Instagram.
+            <div style="font-size: 13px; color: var(--ink-dim); text-align: center; margin-bottom: 8px; font-style: italic;">"No generic predictions. Just the geometry of your alignment."</div>
+            <a class="btn" id="unlockReport" href="./pay.html">Reveal My Shadow & Gifts · $19.90</a>
+            <div class="charity-note" style="max-width: none;">
+              A high-density, 4-page cosmic blueprint. Zero fluff, zero generic horoscope copy. Every word is mathematically mapped to your precise entry coordinates.
             </div>
           </div>
         </div>
@@ -1238,6 +1252,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       centerSvgLabels();
       revealTriangle();
+
+      // Render the Hook (Free Archetype Teaser)
+      try {
+        const O_val = tri.O || 1;
+        const O_title = PERSONA_TITLES[O_val] || 'The Unknown';
+        const O_teaser = PERSONA_TEASERS[O_val] || '';
+        const hookValEl = document.getElementById('hook-val');
+        const hookTitleEl = document.getElementById('hook-title');
+        const hookTeaserEl = document.getElementById('hook-teaser');
+        if (hookValEl) hookValEl.textContent = O_val;
+        if (hookTitleEl) hookTitleEl.textContent = O_title;
+        if (hookTeaserEl) hookTeaserEl.textContent = O_teaser;
+      } catch (e) {
+        console.warn('Free archetype hook rendering failed:', e);
+      }
+
       document.getElementById('unlock').hidden=false;
 
       // Render personalized chapters structure
