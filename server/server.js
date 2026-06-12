@@ -271,8 +271,38 @@ async function waitPageStable(page) {
 }
 
 async function sendReportEmailFromPayload(payload) {
-  console.log('[email] skipping email delivery as email capture and sending is disabled.');
-  return;
+  console.log('发送邮件', payload);
+  const recipient = (payload?.email || '').trim();
+  if (recipient === 'buyer@maber.xyz' || recipient === '') {
+    console.log('[email] dummy or empty recipient, skipping email sending.');
+    return;
+  }
+  const reportLink = `${PUBLIC_BASE_URL}/report-print.html?orderID=${encodeURIComponent(payload.orderId)}&email=${encodeURIComponent(recipient)}`;
+  const htmlBody = await renderTemplate('report-email.html', {
+    title: 'Your Personal Blueprint',
+    intro: 'We appreciate you beginning your journey with us.',
+    link: reportLink,
+  });
+
+  try {
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipient);
+    if (!ok) {
+      console.warn(`[email] invalid recipient "${recipient}", fallback to owner: ${MAIL_TO_OWNER}`);
+    }
+
+    const result = await resend.emails.send({
+      from: MAIL_FROM,
+      to: ok ? recipient : MAIL_TO_OWNER,
+      subject: `[MABER] Your Personal Blueprint：${payload.name || ''}`,
+      html: htmlBody,
+    });
+    console.log('[report] result =', result);
+  } catch (e) {
+    console.error('[report] email failed (继续流程):', e?.statusCode, e?.code, e?.message);
+    try {
+      console.error('details:', JSON.stringify(e, null, 2));
+    } catch {}
+  }
 }
 
 

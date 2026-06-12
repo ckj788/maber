@@ -417,10 +417,10 @@
     // 重新初始化
     $('#retry').addEventListener('click', () => initPayUI(true));
 
-    // URL 携带 email 时自动填入
+    // URL 携带 email 时自动填入，否则尝试读取 localStorage
     (() => {
-      const urlEmail = (new URLSearchParams(location.search)).get('email') || '';
-      if (urlEmail && !$('#email').value) $('#email').value = urlEmail;
+      const urlEmail = (new URLSearchParams(location.search)).get('email') || localStorage.getItem('maber:email') || 'buyer@maber.xyz';
+      if ($('#email')) $('#email').value = urlEmail;
     })();
 
     // 进页即初始化

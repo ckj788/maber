@@ -814,6 +814,10 @@ input:focus{border-color:var(--line);box-shadow:0 0 0 6px var(--ring)}
             <label for="tob">Time of Birth <span style="font-weight:400;opacity:.7;">(optional)</span></label>
             <input id="tob" name="tob" type="time" step="60" placeholder="HH:MM">
           </div>
+          <div>
+            <label for="email">Email Address</label>
+            <input id="email" name="email" type="email" placeholder="name@example.com" autocomplete="email">
+          </div>
         </div>
         <div class="actions">
           <button class="btn" id="predict">Begin</button>
@@ -1177,12 +1181,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   predictBtn.addEventListener('click',()=>{
     const name=$('#name').value.trim(),
+          email=$('#email').value.trim(),
           dob=$('#dob').value,
           tob=$('#tob').value.trim(),
           out=$('#result');
-    if(!name||!dob){out.textContent="Please enter your name and date of birth.";return;}
+    if(!name||!dob||!email){out.textContent="Please enter your name, email, and date of birth.";return;}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){out.textContent="Please enter a valid email address.";return;}
     const tri=computeTriangle(dob);if(!tri){out.textContent="Invalid date, please try again.";return;}
-    window.__maberForm={name,dob,tob};window.__maberTri=tri;
+    window.__maberForm={name,email,dob,tob};window.__maberTri=tri;
 
     ritualStart(tri.O,()=>{
       homeView.hidden=true;
@@ -1262,8 +1268,10 @@ document.addEventListener('DOMContentLoaded', () => {
       try{
         localStorage.setItem('maber:dob',dob);
         localStorage.setItem('maber:tob',tob);
+        localStorage.setItem('maber:email',email);
         writeCanonicalPayload({
           name,
+          email,
           gender:'male',
           dob,
           tob,
@@ -1488,10 +1496,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return triplets.map(codeOf);
   }
 
-  function writeCanonicalPayload({name,gender,dob,tob,tri,early,mid,late}){
+  function writeCanonicalPayload({name,email,gender,dob,tob,tri,early,mid,late}){
     const payload={
       v:1,ts:Date.now(),
-      form:{name,gender,dob,tob},
+      form:{name,email,gender,dob,tob},
       tri,early,mid,late,
       persona:tri?.O||1,
       codes:computeCodes(tri,early,mid,late)
