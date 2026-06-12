@@ -695,6 +695,74 @@ input:focus{border-color:var(--line);box-shadow:0 0 0 6px var(--ring)}
     font-size: 14px;
   }
 }
+
+/* Seamless Section Transition Mask */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 25vh;
+  background: linear-gradient(to bottom, transparent, #000000);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Structure Preview Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.modal.show {
+  display: flex;
+  opacity: 1;
+}
+.modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: #09090b;
+  border: 1px solid var(--frame);
+  border-radius: var(--radius);
+  padding: 32px 24px 24px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+.modal.show .modal-content {
+  transform: translateY(0);
+}
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--ink-dim);
+  font-size: 32px;
+  cursor: pointer;
+  transition: color 0.2s;
+  line-height: 1;
+}
+.close-btn:hover {
+  color: var(--ink);
+}
+.unlock-preview-container {
+  cursor: pointer;
+}
 </style>
 </head>
 
@@ -918,12 +986,13 @@ input:focus{border-color:var(--line);box-shadow:0 0 0 6px var(--ring)}
       </section>
 
       <section class="unlock-section" id="unlock" hidden>
-        <div class="unlock-preview-container">
+        <div class="unlock-preview-container" title="Click to view personalized chapters structure">
           <img class="unlock-preview-img" src="./image/report_mockup.png" alt="Locked detailed report preview mockup">
           <div class="unlock-preview-overlay">
             <div class="lock-icon">🔒</div>
             <div class="preview-text">SAMPLE REPORT PREVIEW</div>
             <div class="preview-subtext">3-4 Page High-Contrast PDF</div>
+            <div style="font-size:11px; color:var(--pearl-2); margin-top:10px; opacity:0.95; font-style:italic;">(Click to view details)</div>
           </div>
         </div>
         <div class="unlock-actions-wrapper">
@@ -933,38 +1002,14 @@ input:focus{border-color:var(--line);box-shadow:0 0 0 6px var(--ring)}
               3–4 page PDF · personal archetype map · 5% of each report goes to Girls Who Code. We post donation screenshots annually on Instagram.
             </div>
           </div>
-          <div class="report-summary" id="personalizedReportSummary">
-            <div class="title">Your Personalized Report Structure:</div>
-            <div id="personalized-chapters" class="personalized-chapters">
-              <div class="chapter-item">
-                <div class="chapter-header">
-                  <span class="chapter-title">Chapter 1: Core Archetype</span>
-                  <span class="chapter-locked">🔒 Locked</span>
-                </div>
-                <div class="chapter-teaser">Complete assessment of your natural frequency, strengths, weaknesses, and path.</div>
-              </div>
-              <div class="chapter-item">
-                <div class="chapter-header">
-                  <span class="chapter-title">Chapter 2: Early Life-Phase (Ages 21–40)</span>
-                  <span class="chapter-locked">🔒 Locked</span>
-                </div>
-                <div class="chapter-teaser">First career transitions, relational patterns, and early shadow work.</div>
-              </div>
-              <div class="chapter-item">
-                <div class="chapter-header">
-                  <span class="chapter-title">Chapter 3: Mid Life-Phase (Ages 41–60)</span>
-                  <span class="chapter-locked">🔒 Locked</span>
-                </div>
-                <div class="chapter-teaser">Peak career ambition, wealth expansion, and stability cycles.</div>
-              </div>
-              <div class="chapter-item">
-                <div class="chapter-header">
-                  <span class="chapter-title">Chapter 4: Late Life-Phase (Ages 61–80)</span>
-                  <span class="chapter-locked">🔒 Locked</span>
-                </div>
-                <div class="chapter-teaser">Wisdom sharing, harvest, and legacy vibration codes.</div>
-              </div>
-            </div>
+          <div class="report-summary">
+            <div class="title">Your Detailed Report Includes:</div>
+            <ul style="margin-bottom: 16px;">
+              <li>A high-contrast PDF of your full numerical triangle and core archetype</li>
+              <li>How your pattern shows up in work, love, self-sabotage and growth loops</li>
+              <li>Early / mid / late life-phase codes with prompts to navigate each chapter</li>
+            </ul>
+            <button class="btn secondary" id="viewStructureBtn" style="width:100%; font-size: 13px; padding: 10px; cursor: pointer;">📋 View Personalized Chapter Titles</button>
           </div>
         </div>
       </section>
@@ -1539,6 +1584,65 @@ document.addEventListener('DOMContentLoaded', () => {
     const t2=computeTriangle('2000-01-01');
     console.assert(JSON.stringify(t2)===JSON.stringify({I:1,J:1,K:2,L:0,M:2,N:2,O:4,Q:6,P:6,R:3,T:3,S:3,U:6,V:4,W:2,X:6}),'Test 2 failed',t2);
   })();
+});
+</script>
+
+<!-- Personalized Structure Modal -->
+<div id="structureModal" class="modal" aria-hidden="true">
+  <div class="modal-content card">
+    <button class="close-btn" id="closeModalBtn" aria-label="Close modal">&times;</button>
+    <div class="report-summary" id="personalizedReportSummary" style="border:none; background:none; padding:0; box-shadow:none; backdrop-filter:none;">
+      <div class="title" style="font-size:18px; text-align:center; margin-bottom:18px; font-family:'Iowan Old Style','Georgia',serif;">Your Personalized Report Structure</div>
+      <div id="personalized-chapters" class="personalized-chapters">
+        <!-- Dynamically populated chapters -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('structureModal');
+  const openBtnImg = document.querySelector('.unlock-preview-container');
+  const openBtnTxt = document.getElementById('viewStructureBtn');
+  const closeBtn = document.getElementById('closeModalBtn');
+
+  function openModal() {
+    if (!modal) return;
+    modal.style.display = 'flex';
+    modal.offsetHeight; // force reflow
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+    setTimeout(() => {
+      if (!modal.classList.contains('show')) {
+        modal.style.display = 'none';
+      }
+    }, 300);
+  }
+
+  if (openBtnImg) openBtnImg.addEventListener('click', openModal);
+  if (openBtnTxt) openBtnTxt.addEventListener('click', openModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+  // Close modal when clicking outside content box
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  // Close modal on Escape key
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('show')) {
+      closeModal();
+    }
+  });
 });
 </script>
 
