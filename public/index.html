@@ -128,17 +128,17 @@ main,header,footer,.hero,.halo,#loading{position:relative;z-index:1}
   overflow:hidden;
 }
 .halo{
-  position:absolute;top:-20vh;left:50%;
-  width:140vmax;height:140vmax;
-  transform:translateX(-50%);
-  background:radial-gradient(closest-side,rgba(255,255,255,.09),transparent 55%);
+  position:absolute;top:0;left:0;
+  width:100%;height:85vh;
+  background:radial-gradient(ellipse 70vw 60vh at 50% 0%,rgba(255,255,255,.08),transparent);
   mix-blend-mode:screen;pointer-events:none;z-index:0;
+  transform-origin:50% 0%;
   animation:haloPulse 12s ease-in-out infinite;
 }
 @keyframes haloPulse{
-  0%{transform:translateX(-50%) scale(.985);opacity:.55;filter:blur(0)}
-  50%{transform:translateX(-50%) scale(1.03);opacity:.9;filter:blur(.5px)}
-  100%{transform:translateX(-50%) scale(1);opacity:.7;filter:blur(0)}
+  0%{transform:scale(.95);opacity:.55;filter:blur(0)}
+  50%{transform:scale(1.05);opacity:.9;filter:blur(.5px)}
+  100%{transform:scale(.95);opacity:.55;filter:blur(0)}
 }
 .tag{font-size:12px;letter-spacing:.12em;font-variant:small-caps}
 
@@ -696,18 +696,7 @@ input:focus{border-color:var(--line);box-shadow:0 0 0 6px var(--ring)}
   }
 }
 
-/* Seamless Section Transition Mask */
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 25vh;
-  background: linear-gradient(to bottom, transparent, #000000);
-  pointer-events: none;
-  z-index: 2;
-}
+
 
 /* Structure Preview Modal */
 .modal {
@@ -867,8 +856,8 @@ input:focus{border-color:var(--line);box-shadow:0 0 0 6px var(--ring)}
       <div id="form-wrapper" class="card" style="margin-top:16px;">
         <div class="fields">
           <div class="span-2">
-            <label for="addr">City, Country</label>
-            <input id="addr" name="address" placeholder="City, Country" autocomplete="address-level2">
+            <label for="addr">Birthplace <span style="font-weight:400;opacity:.7;">(City, Country — for local magnetic & timezone calibration)</span></label>
+            <input id="addr" name="address" placeholder="e.g., London, UK" autocomplete="address-level2">
           </div>
           <div>
             <label for="name">Full Name</label>
@@ -879,7 +868,7 @@ input:focus{border-color:var(--line);box-shadow:0 0 0 6px var(--ring)}
             <input id="dob" name="dob" type="text" placeholder="YYYY / MM / DD" inputmode="numeric" autocomplete="bday">
           </div>
           <div>
-            <label for="tob">Time of Birth <span style="font-weight:400;opacity:.7;">(optional)</span></label>
+            <label for="tob">Time of Birth <span style="font-weight:400;opacity:.7;">(Highly recommended for precise triadic alignment)</span></label>
             <input id="tob" name="tob" type="time" step="60" placeholder="HH:MM">
           </div>
           <div>
@@ -1229,11 +1218,12 @@ document.addEventListener('DOMContentLoaded', () => {
           email=$('#email').value.trim(),
           dob=$('#dob').value,
           tob=$('#tob').value.trim(),
+          address=$('#addr').value.trim(),
           out=$('#result');
     if(!name||!dob||!email){out.textContent="Please enter your name, email, and date of birth.";return;}
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){out.textContent="Please enter a valid email address.";return;}
     const tri=computeTriangle(dob);if(!tri){out.textContent="Invalid date, please try again.";return;}
-    window.__maberForm={name,email,dob,tob};window.__maberTri=tri;
+    window.__maberForm={name,email,dob,tob,address};window.__maberTri=tri;
 
     ritualStart(tri.O,()=>{
       homeView.hidden=true;
@@ -1314,12 +1304,14 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('maber:dob',dob);
         localStorage.setItem('maber:tob',tob);
         localStorage.setItem('maber:email',email);
+        localStorage.setItem('maber:address',address);
         writeCanonicalPayload({
           name,
           email,
           gender:'male',
           dob,
           tob,
+          address,
           tri,
           early:['IJM','IMT','JMS','TSU'],
           mid:['MNO','MOP','NOQ','QPR'],
@@ -1541,10 +1533,10 @@ document.addEventListener('DOMContentLoaded', () => {
     return triplets.map(codeOf);
   }
 
-  function writeCanonicalPayload({name,email,gender,dob,tob,tri,early,mid,late}){
+  function writeCanonicalPayload({name,email,gender,dob,tob,address,tri,early,mid,late}){
     const payload={
       v:1,ts:Date.now(),
-      form:{name,email,gender,dob,tob},
+      form:{name,email,gender,dob,tob,address},
       tri,early,mid,late,
       persona:tri?.O||1,
       codes:computeCodes(tri,early,mid,late)

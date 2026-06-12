@@ -121,6 +121,7 @@
           gender: payload.form?.gender || '',
           dob: payload.form?.dob || '',
           tob: payload.form?.tob || '',
+          address: payload.form?.address || '',
           persona: payload.persona || '',
           tri: payload.tri || null,
           early: payload.early || null,
@@ -214,14 +215,16 @@
     async function afterPaidAndCaptured(orderID, buyerEmail) {
       const seeds = readSeeds();
       const reportUrl = makeReportUrl(orderID, buyerEmail);
-      localStorage.setItem('maber:orderId', orderID);
-      localStorage.setItem('maber:email', buyerEmail);
+      try {
+        localStorage.setItem('maber:orderId', orderID);
+        localStorage.setItem('maber:email', buyerEmail);
+      } catch (e) {}
       try {
         await fetch(API_SAVE, {
           method: 'POST', headers: { 'content-type': 'application/json' },
           body: JSON.stringify({
             orderId: orderID, email: buyerEmail, url: reportUrl,
-            name: seeds.name, gender: seeds.gender, dob: seeds.dob, tob: seeds.tob,
+            name: seeds.name, gender: seeds.gender, dob: seeds.dob, tob: seeds.tob, address: seeds.address || '',
             persona: seeds.persona || (seeds.tri && seeds.tri.O),
             tri: seeds.tri, early: seeds.early, mid: seeds.mid, late: seeds.late, codes: seeds.codes
           })
@@ -386,7 +389,7 @@
                   body: JSON.stringify({
                     orderId: paymentIntentId, email: emailNow, url: reportUrl,
                     name: seeds2.name || `${payload.fname || ''} ${payload.lname || ''}`.trim(),
-                    gender: seeds2.gender || '', dob: seeds2.dob || '', tob: seeds2.tob || '',
+                    gender: seeds2.gender || '', dob: seeds2.dob || '', tob: seeds2.tob || '', address: seeds2.address || '',
                     persona: seeds2.persona || (seeds2.tri && seeds2.tri.O),
                     tri: seeds2.tri, early: seeds2.early, mid: seeds2.mid, late: seeds2.late, codes: seeds2.codes,
                     ref,        // ★ 新增：保存到报告记录
@@ -417,9 +420,12 @@
     // 重新初始化
     $('#retry').addEventListener('click', () => initPayUI(true));
 
-    // URL 携带 email 时自动填入，否则尝试读取 localStorage
     (() => {
-      const urlEmail = (new URLSearchParams(location.search)).get('email') || localStorage.getItem('maber:email') || 'buyer@maber.xyz';
+      let lsEmail = 'buyer@maber.xyz';
+      try {
+        lsEmail = localStorage.getItem('maber:email') || 'buyer@maber.xyz';
+      } catch (e) {}
+      const urlEmail = (new URLSearchParams(location.search)).get('email') || lsEmail;
       if ($('#email')) $('#email').value = urlEmail;
     })();
 

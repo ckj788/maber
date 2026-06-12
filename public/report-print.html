@@ -325,6 +325,17 @@
 </head>
 
 <body>
+  <div id="report-loader" style="position: fixed; inset: 0; background: #0b0b0c; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; font-family: sans-serif; color: #fff;">
+    <div class="spinner" style="width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.1); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+    <div style="font-family: 'Cinzel', serif; font-size: 16px; letter-spacing: 0.1em; text-transform: uppercase;">Loading your cosmic blueprint...</div>
+    <div id="loader-error" style="color: #ff6b6b; font-size: 14px; margin-top: 10px; display: none; text-align: center; max-width: 80%;">Failed to load report. Please verify your connection or refresh the page.</div>
+  </div>
+  <style>
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+
   <div class="no-print download-bar">
     <div style="font-size: 14px; font-weight: 500; color: #b8b8b8; font-variant: small-caps; letter-spacing: 0.08em; display: flex; align-items: center; gap: 8px;">
       <div class="logo" style="width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff 0%, #f4f4f4 16%, transparent 38%), conic-gradient(from 220deg, rgba(255,255,255,0.6), rgba(255,255,255,0.15), rgba(255,255,255,0)); box-shadow: 0 0 0 1px rgba(255,255,255,0.15), inset 0 0 18px rgba(255,255,255,0.12)"></div>
@@ -350,7 +361,7 @@
 
       </p>
       <p class="muted meta">
-    　Date of brith： <b id="dob"></b>　Time：<b id="tob"></b>　Order NO：<b id="orderId"></b>　Core Archetype：<b id="oVal"></b>
+     　Date of Birth： <b id="dob"></b>　Time： <b id="tob"></b>　Birthplace： <b id="birthplace"></b>　Order NO： <b id="orderId"></b>　Core Archetype： <b id="oVal"></b>
       </p>
     </header>
 
@@ -489,6 +500,22 @@
     function $(id) { return document.getElementById(String(id || '').replace(/^#/, '')); }
     function reduce1(n) { n = Math.abs(parseInt(n || 0, 10)); if (!n) return 0; while (n > 9) n = String(n).split('').reduce((a, b) => a + parseInt(b, 10), 0); return n; }
     function parseJSONMaybe(str) { if (!str) return null; try { return JSON.parse(str); } catch { return null; } }
+
+    function storageGet(key) {
+      try {
+        return localStorage.getItem(key);
+      } catch (e) {
+        return null;
+      }
+    }
+    function storageSet(key, val) {
+      try {
+        localStorage.setItem(key, val);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
 
     /* DOB → I..X */
     function deriveABCD_EFGH(iso) {
@@ -895,7 +922,7 @@
       }
 
       const promises = [];
-      if (!seed?.jointMap && !jointFromUrl) {
+      if ((!seed || !seed.jointMap) && !jointFromUrl) {
         promises.push(tryFetchJson('/assets/joint-map.json').then(j => {
           if (j && typeof j === 'object') {
             JOINT_MAP = j;
@@ -903,7 +930,7 @@
           }
         }));
       }
-      if (!seed?.personaMap && !personaFromUrl) {
+      if ((!seed || !seed.personaMap) && !personaFromUrl) {
         promises.push(tryFetchJson('/assets/persona-map.json').then(p => {
           if (p && typeof p === 'object') {
             PERSONA_MAP = p;
@@ -928,8 +955,9 @@
         gender: form.gender || p.gender || '',
         dob: form.dob || p.dob || '',
         tob: form.tob || p.tob || '',
-        email: p.email || localStorage.getItem('maber:email') || '',
-        orderId: p.orderId || localStorage.getItem('maber:orderId') || '',
+        address: form.address || p.address || storageGet('maber:address') || '',
+        email: p.email || storageGet('maber:email') || '',
+        orderId: p.orderId || storageGet('maber:orderId') || '',
         tri: p.tri || null,
         early: Array.isArray(p.early) ? p.early : null,
         mid: Array.isArray(p.mid) ? p.mid : null,
@@ -942,19 +970,20 @@
     /* ========= 数据来源（URL / opener / storage） ========= */
     function readFromStorage() {
       // 1) 新版：优先尝试统一存储的 'maber:payload'
-      const payload = parseJSONMaybe(localStorage.getItem('maber:payload'));
+      const payload = parseJSONMaybe(storageGet('maber:payload'));
       const byPayload = seedFromPayload(payload);
       if (byPayload && (byPayload.tri || byPayload.dob)) return byPayload;
 
       // 2) 兼容旧版散列键
-      const j = (k) => { try { return JSON.parse(localStorage.getItem(k) || 'null') } catch (e) { return null } };
+      const j = (k) => { try { return JSON.parse(storageGet(k) || 'null') } catch (e) { return null } };
       return {
-        name: localStorage.getItem('maber:name') || '', gender: localStorage.getItem('maber:gender') || '',
-        dob: localStorage.getItem('maber:dob') || '', tob: localStorage.getItem('maber:tob') || '',
-        orderId: localStorage.getItem('maber:orderId') || '',
+        name: storageGet('maber:name') || '', gender: storageGet('maber:gender') || '',
+        dob: storageGet('maber:dob') || '', tob: storageGet('maber:tob') || '',
+        address: storageGet('maber:address') || '',
+        orderId: storageGet('maber:orderId') || '',
         tri: j('maber:tri'), early: j('maber:early'), mid: j('maber:mid'), late: j('maber:late'),
-        codes: j('maber:codes'), persona: localStorage.getItem('maber:persona') || localStorage.getItem('maber:o') || '',
-        email: localStorage.getItem('maber:email') || ''
+        codes: j('maber:codes'), persona: storageGet('maber:persona') || storageGet('maber:o') || '',
+        email: storageGet('maber:email') || ''
       };
     }
     function buildSeedFromQuery() {
@@ -966,6 +995,7 @@
         gender: q.get('gender') || '',
         dob: q.get('dob') || '',
         tob: q.get('tob') || '',
+        address: q.get('address') || q.get('birthplace') || '',
         persona: q.get('persona') || ''
       };
       const tri = parseJSONMaybe(q.get('tri'));
@@ -1004,13 +1034,14 @@
           name: form.name || '',
           dob: form.dob || '',
           tob: form.tob || '',
-          gender: localStorage.getItem('maber:gender') || '',
-          email: localStorage.getItem('maber:email') || '',
+          address: form.address || storageGet('maber:address') || '',
+          gender: storageGet('maber:gender') || '',
+          email: storageGet('maber:email') || '',
           orderId: '',
           tri,
-          early: JSON.parse(localStorage.getItem('maber:early') || 'null') || DEFAULT_EARLY,
-          mid: JSON.parse(localStorage.getItem('maber:mid') || 'null') || DEFAULT_MID,
-          late: JSON.parse(localStorage.getItem('maber:late') || 'null') || DEFAULT_LATE,
+          early: JSON.parse(storageGet('maber:early') || 'null') || DEFAULT_EARLY,
+          mid: JSON.parse(storageGet('maber:mid') || 'null') || DEFAULT_MID,
+          late: JSON.parse(storageGet('maber:late') || 'null') || DEFAULT_LATE,
           persona: String(tri.O || 1)
         };
       } catch (e) { return null; }
@@ -1023,7 +1054,12 @@
       if (genderEl) {
         genderEl.textContent = ({ male: '男', female: '女' })[d.gender] || d.gender || '';
       }
-      $('dob').textContent = d.dob || ''; $('tob').textContent = d.tob || '';
+      $('dob').textContent = d.dob || '';
+      $('tob').textContent = d.tob || '';
+      const bplaceEl = $('birthplace');
+      if (bplaceEl) {
+        bplaceEl.textContent = d.address || d.birthplace || '—';
+      }
       $('orderId').textContent = d.orderId || '';
     }
     function renderTriangle(tri) {
@@ -1041,14 +1077,14 @@
       $('personaText').innerHTML = (p.text || '').replace(/\n/g, '<br>');
       const img = $('personaImg'); img.crossOrigin = 'anonymous'; img.src = personaImagePath(o); img.alt = `Persona ${o}`;
     }
-    function tripletToCode(tri, trip) { const a = tri?.[trip[0]], b = tri?.[trip[1]], c = tri?.[trip[2]]; return '' + reduce1(a) + reduce1(b) + reduce1(c); }
+    function tripletToCode(tri, trip) { const a = tri ? tri[trip[0]] : undefined, b = tri ? tri[trip[1]] : undefined, c = tri ? tri[trip[2]] : undefined; return '' + reduce1(a) + reduce1(b) + reduce1(c); }
 
     function renderCodes(tri, early, mid, late, codesIn) {
       const box = $('codes'); if (!box) return;
       const groups = [...(early || DEFAULT_EARLY), ...(mid || DEFAULT_MID), ...(late || DEFAULT_LATE)];
       const codes = Array.isArray(codesIn) && codesIn.length === 12 ? codesIn
         : (tri ? groups.map(t => tripletToCode(tri, t)) : []);
-      try { localStorage.setItem('maber:codes', JSON.stringify(codes)); } catch (e) { }
+      try { storageSet('maber:codes', JSON.stringify(codes)); } catch (e) { }
     }
     function renderForecastSummary(tri, early, mid, late) {
       const box = $('forecastLines'); if (!box) return; box.innerHTML = '';
@@ -1085,6 +1121,8 @@
       });
     }
     function renderAll(d) {
+      const loader = $('report-loader');
+      if (loader) loader.style.display = 'none';
       fillHeader(d);
       const tri = d.tri || (d.dob ? computeTriangleFromDob(d.dob) : null) || {};
       renderTriangle(tri);
@@ -1180,7 +1218,7 @@
         }
       } catch (e) { }
 
-      if (!delivered && meta?.email && meta.email !== 'buyer@maber.xyz') {
+      if (!delivered && meta && meta.email && meta.email !== 'buyer@maber.xyz') {
         try {
           const fd = new FormData();
           fd.append('file', new File([blob], filename, { type: 'application/pdf' }));
@@ -1216,7 +1254,7 @@
       }
 
       // 2. 如果存在缓存数据，立即渲染
-      if (seed) {
+      if (seed && seed.dob) {
         renderAll(seed);
         // 后台加载地图配置，如果有变化则增量更新
         maybeLoadMaps(seed).then((updated) => {
@@ -1236,9 +1274,9 @@
               const newSeedStr = JSON.stringify(newSeed);
 
               try {
-                localStorage.setItem('maber:payload', JSON.stringify(data));
-                if (data.email) localStorage.setItem('maber:email', data.email);
-                localStorage.setItem('maber:orderId', orderID);
+                storageSet('maber:payload', JSON.stringify(data));
+                if (data.email) storageSet('maber:email', data.email);
+                storageSet('maber:orderId', orderID);
               } catch (e) {}
 
               // 仅在数据确实发生变化，或者之前没有渲染成功时，才重新渲染
@@ -1255,11 +1293,18 @@
       }
 
       // 4. 如果仍无数据，以本地存储为最终兜底
-      if (!seed) {
+      if (!seed || !seed.dob) {
         const fromLS = readFromStorage();
-        seed = fromLS || {};
-        await maybeLoadMaps(seed);
-        renderAll(seed);
+        if (fromLS && fromLS.dob) {
+          seed = fromLS;
+          await maybeLoadMaps(seed);
+          renderAll(seed);
+        } else {
+          const spinner = document.querySelector('#report-loader .spinner');
+          const errorMsg = $('loader-error');
+          if (spinner) spinner.style.display = 'none';
+          if (errorMsg) errorMsg.style.display = 'block';
+        }
       }
 
       try { if (window.opener) window.opener.postMessage({ type: 'MABER_NEED_DATA' }, '*'); } catch (e) { }
@@ -1273,8 +1318,10 @@
           try {
             const blob = await buildScreenshotPDFBlob();
             if (blob) {
-              const name = ($('name')?.textContent || '').trim() || 'report';
-              const orderId = ($('orderId')?.textContent || '').trim();
+              const nameEl = $('name');
+              const name = (nameEl ? nameEl.textContent : '').trim() || 'report';
+              const orderIdEl = $('orderId');
+              const orderId = (orderIdEl ? orderIdEl.textContent : '').trim();
               const filename = `MABER_${name}${orderId ? '_' + orderId : ''}.pdf`;
               
               const url = URL.createObjectURL(blob);
@@ -1302,8 +1349,10 @@
         try {
           const blob = await buildScreenshotPDFBlob();
           if (blob) {
-            const name = ($('name')?.textContent || '').trim() || 'report';
-            const orderId = ($('orderId')?.textContent || '').trim();
+            const nameEl = $('name');
+            const name = (nameEl ? nameEl.textContent : '').trim() || 'report';
+            const orderIdEl = $('orderId');
+            const orderId = (orderIdEl ? orderIdEl.textContent : '').trim();
             const filename = `MABER_${name}${orderId ? '_' + orderId : ''}.pdf`;
             await deliverPDF(blob, filename, { email: seed.email || '', name: seed.name || name, orderId: seed.orderId || orderId });
           }
@@ -1313,7 +1362,7 @@
 
     window.addEventListener('message', (e) => {
       const msg = e && e.data;
-      if (msg?.type === 'MABER_REPORT_DATA') {
+      if (msg && msg.type === 'MABER_REPORT_DATA') {
         const seed = msg.payload || msg.data || msg.seed || null;
         if (seed && (seed.tri || seed.dob)) {
           try { window.__REPORT_DATA__ = seed; } catch (_) { }
