@@ -256,17 +256,25 @@ export default function App() {
           </button>
           
           <div className="flex items-center gap-6">
-            {showResultSection ? (
+            <a 
+              href="./what-is-maber.html" 
+              className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-400 hover:text-white transition-colors cursor-pointer"
+            >
+              What is MABER
+            </a>
+            <a 
+              href="./shop.html" 
+              className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-400 hover:text-white transition-colors cursor-pointer"
+            >
+              Shop
+            </a>
+            {showResultSection && (
               <button
                 onClick={handleReset}
                 className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-[#c5a880] hover:text-white border border-[#c5a880]/30 hover:border-white px-3 py-1.5 rounded-lg transition-all cursor-pointer"
               >
                 ← New Alignment
               </button>
-            ) : (
-              <span className="text-[10px] tracking-[0.25em] text-[#c9c9c5] font-mono leading-none uppercase">
-                The Cipher
-              </span>
             )}
           </div>
         </div>
@@ -749,13 +757,22 @@ export default function App() {
             <p className="text-xs text-neutral-500 leading-relaxed max-w-sm font-light">
               We translate ancient Eastern & Western numerology principles into precise minimalist geometric signatures and comprehensive PDF blueprints.
             </p>
+            <a 
+              href="https://www.instagram.com/maberxyz/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-xs font-mono uppercase tracking-widest text-neutral-500 hover:text-white transition-colors mt-2"
+            >
+              Instagram @maberxyz
+            </a>
           </div>
 
           <div className="flex flex-col gap-3 font-mono text-xs uppercase tracking-wider">
-            <span className="text-neutral-600 mb-1 text-[10px]">Reference</span>
-            <a href="#" className="hover:text-white transition-colors">Documentation</a>
-            <a href="./privacy.html" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Calibration</a>
+            <span className="text-neutral-600 mb-1 text-[10px]">Navigation</span>
+            <a href="./about.html" className="hover:text-white transition-colors">About</a>
+            <a href="./faq.html" className="hover:text-white transition-colors">FAQ</a>
+            <a href="./contact.html" className="hover:text-white transition-colors">Contact</a>
+            <a href="./privacy.html" className="hover:text-white transition-colors">Privacy</a>
           </div>
 
           <div className="flex flex-col gap-3 font-mono text-xs uppercase tracking-wider md:items-end">
