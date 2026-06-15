@@ -394,12 +394,7 @@ export default function App() {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
               {/* Hero details */}
               <div className="md:col-span-7 flex flex-col items-start gap-5 text-left">
-                <div className="p-1 px-3 border border-white/10 rounded-full bg-neutral-900/40 backdrop-blur-sm">
-                  <span className="text-[9px] uppercase tracking-[0.2em] font-mono text-neutral-400">
-                    Calculated Cosmic Matrix
-                  </span>
-                </div>
-                
+
                 <div className="flex flex-col gap-3">
                   <h1 className="text-4xl md:text-6xl font-serif text-white tracking-wide leading-[1.1] font-bold">
                     Your Life Path, Decoded in 30 Seconds
@@ -457,9 +452,7 @@ export default function App() {
 
               {/* Right Column: Text content */}
               <div className="order-1 md:order-2 md:col-span-12 lg:col-span-7 flex flex-col items-start text-left gap-5">
-                <span className="text-xs tracking-widest text-[#c9c9c5] uppercase font-mono bg-white/[0.02] px-3 py-1 border border-white/5 rounded-full">
-                  THE SYSTEM
-                </span>
+
                 <h2 className="text-3xl md:text-4xl font-serif text-white font-bold tracking-wide">
                   The Harmony of the Cosmos
                 </h2>
@@ -481,9 +474,7 @@ export default function App() {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
               {/* Left Column: Text content */}
               <div className="md:col-span-7 flex flex-col items-start text-left gap-5">
-                <span className="text-xs tracking-widest text-[#c9c9c5] uppercase font-mono bg-white/[0.02] px-3 py-1 border border-white/5 rounded-full">
-                  THE THEORY
-                </span>
+
                 <h2 className="text-3xl md:text-4xl font-serif text-white font-bold tracking-wide">
                   Not prophecy. Coordinates.
                 </h2>
