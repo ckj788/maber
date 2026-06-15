@@ -6,3 +6,5 @@ tmp/
 .vscode/
 /*.txt
 .DS_Store
+*.zip
+
