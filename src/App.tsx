@@ -24,22 +24,96 @@ export default function App() {
   const [errorText, setErrorText] = useState("");
   const [ritualProgress, setRitualProgress] = useState(0);
 
-  // Auto load previously saved data from localStorage if exists
+  const [showResultFooter, setShowResultFooter] = useState(false);
+
   useEffect(() => {
-    try {
-      const savedPayload = localStorage.getItem("maber:payload");
-      if (savedPayload) {
-        const parsed = JSON.parse(savedPayload);
-        if (parsed?.form && parsed?.tri) {
-          setFormData(parsed.form);
-          setTriangleData(parsed.tri);
-          setShowResultSection(true);
-        }
-      }
-    } catch (e) {
-      console.warn("Failed to restore previous calculation payload:", e);
+    if (showResultSection) {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      
+      const scrollTimer = setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "instant" });
+      }, 100);
+
+      const scrollTimer2 = setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: "instant" });
+      }, 600);
+
+      const footerTimer = setTimeout(() => {
+        setShowResultFooter(true);
+      }, 1200);
+
+      return () => {
+        clearTimeout(scrollTimer);
+        clearTimeout(scrollTimer2);
+        clearTimeout(footerTimer);
+      };
+    } else {
+      setShowResultFooter(false);
     }
+  }, [showResultSection]);
+
+  useEffect(() => {
+    if (!window.history.state) {
+      window.history.replaceState({ page: "form" }, "");
+    }
+
+    const handlePopState = (e: PopStateEvent) => {
+      if (e.state?.page === "form" || !e.state) {
+        setShowResultSection(false);
+        setTriangleData(null);
+      } else if (e.state?.page === "result") {
+        setShowResultSection(true);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
   }, []);
+
+  const renderFooter = () => (
+    <footer className="border-t border-white/5 py-16 bg-[#030304] relative z-10 text-neutral-400">
+      <div className="w-full max-w-[1120px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 text-left">
+        <div className="md:col-span-2 flex flex-col gap-4">
+          <div className="flex items-center gap-3">
+            <div 
+              className="w-5 h-5 rounded-full border border-white/20"
+              style={{
+                background: `radial-gradient(circle at 35% 35%, #fff 0, #f4f4f4 16%, transparent 38%)`
+              }}
+            />
+            <span className="font-serif text-white text-lg tracking-wider font-semibold">MABER</span>
+          </div>
+          <p className="text-xs text-neutral-500 leading-relaxed max-w-sm font-light">
+            We translate ancient Eastern & Western numerology principles into precise minimalist geometric signatures and comprehensive PDF blueprints.
+          </p>
+          <a 
+            href="https://www.instagram.com/maberxyz/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-xs font-mono uppercase tracking-widest text-neutral-500 hover:text-white transition-colors mt-2"
+          >
+            Instagram @maberxyz
+          </a>
+        </div>
+
+        <div className="flex flex-col gap-3 font-mono text-xs uppercase tracking-wider">
+          <span className="text-neutral-600 mb-1 text-[10px]">Navigation</span>
+          <a href="./about.html" className="hover:text-white transition-colors">About</a>
+          <a href="./faq.html" className="hover:text-white transition-colors">FAQ</a>
+          <a href="./contact.html" className="hover:text-white transition-colors">Contact</a>
+          <a href="./privacy.html" className="hover:text-white transition-colors">Privacy</a>
+        </div>
+
+        <div className="flex flex-col gap-3 font-mono text-xs uppercase tracking-wider md:items-end">
+          <span className="text-neutral-600 mb-1 text-[10px] md:text-right">Copyright</span>
+          <span className="text-neutral-500 text-xs md:text-right">© 2026 MABER</span>
+          <span className="text-neutral-600 text-[10px] md:text-right">ESTABLISHED 2025</span>
+        </div>
+      </div>
+    </footer>
+  );
+
+  // Do not auto-load or pre-fill on mount, keeping input fields fresh and empty for the user
 
   // Single digit reduction logic for MABER Pythagorean math
   const reduceToOneDigit = (n: number): number => {
@@ -53,8 +127,9 @@ export default function App() {
   };
 
   const computeTriangle = (dobString: string): TriangleData | null => {
-    // dobString expected form: "YYYY-MM-DD"
-    const match = dobString.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    // Standardize input string: replace slashes and spaces with hyphens
+    const cleanDob = dobString.trim().replace(/[\/\s]+/g, "-");
+    const match = cleanDob.match(/^(\d{4})-(\d{2})-(\d{2})$/);
     if (!match) return null;
 
     const [_, y, m, d] = match;
@@ -136,19 +211,28 @@ export default function App() {
 
     const sequence = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33];
 
-    let i = 0;
-    let elapsed = 0;
-    const step = 80; // Fast-spinning Roman numeral cycle for engaging movement feedback
-    const totalDuration = 5000; // Immersive full 5 seconds requirement
+    const startTime = performance.now();
+    const totalDuration = 5000; // 5 seconds loading animation
 
-    const timer = setInterval(() => {
-      const idx = i % sequence.length;
-      const num = sequence[idx];
-      setRitualRoman(ROMAN_MAP[num] || String(num));
+    let animationFrameId: number;
+    let lastRomanUpdate = 0;
+    let romanIdx = 0;
 
-      // Calculate progress percentage precisely
-      const pct = Math.min(Math.floor((elapsed / totalDuration) * 100), 99);
-      setRitualProgress(pct);
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / totalDuration, 1);
+      const pct = progress * 100;
+      
+      setRitualProgress(Math.min(pct, 99.9));
+
+      // Roman numerals cycle updates every 80ms
+      if (currentTime - lastRomanUpdate >= 80) {
+        const idx = romanIdx % sequence.length;
+        const num = sequence[idx];
+        setRitualRoman(ROMAN_MAP[num] || String(num));
+        romanIdx++;
+        lastRomanUpdate = currentTime;
+      }
 
       // Dynamic cinematic phrases based on exact elapsed time (1000ms steps)
       if (elapsed < 1000) {
@@ -163,14 +247,13 @@ export default function App() {
         setRitualText("5. Generating your 4-page cosmic vector map…");
       }
 
-      i++;
-      elapsed += step;
-
-      if (elapsed >= totalDuration) {
-        clearInterval(timer);
+      if (elapsed < totalDuration) {
+        animationFrameId = requestAnimationFrame(animate);
+      } else {
+        // Completed!
+        setRitualProgress(100);
         const finalCoreNum = calculated.O || 7;
         setRitualRoman(ROMAN_MAP[finalCoreNum] || String(finalCoreNum));
-        setRitualProgress(100);
 
         setTimeout(() => {
           setIsRitualActive(false);
@@ -215,16 +298,33 @@ export default function App() {
             console.warn("Storage save failed:", err);
           }
 
+          // Push result page state to history
+          window.history.pushState({ page: "result" }, "");
+
           // Instantly scroll to the top
           window.scrollTo({ top: 0, behavior: "instant" });
-        }, 800);
+        }, 150);
       }
-    }, step);
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
   };
 
   const handleReset = () => {
+    setFormData({
+      name: "",
+      email: "",
+      dob: "",
+      tob: "",
+      address: "",
+    });
+    setTriangleData(null);
     setShowResultSection(false);
     window.scrollTo({ top: 0, behavior: "instant" });
+
+    if (window.history.state?.page === "result") {
+      window.history.back();
+    }
   };
 
   // Get current active archetype titles
@@ -238,47 +338,41 @@ export default function App() {
       <SpaceBackground />
 
       {/* FIXED NAVIGATION */}
-      <nav className="fixed inset-x-0 top-0 h-[60px] z-[50] flex items-center border-b border-white/5 bg-black/80 backdrop-blur-md">
-        <div className="w-full max-w-[1120px] mx-auto px-6 flex items-center justify-between">
-          <button 
-            onClick={handleReset}
-            className="flex items-center gap-3 cursor-pointer group text-left hover:opacity-90 transition-opacity"
-          >
-            {/* Logo Orbit Node Circle */}
-            <div 
-              className="w-[26px] h-[26px] rounded-full shadow-[0_0_0_1px_rgba(255,255,255,0.15),inset_0_0_18px_rgba(255,255,255,0.12)]"
-              style={{
-                background: `radial-gradient(circle at 35% 35%, #fff 0, #f4f4f4 16%, transparent 38%), conic-gradient(from 220deg, rgba(255,255,255,0.6), rgba(255,255,255,0.15), rgba(255,255,255,0))`
-              }}
-              aria-hidden="true"
-            />
-            <span className="font-serif text-lg tracking-wider font-semibold">MABER</span>
-          </button>
-          
-          <div className="flex items-center gap-6">
-            <a 
-              href="./what-is-maber.html" 
-              className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-400 hover:text-white transition-colors cursor-pointer"
+      {!isRitualActive && (
+        <nav className="fixed inset-x-0 top-0 h-[60px] z-[50] flex items-center border-b border-white/5 bg-black/80 backdrop-blur-md">
+          <div className="w-full max-w-[1120px] mx-auto px-6 flex items-center justify-between">
+            <button 
+              onClick={handleReset}
+              className="flex items-center gap-3 cursor-pointer group text-left hover:opacity-90 transition-opacity"
             >
-              What is MABER
-            </a>
-            <a 
-              href="./shop.html" 
-              className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-400 hover:text-white transition-colors cursor-pointer"
-            >
-              Shop
-            </a>
-            {showResultSection && (
-              <button
-                onClick={handleReset}
-                className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-[#c5a880] hover:text-white border border-[#c5a880]/30 hover:border-white px-3 py-1.5 rounded-lg transition-all cursor-pointer"
+              {/* Logo Orbit Node Circle */}
+              <div 
+                className="w-[26px] h-[26px] rounded-full shadow-[0_0_0_1px_rgba(255,255,255,0.15),inset_0_0_18px_rgba(255,255,255,0.12)]"
+                style={{
+                  background: `radial-gradient(circle at 35% 35%, #fff 0, #f4f4f4 16%, transparent 38%), conic-gradient(from 220deg, rgba(255,255,255,0.6), rgba(255,255,255,0.15), rgba(255,255,255,0))`
+                }}
+                aria-hidden="true"
+              />
+              <span className="font-serif text-lg tracking-wider font-semibold">MABER</span>
+            </button>
+            
+            <div className="flex items-center gap-6">
+              <a 
+                href="./what-is-maber.html" 
+                className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-400 hover:text-white transition-colors cursor-pointer"
               >
-                ← New Alignment
-              </button>
-            )}
+                What is MABER
+              </a>
+              <a 
+                href="./shop.html" 
+                className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-400 hover:text-white transition-colors cursor-pointer"
+              >
+                Shop
+              </a>
+            </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      )}
 
       {/* MAIN CONTAINER */}
       <main className="relative z-10 pt-[60px]">
@@ -433,6 +527,8 @@ export default function App() {
             {/* FORM CONTAINER */}
             <form 
               onSubmit={handleBeginRitual}
+              autoComplete="off"
+              noValidate
               className="w-full mt-6 bg-neutral-950/90 border border-neutral-900 rounded-2xl p-6 md:p-10 flex flex-col gap-6 shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
@@ -447,7 +543,7 @@ export default function App() {
                     onChange={handleInputChange}
                     placeholder="e.g., Ava Morgan"
                     className="w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-4 placeholder:text-neutral-700 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-sm font-mono"
-                    required
+                    autoComplete="off"
                   />
                 </div>
 
@@ -463,7 +559,7 @@ export default function App() {
                     onChange={handleInputChange}
                     placeholder="name@example.com"
                     className="w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-4 placeholder:text-neutral-700 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-sm font-mono"
-                    required
+                    autoComplete="off"
                   />
                 </div>
 
@@ -477,8 +573,10 @@ export default function App() {
                     name="dob"
                     value={formData.dob}
                     onChange={handleInputChange}
-                    className="w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-4 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-sm font-mono"
-                    required
+                    placeholder="YYYY / MM / DD"
+                    className={`w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-4 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-sm font-mono ${formData.dob ? "has-value" : ""}`}
+                    autoComplete="off"
+                    lang="en-US"
                   />
                 </div>
 
@@ -492,7 +590,10 @@ export default function App() {
                     name="tob"
                     value={formData.tob}
                     onChange={handleInputChange}
-                    className="w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-4 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-sm font-mono"
+                    placeholder="HH : MM (e.g., 14:30)"
+                    className={`w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-4 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-sm font-mono ${formData.tob ? "has-value" : ""}`}
+                    autoComplete="off"
+                    lang="en-US"
                   />
                 </div>
 
@@ -507,6 +608,7 @@ export default function App() {
                     onChange={handleInputChange}
                     placeholder="e.g., London, UK"
                     className="w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-4 placeholder:text-neutral-700 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-sm font-mono"
+                    autoComplete="off"
                   />
                 </div>
               </div>
@@ -568,6 +670,148 @@ export default function App() {
             </div>
           </div>
         </section>
+        {renderFooter()}
+            </motion.div>
+          )}
+
+          {/* INVOCATION RITUAL FULL SCREEN LOADING PROCESS OVERLAY */}
+          {isRitualActive && (
+            <motion.div
+              key="ritual-loading"
+              initial={{ opacity: 0, scale: 1.05, filter: "blur(4px)" }}
+              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, scale: 0.95, filter: "blur(6px)" }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed inset-0 z-[99999] bg-[#060609] flex flex-col items-center justify-center gap-10 md:gap-14 pointer-events-auto select-none p-6 md:p-12 overflow-hidden text-[#ecebe7]"
+            >
+              {/* Cosmic Ambient Background Glows */}
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-indigo-950/30 via-neutral-950 to-black pointer-events-none z-0" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,_var(--tw-gradient-stops))] from-[#c5a880]/10 via-transparent to-transparent pointer-events-none z-0" />
+              <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#ecebe7] via-transparent to-transparent pointer-events-none select-none z-0" />
+
+              {/* Shimmering floaty stardust particles */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+                {Array.from({ length: 24 }).map((_, i) => {
+                  const top = `${5 + (i * 13) % 90}%`;
+                  const left = `${4 + (i * 19) % 92}%`;
+                  const delay = `${(i * 0.15).toFixed(2)}s`;
+                  const duration = `${(4 + (i % 3) * 2)}s`;
+                  return (
+                    <div
+                      key={i}
+                      className="absolute w-[1.5px] h-[1.5px] rounded-full bg-[#ecebe7]"
+                      style={{
+                        top,
+                        left,
+                        animation: `pulse ${duration} infinite ease-in-out ${delay}`,
+                        boxShadow: "0 0 8px 1.5px rgba(236,235,231,0.6)",
+                      }}
+                    />
+                  );
+                })}
+              </div>
+
+              {/* TOP CELESTIAL HEADER */}
+              <div className="relative z-10 text-center flex flex-col items-center gap-2 pt-4">
+                <div className="flex items-center gap-3">
+                  <span className="w-1.5 h-[1px] bg-[#c5a880]/40" />
+                  <span className="text-[10px] tracking-[0.4em] text-[#c5a880] uppercase font-mono font-medium">
+                    Sovereign Matrix Synthesis
+                  </span>
+                  <span className="w-1.5 h-[1px] bg-[#c5a880]/40" />
+                </div>
+                <h2 className="text-xl md:text-2xl font-serif font-light tracking-[0.15em] text-[#f4f3f1] mt-1">
+                  ALIGNING DESTINY AXIS
+                </h2>
+                <div className="w-8 h-[1px] bg-neutral-800 my-1" />
+                <span className="text-[10px] text-neutral-500 font-mono tracking-widest uppercase">
+                  Phase IV • System Coordinates Active
+                </span>
+              </div>
+
+              {/* CINEMATIC SVG ASTROLABE COMPASS ENGINE */}
+              <div className="relative z-10 w-full max-w-[360px] aspect-square flex items-center justify-center my-4">
+                {/* Concentric spin-circles */}
+                <div className="absolute inset-0 rounded-full border border-neutral-900/40 animate-[spin_40s_linear_infinite]" />
+                <div className="absolute inset-4 rounded-full border border-dashed border-[#c5a880]/10 animate-[spin_25s_linear_infinite_reverse]" />
+                <div className="absolute inset-8 rounded-full border border-neutral-800/80" />
+
+                {/* Luxurious celestial SVG compass overlay */}
+                <svg className="absolute inset-0 w-full h-full pointer-events-none drop-shadow-[0_0_15px_rgba(197,168,128,0.08)]" viewBox="0 0 200 200">
+                  {/* Outer compass degree lines */}
+                  {Array.from({ length: 24 }).map((_, idx) => {
+                    const angle = (idx * 360) / 24;
+                    return (
+                      <line
+                        key={idx}
+                        x1="100"
+                        y1="5"
+                        x2="100"
+                        y2="10"
+                        transform={`rotate(${angle} 100 100)`}
+                        stroke="#c5a880"
+                        strokeWidth="0.4"
+                        strokeOpacity={idx % 6 === 0 ? "0.6" : "0.2"}
+                      />
+                    );
+                  })}
+                  
+                  {/* Intersecting constellation vector guidelines */}
+                  <line x1="100" y1="10" x2="100" y2="190" stroke="#c5a880" strokeWidth="0.2" strokeOpacity="0.15" />
+                  <line x1="10" y1="100" x2="190" y2="100" stroke="#c5a880" strokeWidth="0.2" strokeOpacity="0.15" />
+                  <circle cx="100" cy="100" r="82" stroke="#c5a880" strokeWidth="0.3" strokeOpacity="0.25" fill="none" />
+                  <circle cx="100" cy="100" r="64" stroke="#c5a880" strokeWidth="0.5" strokeOpacity="0.15" strokeDasharray="3,3" fill="none" />
+
+                  {/* Orbiting star node */}
+                  <g transform={`rotate(${(ritualProgress * 3.6).toFixed(1)} 100 100)`}>
+                    <circle cx="100" cy="18" r="3" fill="#c5a880" opacity="0.8" />
+                    <line x1="100" y1="18" x2="100" y2="100" stroke="#c5a880" strokeWidth="0.3" strokeOpacity="0.3" strokeDasharray="1,2" />
+                  </g>
+
+                  {/* Harmonic diamond construct */}
+                  <polygon
+                    points="100,34 166,100 100,166 34,100"
+                    stroke="#c5a880"
+                    strokeWidth="0.3"
+                    strokeOpacity="0.2"
+                    fill="none"
+                    transform={`rotate(${(-ritualProgress * 0.72).toFixed(1)} 100 100)`}
+                  />
+                </svg>
+
+                {/* Glowing Golden Aura Circle behind numeral */}
+                <div className="absolute w-36 h-36 rounded-full bg-radial-gradient from-[#c5a880]/15 via-transparent to-transparent blur-xl animate-pulse" />
+
+                {/* Floating Central Matrix Lens */}
+                <div className="relative flex flex-col items-center justify-center w-40 h-40 rounded-full border border-[#c5a880]/20 bg-[#060609]/90 backdrop-blur-md shadow-[0_0_50px_rgba(197,168,128,0.12)]">
+                  {/* Spinning progress trace ring */}
+                  <svg className="absolute inset-0 w-full h-full -rotate-90">
+                    <circle
+                      cx="80"
+                      cy="80"
+                      r="74"
+                      transform="translate(20,20)"
+                      fill="none"
+                      stroke="#c5a880"
+                      strokeWidth="1.2"
+                      strokeOpacity="0.75"
+                      strokeDasharray={`${(2 * Math.PI * 74).toFixed(1)}`}
+                      strokeDashoffset={`${((1 - ritualProgress / 100) * (2 * Math.PI * 74)).toFixed(2)}`}
+                      className=""
+                    />
+                  </svg>
+
+                  <span className="text-[10px] tracking-[0.25em] text-[#c5a880]/70 font-mono uppercase mb-1">
+                    Axiom
+                  </span>
+                  <div className="text-5xl font-serif font-bold tracking-[0.05em] text-[#f4f3f1] drop-shadow-[0_0_15px_rgba(255,255,255,0.45)]">
+                    {ritualRoman}
+                  </div>
+                  <span className="text-[11px] tracking-widest text-[#ecebe7]/60 font-mono mt-2">
+                    {Math.floor(ritualProgress)}%
+                  </span>
+                </div>
+              </div>
             </motion.div>
           )}
 
@@ -736,193 +980,13 @@ export default function App() {
               </div>
             </div>
           </section>
+          {showResultFooter && renderFooter()}
         </motion.div>
       )}
     </AnimatePresence>
   </main>
 
-      {/* FOOTER */}
-      <footer className="border-t border-white/5 py-16 bg-[#030304] relative z-10 text-neutral-400">
-        <div className="w-full max-w-[1120px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 text-left">
-          <div className="md:col-span-2 flex flex-col gap-4">
-            <div className="flex items-center gap-3">
-              <div 
-                className="w-5 h-5 rounded-full border border-white/20"
-                style={{
-                  background: `radial-gradient(circle at 35% 35%, #fff 0, #f4f4f4 16%, transparent 38%)`
-                }}
-              />
-              <span className="font-serif text-white text-lg tracking-wider font-semibold">MABER</span>
-            </div>
-            <p className="text-xs text-neutral-500 leading-relaxed max-w-sm font-light">
-              We translate ancient Eastern & Western numerology principles into precise minimalist geometric signatures and comprehensive PDF blueprints.
-            </p>
-            <a 
-              href="https://www.instagram.com/maberxyz/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-xs font-mono uppercase tracking-widest text-neutral-500 hover:text-white transition-colors mt-2"
-            >
-              Instagram @maberxyz
-            </a>
-          </div>
 
-          <div className="flex flex-col gap-3 font-mono text-xs uppercase tracking-wider">
-            <span className="text-neutral-600 mb-1 text-[10px]">Navigation</span>
-            <a href="./about.html" className="hover:text-white transition-colors">About</a>
-            <a href="./faq.html" className="hover:text-white transition-colors">FAQ</a>
-            <a href="./contact.html" className="hover:text-white transition-colors">Contact</a>
-            <a href="./privacy.html" className="hover:text-white transition-colors">Privacy</a>
-          </div>
-
-          <div className="flex flex-col gap-3 font-mono text-xs uppercase tracking-wider md:items-end">
-            <span className="text-neutral-600 mb-1 text-[10px] md:text-right">Copyright</span>
-            <span className="text-neutral-500 text-xs md:text-right">© 2026 MABER</span>
-            <span className="text-neutral-600 text-[10px] md:text-right">ESTABLISHED 2025</span>
-          </div>
-        </div>
-      </footer>
-
-      {/* INVOCATION RITUAL FULL SCREEN LOADING PROCESS OVERLAY */}
-      {isRitualActive && (
-        <motion.div
-          key="ritual-loading"
-          initial={{ opacity: 0, scale: 1.05, filter: "blur(4px)" }}
-          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-          exit={{ opacity: 0, scale: 0.95, filter: "blur(6px)" }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-0 z-[99999] bg-[#060609] flex flex-col items-center justify-center gap-10 md:gap-14 pointer-events-auto select-none p-6 md:p-12 overflow-hidden text-[#ecebe7]"
-        >
-          {/* Cosmic Ambient Background Glows */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-indigo-950/30 via-neutral-950 to-black pointer-events-none z-0" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,_var(--tw-gradient-stops))] from-[#c5a880]/10 via-transparent to-transparent pointer-events-none z-0" />
-          <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#ecebe7] via-transparent to-transparent pointer-events-none select-none z-0" />
-
-          {/* Shimmering floaty stardust particles */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-            {Array.from({ length: 24 }).map((_, i) => {
-              const top = `${5 + (i * 13) % 90}%`;
-              const left = `${4 + (i * 19) % 92}%`;
-              const delay = `${(i * 0.15).toFixed(2)}s`;
-              const duration = `${(4 + (i % 3) * 2)}s`;
-              return (
-                <div
-                  key={i}
-                  className="absolute w-[1.5px] h-[1.5px] rounded-full bg-[#ecebe7]"
-                  style={{
-                    top,
-                    left,
-                    animation: `pulse ${duration} infinite ease-in-out ${delay}`,
-                    boxShadow: "0 0 8px 1.5px rgba(236,235,231,0.6)",
-                  }}
-                />
-              );
-            })}
-          </div>
-
-          {/* TOP CELESTIAL HEADER */}
-          <div className="relative z-10 text-center flex flex-col items-center gap-2 pt-4">
-            <div className="flex items-center gap-3">
-              <span className="w-1.5 h-[1px] bg-[#c5a880]/40" />
-              <span className="text-[10px] tracking-[0.4em] text-[#c5a880] uppercase font-mono font-medium">
-                Sovereign Matrix Synthesis
-              </span>
-              <span className="w-1.5 h-[1px] bg-[#c5a880]/40" />
-            </div>
-            <h2 className="text-xl md:text-2xl font-serif font-light tracking-[0.15em] text-[#f4f3f1] mt-1">
-              ALIGNING DESTINY AXIS
-            </h2>
-            <div className="w-8 h-[1px] bg-neutral-800 my-1" />
-            <span className="text-[10px] text-neutral-500 font-mono tracking-widest uppercase">
-              Phase IV • System Coordinates Active
-            </span>
-          </div>
-
-          {/* CINEMATIC SVG ASTROLABE COMPASS ENGINE */}
-          <div className="relative z-10 w-full max-w-[360px] aspect-square flex items-center justify-center my-4">
-            {/* Concentric spin-circles */}
-            <div className="absolute inset-0 rounded-full border border-neutral-900/40 animate-[spin_40s_linear_infinite]" />
-            <div className="absolute inset-4 rounded-full border border-dashed border-[#c5a880]/10 animate-[spin_25s_linear_infinite_reverse]" />
-            <div className="absolute inset-8 rounded-full border border-neutral-800/80" />
-
-            {/* Luxurious celestial SVG compass overlay */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none drop-shadow-[0_0_15px_rgba(197,168,128,0.08)]" viewBox="0 0 200 200">
-              {/* Outer compass degree lines */}
-              {Array.from({ length: 24 }).map((_, idx) => {
-                const angle = (idx * 360) / 24;
-                return (
-                  <line
-                    key={idx}
-                    x1="100"
-                    y1="5"
-                    x2="100"
-                    y2="10"
-                    transform={`rotate(${angle} 100 100)`}
-                    stroke="#c5a880"
-                    strokeWidth="0.4"
-                    strokeOpacity={idx % 6 === 0 ? "0.6" : "0.2"}
-                  />
-                );
-              })}
-              
-              {/* Intersecting constellation vector guidelines */}
-              <line x1="100" y1="10" x2="100" y2="190" stroke="#c5a880" strokeWidth="0.2" strokeOpacity="0.15" />
-              <line x1="10" y1="100" x2="190" y2="100" stroke="#c5a880" strokeWidth="0.2" strokeOpacity="0.15" />
-              <circle cx="100" cy="100" r="82" stroke="#c5a880" strokeWidth="0.3" strokeOpacity="0.25" fill="none" />
-              <circle cx="100" cy="100" r="64" stroke="#c5a880" strokeWidth="0.5" strokeOpacity="0.15" strokeDasharray="3,3" fill="none" />
-
-              {/* Orbiting star node */}
-              <g transform={`rotate(${(ritualProgress * 3.6).toFixed(1)} 100 100)`}>
-                <circle cx="100" cy="18" r="3" fill="#c5a880" opacity="0.8" />
-                <line x1="100" y1="18" x2="100" y2="100" stroke="#c5a880" strokeWidth="0.3" strokeOpacity="0.3" strokeDasharray="1,2" />
-              </g>
-
-              {/* Harmonic diamond construct */}
-              <polygon
-                points="100,34 166,100 100,166 34,100"
-                stroke="#c5a880"
-                strokeWidth="0.3"
-                strokeOpacity="0.2"
-                fill="none"
-                transform={`rotate(${(-ritualProgress * 0.72).toFixed(1)} 100 100)`}
-              />
-            </svg>
-
-            {/* Glowing Golden Aura Circle behind numeral */}
-            <div className="absolute w-36 h-36 rounded-full bg-radial-gradient from-[#c5a880]/15 via-transparent to-transparent blur-xl animate-pulse" />
-
-            {/* Floating Central Matrix Lens */}
-            <div className="relative flex flex-col items-center justify-center w-40 h-40 rounded-full border border-[#c5a880]/20 bg-[#060609]/90 backdrop-blur-md shadow-[0_0_50px_rgba(197,168,128,0.12)]">
-              {/* Spinning progress trace ring */}
-              <svg className="absolute inset-0 w-full h-full -rotate-90">
-                <circle
-                  cx="80"
-                  cy="80"
-                  r="74"
-                  transform="translate(20,20)"
-                  fill="none"
-                  stroke="#c5a880"
-                  strokeWidth="1.2"
-                  strokeOpacity="0.75"
-                  strokeDasharray={`${(2 * Math.PI * 74).toFixed(1)}`}
-                  strokeDashoffset={`${((1 - ritualProgress / 100) * (2 * Math.PI * 74)).toFixed(1)}`}
-                  className="transition-all duration-150 ease-out"
-                />
-              </svg>
-
-              <span className="text-[10px] tracking-[0.25em] text-[#c5a880]/70 font-mono uppercase mb-1">
-                Axiom
-              </span>
-              <div className="text-5xl font-serif font-bold tracking-[0.05em] text-[#f4f3f1] drop-shadow-[0_0_15px_rgba(255,255,255,0.45)]">
-                {ritualRoman}
-              </div>
-              <span className="text-[11px] tracking-widest text-[#ecebe7]/60 font-mono mt-2">
-                {ritualProgress}%
-              </span>
-            </div>
-          </div>
-        </motion.div>
-      )}
 
       {/* COMPANION CHAPTER PREVIEW DETAIL MODAL */}
       <ReportModal

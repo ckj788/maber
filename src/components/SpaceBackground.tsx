@@ -57,11 +57,7 @@ export const SpaceBackground: React.FC = () => {
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
 
-      // Create a beautiful deep radial space gradient to draw
-      const g = ctx.createRadialGradient(w * 0.5, h * 0.4, 0, w * 0.5, h * 0.4, Math.max(w, h) * 0.7);
-      g.addColorStop(0, "rgba(10, 10, 12, 0.9)");
-      g.addColorStop(1, "rgba(0, 0, 0, 1)");
-      ctx.fillStyle = g;
+      ctx.fillStyle = "#000000";
       ctx.fillRect(0, 0, w, h);
 
       for (const s of stars) {

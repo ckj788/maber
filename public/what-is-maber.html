@@ -8,6 +8,10 @@
 <base target="_self">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
 <style>
 :root{
   --brand:#000000;
@@ -25,24 +29,27 @@
 *{box-sizing:border-box} html,body{height:100%}
 html{scroll-behavior:smooth;}
 body{
-  margin:0; background:var(--bg); color:var(--ink);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Inter","Helvetica Neue",Arial,sans-serif;
+  margin:0; color:var(--ink);
+  font-family:'Inter', -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   line-height:1.7; letter-spacing:.01em;
+  background: #000000;
 }
-.serif{font-family:"Iowan Old Style","Georgia","Garamond","Times New Roman",serif}
+.serif, h1, h2, h3, .brand {font-family:'Cinzel', Georgia, serif}
 h1,h2,h3{margin:0 0 1rem 0; font-weight:500; letter-spacing:.01em}
 h1{font-size:clamp(36px,6vw,64px); line-height:1.08}
 h2{font-size:clamp(28px,4.5vw,40px); line-height:1.2;}
 a{color:inherit; text-decoration:none}
 .container{width:100%; max-width:var(--maxw); margin:0 auto; padding:0 24px}
-.meta{color:var(--ink-dim); font-size:13px}
+.meta, .sub, .mono, .kicker{font-family:'JetBrains Mono', monospace; color:var(--ink-dim); font-size:13px}
 
 /* ★ 头部导航: 样式与主页统一 */
 .nav{
   position:fixed; inset:0 0 auto 0; height:60px; z-index:30;
   display:flex; align-items:center;
-  background:linear-gradient(180deg, var(--brand), color-mix(in oklab, var(--brand), #000 35%));
-  border-bottom:1px solid rgba(255,255,255,.08);
+  background:rgba(0,0,0,0.8);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,0.05);
 }
 .nav-inner{display:flex; align-items:center; justify-content:space-between}
 .brand{display:flex; gap:12px; align-items:center; font-variant:small-caps; letter-spacing:.08em; cursor:pointer}
@@ -53,14 +60,14 @@ a{color:inherit; text-decoration:none}
 .nav-right{display:flex; gap:16px; align-items:center}
 .nav-link{
   display:inline-flex; align-items:center; justify-content:center; padding:8px 10px;
-  font-size:14px; letter-spacing:.05em; transition:.25s;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size:11px; letter-spacing:.15em; transition:.25s;
+  font-family:'JetBrains Mono', monospace;
   text-transform: uppercase;
+  color:#a3a3a3;
 }
 .nav-link:hover{
+    color:#fff;
     transform:translateY(-1px);
-    text-decoration: underline;
-    text-underline-offset: 4px;
 }
 
 /* ★ 星空画布 */
@@ -74,7 +81,7 @@ main, header, footer { position:relative; z-index:1; }
 .main-wrap{min-height:100vh; padding-top:88px; padding-bottom:92px}
 .page-head{width:100%; max-width:980px; margin:0 auto 8px; padding:0 24px; display:grid; gap:6px}
 .page-title{
-  font-family:"Iowan Old Style","Georgia","Garamond","Times New Roman",serif;
+  font-family:'Cinzel', Georgia, serif;
   font-weight:600; font-size:clamp(40px,7vw,72px); line-height:1.06; letter-spacing:.02em;
   background:linear-gradient(180deg, var(--pearl-1) 0%, var(--pearl-2) 45%, var(--inkwash-2) 100%);
   -webkit-background-clip:text; background-clip:text; color:transparent;
@@ -121,9 +128,10 @@ main, header, footer { position:relative; z-index:1; }
 /* ★ 2. 恢复单栏卡片式布局 */
 .content{width:100%; max-width:880px; display:grid; gap:24px}
 .section{scroll-margin-top: 80px;} /* 保证锚点定位准确 */
-.card{padding:24px 28px; border:1px solid var(--frame); border-radius:14px;
+.card{padding:24px 28px; border:1px solid rgba(255,255,255,0.05); border-radius:14px;
   background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0)); box-shadow:var(--shadow)}
 .rule{height:1px; background:linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent); border:none; margin:1rem 0}
+.card h2{font-family:'Cinzel', Georgia, serif}
 .kicker{letter-spacing:.18em; font-variant:small-caps; color:var(--ink-dim); font-size:12px}
 .card p { color: var(--ink-dim); }
 .card p strong { color: var(--ink); }
@@ -137,18 +145,18 @@ main, header, footer { position:relative; z-index:1; }
 .footer{
   position:relative;
   z-index: 2;
-  border-top:1px solid rgba(255,255,255,.08);
+  border-top:1px solid rgba(255,255,255,0.05);
   padding:40px 0 30px;
-  color:#fff;
-  background:linear-gradient(180deg, color-mix(in oklab, var(--brand), #000 20%), var(--brand));
+  color:#a3a3a3;
+  background:#030304;
 }
 .footer .row{display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px; align-items:start}
 .footer .brand{font-size:22px}
-.footer a{color:#fff; text-decoration:none; letter-spacing:.05em; font-size:14px}
-.footer a:hover{text-decoration:underline; text-underline-offset:3px}
+.footer a{color:#a3a3a3; text-decoration:none; letter-spacing:.05em; font-size:14px}
+.footer a:hover{color:#fff; text-decoration:underline; text-underline-offset:3px}
 .footer ul{list-style:none; padding:0; margin:0; display:grid; gap:10px}
 .footer .right{display:flex; flex-direction:column; align-items:flex-end; gap:10px;}
-.mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; letter-spacing:.08em}
+.mono{font-family:'JetBrains Mono', monospace; letter-spacing:.08em}
 @media (max-width:980px){
   .footer .row{grid-template-columns:1fr}
   .footer .right{align-items:flex-start}
@@ -359,10 +367,7 @@ main, header, footer { position:relative; z-index:1; }
 
   function draw(){
     ctx.clearRect(0,0,w,h);
-    const g=ctx.createRadialGradient(w*.5,h*.4,0,w*.5,h*.4,Math.max(w,h)*.7);
-    g.addColorStop(0,'rgba(255,255,255,0.02)');
-    g.addColorStop(1,'rgba(0,0,0,0.35)');
-    ctx.fillStyle=g; ctx.fillRect(0,0,w,h);
+    ctx.fillStyle='#000000'; ctx.fillRect(0,0,w,h);
 
     for(const s of stars){
       const baseV=s.z*0.12;

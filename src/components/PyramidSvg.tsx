@@ -89,19 +89,34 @@ export const PyramidSvg: React.FC<PyramidSvgProps> = ({ data }) => {
         strokeWidth="1.6"
         className="opacity-70"
         filter="url(#triGlow)"
+        style={{
+          animation: "slowFadeUp 1.2s ease forwards",
+          animationDelay: "0.1s",
+          opacity: 0,
+        }}
       />
 
-      <line x1="295" y1="560" x2="902" y2="560" stroke="#e6e6e2" strokeWidth="1.2" className="opacity-60" />
-      <line x1="404" y1="420" x2="796" y2="420" stroke="#e6e6e2" strokeWidth="1.2" className="opacity-60" />
-      <line x1="600" y1="160" x2="600" y2="660" stroke="#e6e6e2" strokeWidth="1.2" className="opacity-60" />
+      <line x1="295" y1="560" x2="902" y2="560" stroke="#e6e6e2" strokeWidth="1.2" className="opacity-60" style={{ animation: "slowFadeUp 1.2s ease forwards", animationDelay: "0.15s", opacity: 0 }} />
+      <line x1="404" y1="420" x2="796" y2="420" stroke="#e6e6e2" strokeWidth="1.2" className="opacity-60" style={{ animation: "slowFadeUp 1.2s ease forwards", animationDelay: "0.2s", opacity: 0 }} />
+      <line x1="600" y1="160" x2="600" y2="660" stroke="#e6e6e2" strokeWidth="1.2" className="opacity-60" style={{ animation: "slowFadeUp 1.2s ease forwards", animationDelay: "0.25s", opacity: 0 }} />
 
       {/* Central cosmic glyph marker showing active query position */}
-      <g id="main-star" fill="#e64646" stroke="rgba(255,255,255,0.4)" strokeWidth="1" transform="translate(600,260)" className="animate-pulse">
-        <polygon points="0,-18 5,-6 18,-6 8,2 12,15 0,7 -12,15 -8,2 -18,-6 -5,-6" />
-      </g>
+      <polygon
+        id="main-star"
+        points="600,242 605,254 618,254 608,262 612,275 600,267 588,275 592,262 582,254 595,254"
+        fill="#e64646"
+        stroke="rgba(255,255,255,0.4)"
+        strokeWidth="1"
+        className="animate-pulse"
+        style={{
+          animation: "slowFadeUp 1.2s ease forwards",
+          animationDelay: "0.3s",
+          opacity: 0
+        }}
+      />
 
       {/* Primary indicator for O (or core archetype path) */}
-      <text x="160" y="210" fill="#f3f3f1" fontSize="24" fontWeight="600" fontFamily="serif" className="tracking-wider">
+      <text x="160" y="210" fill="#f3f3f1" fontSize="24" fontWeight="600" fontFamily="serif" className="tracking-wider" style={{ animation: "slowFadeUp 1.2s ease forwards", animationDelay: "0.35s", opacity: 0 }}>
         Core Archetype
       </text>
       <line
@@ -113,16 +128,25 @@ export const PyramidSvg: React.FC<PyramidSvgProps> = ({ data }) => {
         strokeWidth="1.6"
         markerEnd="url(#arrowHead)"
         className="opacity-80"
+        style={{ animation: "slowFadeUp 1.2s ease forwards", animationDelay: "0.4s", opacity: 0 }}
       />
 
       {/* Render rect elements statically or dynamically with actual math data */}
-      {rects.map(({ id, key, label, x, y, w, h, grad, textClass }) => {
+      {rects.map(({ id, key, label, x, y, w, h, grad, textClass }, i) => {
         const cx = x + w / 2;
         const cy = y + h / 2;
         const displayVal = data ? String(data[key]) : label;
 
         return (
-          <g key={id} className="transition-transform duration-300 hover:-translate-y-1 cursor-crosshair">
+          <g 
+            key={id} 
+            className="transition-transform duration-300 hover:-translate-y-1 cursor-crosshair"
+            style={{
+              animation: "slowFadeUp 1.2s ease forwards",
+              animationDelay: `${0.45 + i * 0.06}s`,
+              opacity: 0,
+            }}
+          >
             <rect
               x={x}
               y={y}

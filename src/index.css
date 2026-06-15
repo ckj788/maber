@@ -1,6 +1,6 @@
-@import "tailwindcss";
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -46,4 +46,50 @@
 
 .animate-slow-fade-in {
   animation: slowFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* White calendar & clock picker icons on dark background */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(100%) contrast(100%);
+  cursor: pointer;
+}
+
+/* Custom Placeholder for Native Date & Time inputs */
+input[type="date"],
+input[type="time"] {
+  position: relative;
+}
+
+/* Hide native browser placeholder/edit text when empty and not focused */
+input[type="date"]:not(.has-value):not(:focus)::-webkit-datetime-edit,
+input[type="time"]:not(.has-value):not(:focus)::-webkit-datetime-edit {
+  color: transparent !important;
+}
+
+/* Override color for focus or value cases */
+input[type="date"].has-value::-webkit-datetime-edit,
+input[type="date"]:focus::-webkit-datetime-edit,
+input[type="time"].has-value::-webkit-datetime-edit,
+input[type="time"]:focus::-webkit-datetime-edit {
+  color: #f3f3f1 !important;
+}
+
+/* Show English placeholder overlays when empty and not focused */
+input[type="date"]:not(.has-value):not(:focus)::before {
+  content: "YYYY / MM / DD";
+  color: #404040;
+  position: absolute;
+  left: 1rem;
+  font-family: var(--font-mono);
+  pointer-events: none;
+}
+
+input[type="time"]:not(.has-value):not(:focus)::before {
+  content: "HH : MM (e.g., 14:30)";
+  color: #404040;
+  position: absolute;
+  left: 1rem;
+  font-family: var(--font-mono);
+  pointer-events: none;
 }
