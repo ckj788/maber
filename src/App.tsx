@@ -397,7 +397,7 @@ export default function App() {
 
                 <div className="flex flex-col gap-3">
                   <h1 className="text-4xl md:text-6xl font-serif text-white tracking-wide leading-[1.1] font-bold">
-                    Your Life Path, Decoded in 30 Seconds
+                    Your <span className="text-gradient-cosmic">Life Path</span>, Decoded in 30 Seconds
                   </h1>
                   <p className="text-xs tracking-[0.16em] uppercase text-neutral-400 font-mono mt-1">
                     A personal cosmic blueprint, mapped from your exact birth entry coordinates
@@ -454,7 +454,7 @@ export default function App() {
               <div className="order-1 md:order-2 md:col-span-12 lg:col-span-7 flex flex-col items-start text-left gap-5">
 
                 <h2 className="text-3xl md:text-4xl font-serif text-white font-bold tracking-wide">
-                  The Harmony of the Cosmos
+                  The <span className="text-gradient-cosmic">Harmony</span> of the Cosmos
                 </h2>
                 <div className="w-16 h-[1px] bg-neutral-800" />
                 <p className="text-neutral-400 font-light leading-relaxed text-base">
@@ -476,7 +476,7 @@ export default function App() {
               <div className="md:col-span-7 flex flex-col items-start text-left gap-5">
 
                 <h2 className="text-3xl md:text-4xl font-serif text-white font-bold tracking-wide">
-                  Not prophecy. Coordinates.
+                  Not prophecy. <span className="text-gradient-cosmic">Coordinates.</span>
                 </h2>
                 <div className="w-16 h-[1px] bg-neutral-800" />
                 <p className="text-neutral-400 font-light leading-relaxed text-base">
@@ -502,7 +502,7 @@ export default function App() {
               Numerology · Western & Eastern Synthesis
             </span>
             <h2 className="text-4xl md:text-5xl font-serif text-white font-bold">
-              Unlock Your Code
+              Unlock Your <span className="text-gradient-cosmic">Code</span>
             </h2>
             <p className="text-neutral-400 font-light text-base max-w-xl">
               Enter your birth coordinates below. We’ll calculate and draw your triadic signature map first, then you can preview your personalized life chapters.

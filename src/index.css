@@ -93,3 +93,12 @@ input[type="time"]:not(.has-value):not(:focus)::before {
   font-family: var(--font-mono);
   pointer-events: none;
 }
+
+/* Premium cosmic nebula text gradient */
+.text-gradient-cosmic {
+  background: linear-gradient(135deg, #d1a5ff 0%, #fca5a5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
