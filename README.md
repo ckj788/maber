@@ -1,4 +1,4 @@
-# MABER Payments Starter (HTML + Node + PayPal)
+# OMNIORA Payments Starter (HTML + Node + PayPal)
 一键启动：前端含支付弹窗（8.90 USD 解锁），后端完成 PayPal 下单与扣款。
 
 ## 目录

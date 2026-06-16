@@ -91,7 +91,7 @@ function parseText(text) {
 
 function generateHTML(num, data) {
   const parsed = parseText(data.text);
-  const title = `Life Path Number ${num} Meaning: Core Traits & Career | MABER`;
+  const title = `Life Path Number ${num} Meaning: Core Traits & Career | OMNIORA`;
   const description = `Discover the personality traits, career paths, love compatibility, and daily rituals for Life Path Number ${num} (${data.title}). Unlock your cosmic blueprint.`;
 
   return `<!doctype html>
@@ -102,17 +102,17 @@ function generateHTML(num, data) {
   <title>${title}</title>
   <meta name="description" content="${description}" />
   <meta name="theme-color" content="#0b0b0c" />
-  <link rel="canonical" href="https://maber.xyz/life-path/${num}" />
+  <link rel="canonical" href="https://omniora.xyz/life-path/${num}" />
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://maber.xyz/life-path/${num}" />
+  <meta property="og:url" content="https://omniora.xyz/life-path/${num}" />
   <meta property="og:title" content="${title}" />
   <meta property="og:description" content="${description}" />
   
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://maber.xyz/life-path/${num}" />
+  <meta property="twitter:url" content="https://omniora.xyz/life-path/${num}" />
   <meta property="twitter:title" content="${title}" />
   <meta property="twitter:description" content="${description}" />
 
@@ -254,10 +254,10 @@ function generateHTML(num, data) {
     <div class="container nav-inner">
       <a class="brand serif" href="/index.html">
         <div class="logo" aria-hidden="true"></div>
-        <span>MABER</span>
+        <span>OMNIORA</span>
       </a>
       <div class="nav-right">
-        <a class="nav-link" href="/what-is-maber.html">What is MABER</a>
+        <a class="nav-link" href="/what-is-omniora.html">What is OMNIORA</a>
         <a class="nav-link" href="/shop.html">Shop</a>
       </div>
     </div>
@@ -303,7 +303,7 @@ function generateHTML(num, data) {
       <section class="cta-card">
         <h2 class="cta-title">Is this your path?</h2>
         <p class="cta-desc">
-          Your core archetype is just the entry point. The MABER Life Code uses your complete date of birth to compile a multi-dimensional blueprint covering early imprints, secondary code frequencies, and relationship compatibility.
+          Your core archetype is just the entry point. The OMNIORA Life Code uses your complete date of birth to compile a multi-dimensional blueprint covering early imprints, secondary code frequencies, and relationship compatibility.
         </p>
         <div class="btn-group">
           <a class="btn primary" href="/index.html">🏠 Calculate Your Life Code for Free</a>
@@ -316,7 +316,7 @@ function generateHTML(num, data) {
   <footer class="footer">
     <div class="container row">
       <div>
-        <div class="brand serif"><span class="logo" aria-hidden="true"></span><span>MABER</span></div>
+        <div class="brand serif"><span class="logo" aria-hidden="true"></span><span>OMNIORA</span></div>
         <p style="font-size:13px;color:var(--ink-dim);margin-top:8px;">Numerology & Mysticism<br/>Blending East & West</p>
       </div>
       <div>
@@ -329,25 +329,25 @@ function generateHTML(num, data) {
       </div>
       <div class="right mono">
         <div class="social icons-only">
-          <a href="https://www.instagram.com/maberxyz/" target="_blank" rel="noopener" aria-label="Instagram @maberxyz">
+          <a href="https://www.instagram.com/omnioraxyz/" target="_blank" rel="noopener" aria-label="Instagram @omnioraxyz">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/>
               <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.5"/>
               <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
             </svg>
           </a>
-          <a href="https://x.com/MaberFate" target="_blank" rel="noopener" aria-label="X (Twitter) @MaberFate">
+          <a href="https://x.com/OmnioraFate" target="_blank" rel="noopener" aria-label="X (Twitter) @OmnioraFate">
             <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M18.244 3H21l-6.51 7.438L22.5 21h-5.5l-4.3-5.2L7.5 21H3l6.9-7.88L1.5 3h5.6l3.94 4.77L18.244 3zm-1.006 16h1.4L8.94 5H7.536L17.238 19z"/>
             </svg>
           </a>
-          <a href="https://www.tiktok.com/@maber.xyz" target="_blank" rel="noopener" aria-label="TikTok @maber.xyz">
+          <a href="https://www.tiktok.com/@omniora.xyz" target="_blank" rel="noopener" aria-label="TikTok @omniora.xyz">
             <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M14.5 3v4.2a6 6 0 0 0 4 1.5v3a9 9 0 0 1-4-1.1V16a5 5 0 1 1-5-5c.34 0 .67.03 1 .1V14a2 2 0 1 0 2 2V3h2z"/>
             </svg>
           </a>
         </div>
-        <small style="color:var(--ink-dim);margin-top:8px;">© 2025 MABER</small>
+        <small style="color:var(--ink-dim);margin-top:8px;">© 2025 OMNIORA</small>
       </div>
     </div>
   </footer>
@@ -398,7 +398,7 @@ function generateHTML(num, data) {
 }
 
 // Generate the pages
-console.log('Generating Programmatic SEO Pages for MABER...');
+console.log('Generating Programmatic SEO Pages for OMNIORA...');
 
 for (const [num, data] of Object.entries(PERSONA_MAP)) {
   const dirPath = path.join(LIFE_PATH_DIR, num);
@@ -419,7 +419,7 @@ const staticPages = [
   '/faq.html',
   '/contact.html',
   '/privacy.html',
-  '/what-is-maber.html',
+  '/what-is-omniora.html',
   '/shop.html'
 ];
 
@@ -431,7 +431,7 @@ const today = new Date().toISOString().split('T')[0];
 const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${allUrls.map(url => `  <url>
-    <loc>https://maber.xyz${url}</loc>
+    <loc>https://omniora.xyz${url}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>${url === '' ? 'daily' : 'monthly'}</changefreq>
     <priority>${url === '' ? '1.0' : url.startsWith('/life-path') ? '0.8' : '0.5'}</priority>
@@ -447,7 +447,7 @@ const robotsContent = `# https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
 
-Sitemap: https://maber.xyz/sitemap.xml
+Sitemap: https://omniora.xyz/sitemap.xml
 `;
 
 fs.writeFileSync(path.join(PUBLIC_DIR, 'robots.txt'), robotsContent, 'utf8');

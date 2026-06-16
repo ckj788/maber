@@ -34,13 +34,13 @@ if (!connectionString) {
 
   // Initialize database table on startup
   pool.query(`
-    CREATE TABLE IF NOT EXISTS maber_reports (
-      maber_order_id VARCHAR(255) PRIMARY KEY,
-      maber_payload TEXT NOT NULL,
-      maber_emailed INTEGER DEFAULT 0,
-      maber_first_sent_at BIGINT,
-      maber_last_sent_at BIGINT,
-      maber_ts BIGINT
+    CREATE TABLE IF NOT EXISTS omniora_reports (
+      omniora_order_id VARCHAR(255) PRIMARY KEY,
+      omniora_payload TEXT NOT NULL,
+      omniora_emailed INTEGER DEFAULT 0,
+      omniora_first_sent_at BIGINT,
+      omniora_last_sent_at BIGINT,
+      omniora_ts BIGINT
     )
   `).catch(err => {
     console.error('❌ Database table initialization failed, falling back to local file storage:', err);
@@ -74,18 +74,18 @@ export async function getReportByOrderId(orderId) {
     console.log(`[localDb] fetching report for orderId=${orderId}`);
     const db = readLocalDb();
     const row = db[orderId];
-    return row ? JSON.parse(row.maber_payload || row.payload) : {};
+    return row ? JSON.parse(row.omniora_payload || row.payload) : {};
   }
 
   try {
-    const res = await pool.query('SELECT maber_payload FROM maber_reports WHERE maber_order_id = $1', [orderId]);
+    const res = await pool.query('SELECT omniora_payload FROM omniora_reports WHERE omniora_order_id = $1', [orderId]);
     const row = res.rows[0];
-    return row ? JSON.parse(row.maber_payload) : {};
+    return row ? JSON.parse(row.omniora_payload) : {};
   } catch (err) {
     console.error(`❌ getReportByOrderId error for orderId=${orderId}, falling back to local storage:`, err);
     const db = readLocalDb();
     const row = db[orderId];
-    return row ? JSON.parse(row.maber_payload || row.payload) : {};
+    return row ? JSON.parse(row.omniora_payload || row.payload) : {};
   }
 }
 
@@ -98,12 +98,12 @@ export async function saveOrUpdateReport(orderId, payload, emailed = false, firs
   try {
     const db = readLocalDb();
     db[orderId] = {
-      maber_order_id: orderId,
-      maber_payload: JSON.stringify(payload),
-      maber_emailed: emailedInt,
-      maber_first_sent_at: firstSentAt || (db[orderId]?.maber_first_sent_at) || (db[orderId]?.firstSentAt) || null,
-      maber_last_sent_at: lastSentAt || ts,
-      maber_ts: ts
+      omniora_order_id: orderId,
+      omniora_payload: JSON.stringify(payload),
+      omniora_emailed: emailedInt,
+      omniora_first_sent_at: firstSentAt || (db[orderId]?.omniora_first_sent_at) || (db[orderId]?.firstSentAt) || null,
+      omniora_last_sent_at: lastSentAt || ts,
+      omniora_ts: ts
     };
     writeLocalDb(db);
     console.log(`[localDb] saved report for orderId=${orderId}`);
@@ -117,14 +117,14 @@ export async function saveOrUpdateReport(orderId, payload, emailed = false, firs
 
   try {
     await pool.query(`
-      INSERT INTO maber_reports (maber_order_id, maber_payload, maber_emailed, maber_first_sent_at, maber_last_sent_at, maber_ts)
+      INSERT INTO omniora_reports (omniora_order_id, omniora_payload, omniora_emailed, omniora_first_sent_at, omniora_last_sent_at, omniora_ts)
       VALUES ($1, $2, $3, $4, $5, $6)
-      ON CONFLICT(maber_order_id) DO UPDATE SET
-        maber_payload = EXCLUDED.maber_payload,
-        maber_emailed = EXCLUDED.maber_emailed,
-        maber_first_sent_at = COALESCE(maber_reports.maber_first_sent_at, EXCLUDED.maber_first_sent_at),
-        maber_last_sent_at = EXCLUDED.maber_last_sent_at,
-        maber_ts = EXCLUDED.maber_ts
+      ON CONFLICT(omniora_order_id) DO UPDATE SET
+        omniora_payload = EXCLUDED.omniora_payload,
+        omniora_emailed = EXCLUDED.omniora_emailed,
+        omniora_first_sent_at = COALESCE(omniora_reports.omniora_first_sent_at, EXCLUDED.omniora_first_sent_at),
+        omniora_last_sent_at = EXCLUDED.omniora_last_sent_at,
+        omniora_ts = EXCLUDED.omniora_ts
     `, [orderId, JSON.stringify(payload), emailedInt, firstSentAt, lastSentAt, ts]);
   } catch (err) {
     console.error(`❌ saveOrUpdateReport PG error for orderId=${orderId}:`, err);

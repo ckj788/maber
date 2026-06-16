@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>MABER — Report (Screenshot Mail)</title>
+  <title>OMNIORA — Report (Screenshot Mail)</title>
   <meta name="theme-color" content="#000000" />
 
   <script>
@@ -352,7 +352,7 @@
   <div class="no-print download-bar">
     <div style="font-size: 14px; font-weight: 500; color: #b8b8b8; font-variant: small-caps; letter-spacing: 0.08em; display: flex; align-items: center; gap: 8px;">
       <div class="logo" style="width: 20px; height: 20px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff 0%, #f4f4f4 16%, transparent 38%), conic-gradient(from 220deg, rgba(255,255,255,0.6), rgba(255,255,255,0.15), rgba(255,255,255,0)); box-shadow: 0 0 0 1px rgba(255,255,255,0.15), inset 0 0 18px rgba(255,255,255,0.12)"></div>
-      <span>MABER Report Viewer</span>
+      <span>OMNIORA Report Viewer</span>
     </div>
     <div style="display: flex; gap: 10px;">
       <a href="./index.html" class="btn secondary">🏠 Back to Home</a>
@@ -365,7 +365,7 @@
       <div class="topbar">
         <div class="brand">
           <div class="logo" aria-hidden="true"></div>
-          <span>MABER</span>
+          <span>OMNIORA</span>
         </div>
       </div>
       <p class="welcome">Hi <b id="name"></b>. The cosmos speaks in numbers, and your personal frequency is now
@@ -497,7 +497,7 @@
     <div id="codes" class="hidden"></div>
 
     <footer class="card" style="text-align:center;color:var(--ink-dim)">
-      We appreciate you beginning your journey with us · © MABER
+      We appreciate you beginning your journey with us · © OMNIORA
     </footer>
   </div>
 
@@ -968,9 +968,9 @@
         gender: form.gender || p.gender || '',
         dob: form.dob || p.dob || '',
         tob: form.tob || p.tob || '',
-        address: form.address || p.address || storageGet('maber:address') || '',
-        email: p.email || storageGet('maber:email') || '',
-        orderId: p.orderId || storageGet('maber:orderId') || '',
+        address: form.address || p.address || storageGet('omniora:address') || '',
+        email: p.email || storageGet('omniora:email') || '',
+        orderId: p.orderId || storageGet('omniora:orderId') || '',
         tri: p.tri || null,
         early: Array.isArray(p.early) ? p.early : null,
         mid: Array.isArray(p.mid) ? p.mid : null,
@@ -982,21 +982,21 @@
 
     /* ========= 数据来源（URL / opener / storage） ========= */
     function readFromStorage() {
-      // 1) 新版：优先尝试统一存储的 'maber:payload'
-      const payload = parseJSONMaybe(storageGet('maber:payload'));
+      // 1) 新版：优先尝试统一存储的 'omniora:payload'
+      const payload = parseJSONMaybe(storageGet('omniora:payload'));
       const byPayload = seedFromPayload(payload);
       if (byPayload && (byPayload.tri || byPayload.dob)) return byPayload;
 
       // 2) 兼容旧版散列键
       const j = (k) => { try { return JSON.parse(storageGet(k) || 'null') } catch (e) { return null } };
       return {
-        name: storageGet('maber:name') || '', gender: storageGet('maber:gender') || '',
-        dob: storageGet('maber:dob') || '', tob: storageGet('maber:tob') || '',
-        address: storageGet('maber:address') || '',
-        orderId: storageGet('maber:orderId') || '',
-        tri: j('maber:tri'), early: j('maber:early'), mid: j('maber:mid'), late: j('maber:late'),
-        codes: j('maber:codes'), persona: storageGet('maber:persona') || storageGet('maber:o') || '',
-        email: storageGet('maber:email') || ''
+        name: storageGet('omniora:name') || '', gender: storageGet('omniora:gender') || '',
+        dob: storageGet('omniora:dob') || '', tob: storageGet('omniora:tob') || '',
+        address: storageGet('omniora:address') || '',
+        orderId: storageGet('omniora:orderId') || '',
+        tri: j('omniora:tri'), early: j('omniora:early'), mid: j('omniora:mid'), late: j('omniora:late'),
+        codes: j('omniora:codes'), persona: storageGet('omniora:persona') || storageGet('omniora:o') || '',
+        email: storageGet('omniora:email') || ''
       };
     }
     function buildSeedFromQuery() {
@@ -1034,27 +1034,27 @@
         if (!window.opener) return null;
 
         // 1) 新版：opener 直接挂了完整 payload
-        if (window.opener.__maberPayload) {
-          const s = seedFromPayload(window.opener.__maberPayload);
+        if (window.opener.__omnioraPayload) {
+          const s = seedFromPayload(window.opener.__omnioraPayload);
           if (s && (s.tri || s.dob)) return s;
         }
 
         // 2) 兼容旧版：只挂了 tri 和 form
-        const tri = window.opener.__maberTri || null;
-        const form = window.opener.__maberForm || {};
+        const tri = window.opener.__omnioraTri || null;
+        const form = window.opener.__omnioraForm || {};
         if (!tri) return null;
         return {
           name: form.name || '',
           dob: form.dob || '',
           tob: form.tob || '',
-          address: form.address || storageGet('maber:address') || '',
-          gender: storageGet('maber:gender') || '',
-          email: storageGet('maber:email') || '',
+          address: form.address || storageGet('omniora:address') || '',
+          gender: storageGet('omniora:gender') || '',
+          email: storageGet('omniora:email') || '',
           orderId: '',
           tri,
-          early: JSON.parse(storageGet('maber:early') || 'null') || DEFAULT_EARLY,
-          mid: JSON.parse(storageGet('maber:mid') || 'null') || DEFAULT_MID,
-          late: JSON.parse(storageGet('maber:late') || 'null') || DEFAULT_LATE,
+          early: JSON.parse(storageGet('omniora:early') || 'null') || DEFAULT_EARLY,
+          mid: JSON.parse(storageGet('omniora:mid') || 'null') || DEFAULT_MID,
+          late: JSON.parse(storageGet('omniora:late') || 'null') || DEFAULT_LATE,
           persona: String(tri.O || 1)
         };
       } catch (e) { return null; }
@@ -1097,7 +1097,7 @@
       const groups = [...(early || DEFAULT_EARLY), ...(mid || DEFAULT_MID), ...(late || DEFAULT_LATE)];
       const codes = Array.isArray(codesIn) && codesIn.length === 12 ? codesIn
         : (tri ? groups.map(t => tripletToCode(tri, t)) : []);
-      try { storageSet('maber:codes', JSON.stringify(codes)); } catch (e) { }
+      try { storageSet('omniora:codes', JSON.stringify(codes)); } catch (e) { }
     }
     function renderForecastSummary(tri, early, mid, late) {
       const box = $('forecastLines'); if (!box) return; box.innerHTML = '';
@@ -1226,12 +1226,12 @@
       try {
         if (window.opener && typeof window.opener.postMessage === 'function') {
           const buf = await blob.arrayBuffer();
-          window.opener.postMessage({ type: 'MABER_PDF_READY', filename, meta, buffer: buf }, '*');
+          window.opener.postMessage({ type: 'OMNIORA_PDF_READY', filename, meta, buffer: buf }, '*');
           delivered = true;
         }
       } catch (e) { }
 
-      if (!delivered && meta && meta.email && meta.email !== 'buyer@maber.xyz') {
+      if (!delivered && meta && meta.email && meta.email !== 'buyer@omniora.xyz') {
         try {
           const fd = new FormData();
           fd.append('file', new File([blob], filename, { type: 'application/pdf' }));
@@ -1287,9 +1287,9 @@
               const newSeedStr = JSON.stringify(newSeed);
 
               try {
-                storageSet('maber:payload', JSON.stringify(data));
-                if (data.email) storageSet('maber:email', data.email);
-                storageSet('maber:orderId', orderID);
+                storageSet('omniora:payload', JSON.stringify(data));
+                if (data.email) storageSet('omniora:email', data.email);
+                storageSet('omniora:orderId', orderID);
               } catch (e) {}
 
               // 仅在数据确实发生变化，或者之前没有渲染成功时，才重新渲染
@@ -1320,7 +1320,7 @@
         }
       }
 
-      try { if (window.opener) window.opener.postMessage({ type: 'MABER_NEED_DATA' }, '*'); } catch (e) { }
+      try { if (window.opener) window.opener.postMessage({ type: 'OMNIORA_NEED_DATA' }, '*'); } catch (e) { }
 
       // —— 注册前端 PDF 下载按钮事件 —— //
       const downloadBtn = $('downloadPdfBtn');
@@ -1335,7 +1335,7 @@
               const name = (nameEl ? nameEl.textContent : '').trim() || 'report';
               const orderIdEl = $('orderId');
               const orderId = (orderIdEl ? orderIdEl.textContent : '').trim();
-              const filename = `MABER_${name}${orderId ? '_' + orderId : ''}.pdf`;
+              const filename = `OMNIORA_${name}${orderId ? '_' + orderId : ''}.pdf`;
               
               const url = URL.createObjectURL(blob);
               const a = document.createElement('a');
@@ -1366,7 +1366,7 @@
             const name = (nameEl ? nameEl.textContent : '').trim() || 'report';
             const orderIdEl = $('orderId');
             const orderId = (orderIdEl ? orderIdEl.textContent : '').trim();
-            const filename = `MABER_${name}${orderId ? '_' + orderId : ''}.pdf`;
+            const filename = `OMNIORA_${name}${orderId ? '_' + orderId : ''}.pdf`;
             await deliverPDF(blob, filename, { email: seed.email || '', name: seed.name || name, orderId: seed.orderId || orderId });
           }
         } catch (e) { }
@@ -1375,7 +1375,7 @@
 
     window.addEventListener('message', (e) => {
       const msg = e && e.data;
-      if (msg && msg.type === 'MABER_REPORT_DATA') {
+      if (msg && msg.type === 'OMNIORA_REPORT_DATA') {
         const seed = msg.payload || msg.data || msg.seed || null;
         if (seed && (seed.tri || seed.dob)) {
           try { window.__REPORT_DATA__ = seed; } catch (_) { }

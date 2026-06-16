@@ -72,7 +72,7 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
  * Resend 邮件发送配置（保持不变）
  * ========================= */
 const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder_key_for_startup');
-const MAIL_FROM_NAME = process.env.MAIL_FROM_NAME || 'MABER';
+const MAIL_FROM_NAME = process.env.MAIL_FROM_NAME || 'OMNIORA';
 const MAIL_FROM_EMAIL = process.env.MAIL_FROM_EMAIL || 'onboarding@resend.dev'; // 测试期
 const MAIL_FROM = `${MAIL_FROM_NAME} <${MAIL_FROM_EMAIL}>`;
 const MAIL_TO_OWNER = process.env.MAIL_TO_OWNER || 'zyc729@outlook.com';
@@ -273,7 +273,7 @@ async function waitPageStable(page) {
 async function sendReportEmailFromPayload(payload) {
   console.log('发送邮件', payload);
   const recipient = (payload?.email || '').trim();
-  if (recipient === 'buyer@maber.xyz' || recipient === '') {
+  if (recipient === 'buyer@omniora.xyz' || recipient === '') {
     console.log('[email] dummy or empty recipient, skipping email sending.');
     return;
   }
@@ -293,7 +293,7 @@ async function sendReportEmailFromPayload(payload) {
     const result = await resend.emails.send({
       from: MAIL_FROM,
       to: ok ? recipient : MAIL_TO_OWNER,
-      subject: `[MABER] Your Personal Blueprint：${payload.name || ''}`,
+      subject: `[OMNIORA] Your Personal Blueprint：${payload.name || ''}`,
       html: htmlBody,
     });
     console.log('[report] result =', result);
@@ -315,7 +315,7 @@ app.get('/health', async (req, res) => {
     const result = await resend.emails.send({
       from: MAIL_FROM,
       to: req.body.email,
-      subject: 'MABER Health Check',
+      subject: 'OMNIORA Health Check',
       html: '<p>✅ Resend 邮件功能正常！这是来自 /health 的测试。</p>',
     });
     console.log('[health] email result =', result);
@@ -344,7 +344,7 @@ app.get('/send-test-email', async (req, res) => {
     const result = await resend.emails.send({
       from: MAIL_FROM,
       to: email,
-      subject: '我们已收到你的留言 | MABER',
+      subject: '我们已收到你的留言 | OMNIORA',
       html: `<p>这是发给 <b>${escapeHtml(email)}</b> 的测试邮件。</p><p>如未在收件箱，请检查垃圾箱。</p>`
     });
     console.log('[send-test-email] result =', result);
@@ -389,7 +389,7 @@ app.post('/api/contact', async (req, res) => {
     const userResp = await resend.emails.send({
       from: MAIL_FROM,
       to: email,
-      subject: '我们已收到你的留言 | MABER',
+      subject: '我们已收到你的留言 | OMNIORA',
       html: htmlUser,
     });
     console.log('[contact] user email result =', userResp);
@@ -495,6 +495,21 @@ app.post('/api/report/save', async (req, res) => {
 /********************* 修改代码 end ************************/
 
 /* =========================
+ * 报告下载：直接重定向到网页报告页
+ * ========================= */
+app.get('/api/report/:orderId.pdf', async (req, res) => {
+  const orderId = req.params.orderId || 'unknown';
+  try {
+    const stored = await getReportByOrderId(orderId) || {};
+    const email = stored.email || '';
+    return res.redirect(`/report-print.html?orderID=${encodeURIComponent(orderId)}&email=${encodeURIComponent(email)}`);
+  } catch (e) {
+    console.error('[report redirect] error:', e);
+    return res.status(404).send('Report not found');
+  }
+});
+
+/* =========================
  * 报告 JSON 查询端点 (前端拉取报告数据用)
  * ========================= */
 app.get('/api/report/:orderId', async (req, res) => {
@@ -507,21 +522,6 @@ app.get('/api/report/:orderId', async (req, res) => {
     res.json(stored);
   } catch (e) {
     res.status(500).json({ error: e.message });
-  }
-});
-
-/* =========================
- * 报告下载：直接重定向到网页报告页
- * ========================= */
-app.get('/api/report/:orderId.pdf', async (req, res) => {
-  const orderId = req.params.orderId || 'unknown';
-  try {
-    const stored = await getReportByOrderId(orderId) || {};
-    const email = stored.email || '';
-    return res.redirect(`/report-print.html?orderID=${encodeURIComponent(orderId)}&email=${encodeURIComponent(email)}`);
-  } catch (e) {
-    console.error('[report redirect] error:', e);
-    return res.status(404).send('Report not found');
   }
 });
 
@@ -561,7 +561,7 @@ app.get('/debug/paypal', async (req, res) => {
 
 if (process.env.VERCEL !== '1') {
   app.listen(PORT, () => {
-    console.log(`MABER server on http://localhost:${PORT}`);
+    console.log(`OMNIORA server on http://localhost:${PORT}`);
   });
 }
 
@@ -645,7 +645,7 @@ app.get('/api/db-debug', async (req, res) => {
     let tableExistsError = null;
     try {
       const existsRes = await pool.query(
-        "SELECT EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'maber_reports')"
+        "SELECT EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = 'omniora_reports')"
       );
       tableExists = existsRes.rows[0].exists;
     } catch (e) {
@@ -656,7 +656,7 @@ app.get('/api/db-debug', async (req, res) => {
     let tableRowsError = null;
     if (tableExists) {
       try {
-        const countRes = await pool.query('SELECT COUNT(*) FROM maber_reports');
+        const countRes = await pool.query('SELECT COUNT(*) FROM omniora_reports');
         tableRowsCount = countRes.rows[0].count;
       } catch (e) {
         tableRowsError = e.message;

@@ -241,7 +241,7 @@ export const ReportMockup: React.FC = () => {
 
       {/* Footer details */}
       <div className="relative z-10 text-center pb-2 select-none flex flex-col items-center">
-        <div className="text-[11px] font-serif tracking-[0.25em] text-neutral-400">MABER</div>
+        <div className="text-[11px] font-serif tracking-[0.25em] text-neutral-400">OMNIORA</div>
         <div className="text-[8px] font-mono text-neutral-600 mt-1 uppercase">EST. 2025 · SHADOW & LIGHT</div>
       </div>
     </div>

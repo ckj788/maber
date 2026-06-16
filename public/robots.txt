@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://maber.xyz/sitemap.xml
+Sitemap: https://omniora.xyz/sitemap.xml

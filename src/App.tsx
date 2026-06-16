@@ -6,6 +6,12 @@ import { ReportModal, PERSONA_TITLES, PERSONA_TEASERS } from "./components/Repor
 import { HeroGeometry, CosmicHarmony, NumerologyMap, ReportMockup } from "./components/DecorativeGraphics";
 import { TriangleData, BirthFormData } from "./types";
 
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
+
 export default function App() {
   const [formData, setFormData] = useState<BirthFormData>({
     name: "",
@@ -70,6 +76,122 @@ export default function App() {
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
+  useGSAP(() => {
+    if (showResultSection || isRitualActive) return;
+
+    // 1. Hero Content Entrance Animations
+    gsap.from(".hero-title", {
+      y: 35,
+      opacity: 0,
+      duration: 1.0,
+      ease: "power3.out"
+    });
+    gsap.from(".hero-subcopy", {
+      y: 15,
+      opacity: 0,
+      duration: 1.0,
+      delay: 0.15,
+      ease: "power3.out"
+    });
+    gsap.from(".hero-desc", {
+      y: 15,
+      opacity: 0,
+      duration: 1.0,
+      delay: 0.3,
+      ease: "power3.out"
+    });
+    gsap.from(".hero-ctas", {
+      y: 15,
+      opacity: 0,
+      duration: 1.0,
+      delay: 0.45,
+      ease: "power3.out"
+    });
+    gsap.from(".hero-extra", {
+      y: 10,
+      opacity: 0,
+      duration: 1.0,
+      delay: 0.6,
+      ease: "power3.out"
+    });
+    gsap.from(".hero-visual", {
+      scale: 0.97,
+      opacity: 0,
+      duration: 1.2,
+      delay: 0.2,
+      ease: "power3.out"
+    });
+
+    // 2. Section 2: Story Reveal
+    gsap.from("#story-section .story-visual", {
+      scrollTrigger: {
+        trigger: "#story-section",
+        start: "top 85%",
+      },
+      x: -40,
+      opacity: 0,
+      duration: 1.0,
+      ease: "power2.out"
+    });
+    gsap.from("#story-section .story-text", {
+      scrollTrigger: {
+        trigger: "#story-section",
+        start: "top 85%",
+      },
+      x: 40,
+      opacity: 0,
+      duration: 1.0,
+      ease: "power2.out"
+    });
+
+    // 3. Section 3: Theory/Promise Reveal
+    gsap.from("#theory-section .theory-text", {
+      scrollTrigger: {
+        trigger: "#theory-section",
+        start: "top 85%",
+      },
+      x: -40,
+      opacity: 0,
+      duration: 1.0,
+      ease: "power2.out"
+    });
+    gsap.from("#theory-section .theory-visual", {
+      scrollTrigger: {
+        trigger: "#theory-section",
+        start: "top 85%",
+      },
+      x: 40,
+      opacity: 0,
+      duration: 1.0,
+      ease: "power2.out"
+    });
+
+    // 4. Section 4: Ritual Form Reveal
+    gsap.from("#ritual-form-anchor .form-container", {
+      scrollTrigger: {
+        trigger: "#ritual-form-anchor",
+        start: "top 80%",
+      },
+      y: 40,
+      opacity: 0,
+      duration: 1.0,
+      ease: "power2.out"
+    });
+
+    // 5. Section 6: Client Voices Cards Stagger
+    gsap.from("#voices-section .voice-card", {
+      scrollTrigger: {
+        trigger: "#voices-section",
+        start: "top 85%",
+      },
+      y: 35,
+      opacity: 0,
+      stagger: 0.15,
+      duration: 0.8,
+      ease: "power2.out"
+    });
+  }, { dependencies: [showResultSection, isRitualActive] });
+
   const renderFooter = () => (
     <footer className="border-t border-white/5 py-16 bg-[#030304] relative z-10 text-neutral-400">
       <div className="w-full max-w-[1120px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 text-left">
@@ -81,18 +203,18 @@ export default function App() {
                 background: `radial-gradient(circle at 35% 35%, #fff 0, #f4f4f4 16%, transparent 38%)`
               }}
             />
-            <span className="font-serif text-white text-lg tracking-wider font-semibold">MABER</span>
+            <span className="font-serif text-white text-lg tracking-wider font-semibold">OMNIORA</span>
           </div>
           <p className="text-xs text-neutral-500 leading-relaxed max-w-sm font-light">
             We translate ancient Eastern & Western numerology principles into precise minimalist geometric signatures and comprehensive PDF blueprints.
           </p>
           <a 
-            href="https://www.instagram.com/maberxyz/" 
+            href="https://www.instagram.com/omnioraxyz/" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="text-xs font-mono uppercase tracking-widest text-neutral-500 hover:text-white transition-colors mt-2"
           >
-            Instagram @maberxyz
+            Instagram @omnioraxyz
           </a>
         </div>
 
@@ -106,7 +228,7 @@ export default function App() {
 
         <div className="flex flex-col gap-3 font-mono text-xs uppercase tracking-wider md:items-end">
           <span className="text-neutral-600 mb-1 text-[10px] md:text-right">Copyright</span>
-          <span className="text-neutral-500 text-xs md:text-right">© 2026 MABER</span>
+          <span className="text-neutral-500 text-xs md:text-right">© 2026 OMNIORA</span>
           <span className="text-neutral-600 text-[10px] md:text-right">ESTABLISHED 2025</span>
         </div>
       </div>
@@ -115,7 +237,7 @@ export default function App() {
 
   // Do not auto-load or pre-fill on mount, keeping input fields fresh and empty for the user
 
-  // Single digit reduction logic for MABER Pythagorean math
+  // Single digit reduction logic for OMNIORA Pythagorean math
   const reduceToOneDigit = (n: number): number => {
     let val = Math.abs(Math.floor(n));
     while (val > 9) {
@@ -287,13 +409,13 @@ export default function App() {
               late,
               codes
             };
-            localStorage.setItem("maber:payload", JSON.stringify(payload));
-            localStorage.setItem("maber:name", formData.name);
-            localStorage.setItem("maber:email", formData.email);
-            localStorage.setItem("maber:dob", formData.dob);
-            localStorage.setItem("maber:tob", formData.tob);
-            localStorage.setItem("maber:address", formData.address);
-            localStorage.setItem("maber:gender", "male");
+            localStorage.setItem("omniora:payload", JSON.stringify(payload));
+            localStorage.setItem("omniora:name", formData.name);
+            localStorage.setItem("omniora:email", formData.email);
+            localStorage.setItem("omniora:dob", formData.dob);
+            localStorage.setItem("omniora:tob", formData.tob);
+            localStorage.setItem("omniora:address", formData.address);
+            localStorage.setItem("omniora:gender", "male");
           } catch (err) {
             console.warn("Storage save failed:", err);
           }
@@ -353,15 +475,15 @@ export default function App() {
                 }}
                 aria-hidden="true"
               />
-              <span className="font-serif text-lg tracking-wider font-semibold">MABER</span>
+              <span className="font-serif text-lg tracking-wider font-semibold">OMNIORA</span>
             </button>
             
             <div className="flex items-center gap-6">
               <a 
-                href="./what-is-maber.html" 
+                href="./what-is-omniora.html" 
                 className="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-400 hover:text-white transition-colors cursor-pointer"
               >
-                What is MABER
+                What is OMNIORA
               </a>
               <a 
                 href="./shop.html" 
@@ -396,19 +518,19 @@ export default function App() {
               <div className="md:col-span-7 flex flex-col items-start gap-5 text-left">
 
                 <div className="flex flex-col gap-3">
-                  <h1 className="text-4xl md:text-6xl font-serif text-white tracking-wide leading-[1.1] font-bold">
+                  <h1 className="text-4xl md:text-6xl font-serif text-white tracking-wide leading-[1.1] font-bold hero-title">
                     Your <span className="text-gradient-cosmic">Life Path</span>, Decoded in 30 Seconds
                   </h1>
-                  <p className="text-xs tracking-[0.16em] uppercase text-neutral-400 font-mono mt-1">
+                  <p className="text-xs tracking-[0.16em] uppercase text-neutral-400 font-mono mt-1 hero-subcopy">
                     A personal cosmic blueprint, mapped from your exact birth entry coordinates
                   </p>
                 </div>
 
-                <p className="text-neutral-400 text-base md:text-lg leading-relaxed font-light max-w-xl">
-                  Maber translates your unique birth time and location into a mathematically balanced triadic pyramid geometry. Discover your Core Archetype, unlock your early, mid, and late lifecycle chapters, and unlock deep insights into your shadow and growth.
+                <p className="text-neutral-400 text-base md:text-lg leading-relaxed font-light max-w-xl hero-desc">
+                  Omniora translates your unique birth time and location into a mathematically balanced triadic pyramid geometry. Discover your Core Archetype, unlock your early, mid, and late lifecycle chapters, and unlock deep insights into your shadow and growth.
                 </p>
 
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto mt-4">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto mt-4 hero-ctas">
                   <a 
                     href="#ritual-form-anchor" 
                     className="p-4 px-8 border border-[#e6e6e2] rounded-xl text-[#000] bg-[#f3f3f1] font-semibold text-center hover:bg-transparent hover:text-white transition-all duration-300 shadow-xl"
@@ -423,7 +545,7 @@ export default function App() {
                   </a>
                 </div>
 
-                <div className="flex flex-col gap-1 mt-2">
+                <div className="flex flex-col gap-1 mt-2 hero-extra">
                   <p className="text-xs text-neutral-500 font-mono">
                     ✦ High-contrast structured report · Instant secure calculations
                   </p>
@@ -434,7 +556,7 @@ export default function App() {
               </div>
 
               {/* Decorative premium stellar diagram */}
-              <div className="md:col-span-5 w-full">
+              <div className="md:col-span-5 w-full hero-visual">
                 <HeroGeometry />
               </div>
             </div>
@@ -446,12 +568,12 @@ export default function App() {
           <div className="w-full max-w-[1120px] mx-auto px-6">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
               {/* Left Column: Visual decoration */}
-              <div className="order-2 md:order-1 md:col-span-5">
+              <div className="order-2 md:order-1 md:col-span-5 story-visual">
                 <CosmicHarmony />
               </div>
 
               {/* Right Column: Text content */}
-              <div className="order-1 md:order-2 md:col-span-12 lg:col-span-7 flex flex-col items-start text-left gap-5">
+              <div className="order-1 md:order-2 md:col-span-12 lg:col-span-7 flex flex-col items-start text-left gap-5 story-text">
 
                 <h2 className="text-3xl md:text-4xl font-serif text-white font-bold tracking-wide">
                   The <span className="text-gradient-cosmic">Harmony</span> of the Cosmos
@@ -461,7 +583,7 @@ export default function App() {
                   Long ago, ancient mystics and philosophers realized that the universe speaks in code. They saw not chaos, but harmony. Not stars, but a silent rhythm. Everything in existence vibrates to a specific frequency.
                 </p>
                 <p className="text-neutral-400 font-light leading-relaxed text-base">
-                  Numbers aren't just for math—they are the underlying pulse of your energetic blueprint. Maber bridges classical wisdom with digital minimal design to turn your birth coordinates into a clear, stunning map. It translates ancient geometry into coordinate alignments you can feel in your bones.
+                  Numbers aren't just for math—they are the underlying pulse of your energetic blueprint. Omniora bridges classical wisdom with digital minimal design to turn your birth coordinates into a clear, stunning map. It translates ancient geometry into coordinate alignments you can feel in your bones.
                 </p>
               </div>
             </div>
@@ -469,11 +591,11 @@ export default function App() {
         </section>
 
         {/* SECTION 3: PROMISE - Not prophecy. Coordinates. */}
-        <section className="py-24 border-t border-neutral-900/60 bg-black/40">
+        <section id="theory-section" className="py-24 border-t border-neutral-900/60 bg-black/40">
           <div className="w-full max-w-[1120px] mx-auto px-6">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
               {/* Left Column: Text content */}
-              <div className="md:col-span-7 flex flex-col items-start text-left gap-5">
+              <div className="md:col-span-7 flex flex-col items-start text-left gap-5 theory-text">
 
                 <h2 className="text-3xl md:text-4xl font-serif text-white font-bold tracking-wide">
                   Not prophecy. <span className="text-gradient-cosmic">Coordinates.</span>
@@ -488,7 +610,7 @@ export default function App() {
               </div>
 
               {/* Right Column: Visual decoration */}
-              <div className="md:col-span-5">
+              <div className="md:col-span-5 theory-visual">
                 <NumerologyMap />
               </div>
             </div>
@@ -520,7 +642,7 @@ export default function App() {
               onSubmit={handleBeginRitual}
               autoComplete="off"
               noValidate
-              className="w-full mt-6 bg-neutral-950/90 border border-neutral-900 rounded-2xl p-6 md:p-10 flex flex-col gap-6 shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
+              className="w-full mt-6 bg-neutral-950/90 border border-neutral-900 rounded-2xl p-6 md:p-10 flex flex-col gap-6 shadow-[0_20px_50px_rgba(0,0,0,0.8)] form-container"
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
                 {/* Full Name */}
@@ -620,7 +742,7 @@ export default function App() {
         </section>
 
         {/* SECTION 6: CLIENT VOICES FEEDBACKS */}
-        <section className="py-24 border-t border-neutral-900/60 bg-[#060608]/40">
+        <section id="voices-section" className="py-24 border-t border-neutral-900/60 bg-[#060608]/40">
           <div className="w-full max-w-[1120px] mx-auto px-6">
             <div className="flex flex-col items-start gap-4 mb-12 text-left">
               <span className="text-xs tracking-widest text-[#c9c9c5] uppercase font-mono bg-white/[0.02] px-3 py-1 border border-white/5 rounded-full">
@@ -632,7 +754,7 @@ export default function App() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="p-6 border border-neutral-900 rounded-2xl bg-gradient-to-tr from-neutral-950 to-neutral-950/40 text-left flex flex-col justify-between">
+              <div className="p-6 border border-neutral-900 rounded-2xl bg-gradient-to-tr from-neutral-950 to-neutral-950/40 text-left flex flex-col justify-between voice-card">
                 <p className="text-neutral-300 font-light text-sm leading-relaxed">
                   "This feels creepily accurate. I actually had to close my laptop for a minute after reading the specific section about career redirection loops and shadows."
                 </p>
@@ -641,7 +763,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="p-6 border border-neutral-900 rounded-2xl bg-gradient-to-tr from-neutral-950 to-neutral-950/40 text-left flex flex-col justify-between">
+              <div className="p-6 border border-neutral-900 rounded-2xl bg-gradient-to-tr from-neutral-950 to-neutral-950/40 text-left flex flex-col justify-between voice-card">
                 <p className="text-neutral-300 font-light text-sm leading-relaxed">
                   "It’s like Co–Star but only about my specific birth node calculations. The geometry and pyramid image are outstanding. I have it saved as my active lockscreen."
                 </p>
@@ -650,9 +772,9 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="p-6 border border-neutral-900 rounded-2xl bg-gradient-to-tr from-neutral-950 to-neutral-900 bg-neutral-950 text-left flex flex-col justify-between">
+              <div className="p-6 border border-neutral-900 rounded-2xl bg-gradient-to-tr from-neutral-950 to-neutral-900 bg-neutral-950 text-left flex flex-col justify-between voice-card">
                 <p className="text-neutral-300 font-light text-sm leading-relaxed">
-                  "I am typically skeptical about numerical systems, but MABER gave extremely clear language to repeating life patterns I have been circling for the past decade."
+                  "I am typically skeptical about numerical systems, but OMNIORA gave extremely clear language to repeating life patterns I have been circling for the past decade."
                 </p>
                 <div className="text-xs text-neutral-500 font-mono mt-6 uppercase tracking-wider">
                   — M., 25 · Melbourne

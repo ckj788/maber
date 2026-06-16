@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>MABER - Checkout</title>
+  <title>OMNIORA - Checkout</title>
   <meta name="theme-color" content="#000000" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -81,11 +81,11 @@
     <div class="card" style="max-width: 500px; margin: 0 auto;">
       <div class="grid-1">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-          <span style="font-size: 15px; color: var(--ink-dim);">MABER Detailed Report</span>
+          <span style="font-size: 15px; color: var(--ink-dim);">OMNIORA Detailed Report</span>
           <span style="font-size: 18px; font-weight: bold; color: #fff;">$19.90 <span style="font-size: 13px; text-decoration: line-through; color: var(--ink-dim); font-weight: normal; margin-left: 5px;">$39.90</span></span>
         </div>
         <div class="divider"></div>
-        <input id="email" type="hidden" value="buyer@maber.xyz">
+        <input id="email" type="hidden" value="buyer@omniora.xyz">
       </div>
 
       <div class="divider"></div>
@@ -136,7 +136,7 @@
     }
     function readSeeds() {
       try {
-        const payload = JSON.parse(localStorage.getItem('maber:payload') || '{}');
+        const payload = JSON.parse(localStorage.getItem('omniora:payload') || '{}');
         return {
           name: payload.form?.name || '',
           gender: payload.form?.gender || '',
@@ -237,8 +237,8 @@
       const seeds = readSeeds();
       const reportUrl = makeReportUrl(orderID, buyerEmail);
       try {
-        localStorage.setItem('maber:orderId', orderID);
-        localStorage.setItem('maber:email', buyerEmail);
+        localStorage.setItem('omniora:orderId', orderID);
+        localStorage.setItem('omniora:email', buyerEmail);
       } catch (e) {}
       try {
         await fetch(API_SAVE, {
@@ -397,11 +397,11 @@
               // 成功 -> 上报 & 跳转
               try {
                 const seeds2 = readSeeds();
-                let trianglePng = localStorage.getItem('maber:trianglePng') || '';
+                let trianglePng = localStorage.getItem('omniora:trianglePng') || '';
                 if (!trianglePng || !trianglePng.startsWith('data:image/png')) {
-                  const triSvg = localStorage.getItem('maber:triangle') || '';
+                  const triSvg = localStorage.getItem('omniora:triangle') || '';
                   trianglePng = await svgAnyToPngDataURL(triSvg);
-                  if (trianglePng) localStorage.setItem('maber:trianglePng', trianglePng);
+                  if (trianglePng) localStorage.setItem('omniora:trianglePng', trianglePng);
                 }
                 const reportUrl = makeReportUrl(paymentIntentId, emailNow);
                 const ref = getRefSafe();
@@ -442,9 +442,9 @@
     $('#retry').addEventListener('click', () => initPayUI(true));
 
     (() => {
-      let lsEmail = 'buyer@maber.xyz';
+      let lsEmail = 'buyer@omniora.xyz';
       try {
-        lsEmail = localStorage.getItem('maber:email') || 'buyer@maber.xyz';
+        lsEmail = localStorage.getItem('omniora:email') || 'buyer@omniora.xyz';
       } catch (e) {}
       const urlEmail = (new URLSearchParams(location.search)).get('email') || lsEmail;
       if ($('#email')) $('#email').value = urlEmail;
