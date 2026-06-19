@@ -102,17 +102,17 @@ function generateHTML(num, data) {
   <title>${title}</title>
   <meta name="description" content="${description}" />
   <meta name="theme-color" content="#0b0b0c" />
-  <link rel="canonical" href="https://omniora.xyz/life-path/${num}" />
+  <link rel="canonical" href="https://omniora13.com/life-path/${num}" />
   
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://omniora.xyz/life-path/${num}" />
+  <meta property="og:url" content="https://omniora13.com/life-path/${num}" />
   <meta property="og:title" content="${title}" />
   <meta property="og:description" content="${description}" />
   
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://omniora.xyz/life-path/${num}" />
+  <meta property="twitter:url" content="https://omniora13.com/life-path/${num}" />
   <meta property="twitter:title" content="${title}" />
   <meta property="twitter:description" content="${description}" />
 
@@ -341,7 +341,7 @@ function generateHTML(num, data) {
               <path d="M18.244 3H21l-6.51 7.438L22.5 21h-5.5l-4.3-5.2L7.5 21H3l6.9-7.88L1.5 3h5.6l3.94 4.77L18.244 3zm-1.006 16h1.4L8.94 5H7.536L17.238 19z"/>
             </svg>
           </a>
-          <a href="https://www.tiktok.com/@omniora.xyz" target="_blank" rel="noopener" aria-label="TikTok @omniora.xyz">
+          <a href="https://www.tiktok.com/@omniora13.com" target="_blank" rel="noopener" aria-label="TikTok @omniora13.com">
             <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M14.5 3v4.2a6 6 0 0 0 4 1.5v3a9 9 0 0 1-4-1.1V16a5 5 0 1 1-5-5c.34 0 .67.03 1 .1V14a2 2 0 1 0 2 2V3h2z"/>
             </svg>
@@ -431,7 +431,7 @@ const today = new Date().toISOString().split('T')[0];
 const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${allUrls.map(url => `  <url>
-    <loc>https://omniora.xyz${url}</loc>
+    <loc>https://omniora13.com${url}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>${url === '' ? 'daily' : 'monthly'}</changefreq>
     <priority>${url === '' ? '1.0' : url.startsWith('/life-path') ? '0.8' : '0.5'}</priority>
@@ -447,7 +447,7 @@ const robotsContent = `# https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
 
-Sitemap: https://omniora.xyz/sitemap.xml
+Sitemap: https://omniora13.com/sitemap.xml
 `;
 
 fs.writeFileSync(path.join(PUBLIC_DIR, 'robots.txt'), robotsContent, 'utf8');

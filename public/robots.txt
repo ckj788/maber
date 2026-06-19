@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://omniora.xyz/sitemap.xml
+Sitemap: https://omniora13.com/sitemap.xml

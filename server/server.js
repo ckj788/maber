@@ -273,7 +273,7 @@ async function waitPageStable(page) {
 async function sendReportEmailFromPayload(payload) {
   console.log('发送邮件', payload);
   const recipient = (payload?.email || '').trim();
-  if (recipient === 'buyer@omniora.xyz' || recipient === '') {
+  if (recipient === 'buyer@omniora13.com' || recipient === '') {
     console.log('[email] dummy or empty recipient, skipping email sending.');
     return;
   }

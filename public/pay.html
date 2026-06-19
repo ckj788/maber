@@ -85,7 +85,7 @@
           <span style="font-size: 18px; font-weight: bold; color: #fff;">$19.90 <span style="font-size: 13px; text-decoration: line-through; color: var(--ink-dim); font-weight: normal; margin-left: 5px;">$39.90</span></span>
         </div>
         <div class="divider"></div>
-        <input id="email" type="hidden" value="buyer@omniora.xyz">
+        <input id="email" type="hidden" value="buyer@omniora13.com">
       </div>
 
       <div class="divider"></div>
@@ -442,9 +442,9 @@
     $('#retry').addEventListener('click', () => initPayUI(true));
 
     (() => {
-      let lsEmail = 'buyer@omniora.xyz';
+      let lsEmail = 'buyer@omniora13.com';
       try {
-        lsEmail = localStorage.getItem('omniora:email') || 'buyer@omniora.xyz';
+        lsEmail = localStorage.getItem('omniora:email') || 'buyer@omniora13.com';
       } catch (e) {}
       const urlEmail = (new URLSearchParams(location.search)).get('email') || lsEmail;
       if ($('#email')) $('#email').value = urlEmail;
