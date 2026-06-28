@@ -26,10 +26,11 @@
       --bg: #000000;
       --ink: #f3f3f1;
       --ink-dim: #c9c9c5;
+      --accent-gold: #c5a880;
       --frame: rgba(255, 255, 255, 0.05);
-      --line: rgba(255, 255, 255, .28);
-      --radius: 14px;
-      --shadow: 0 20px 50px rgba(0, 0, 0, .8);
+      --line: rgba(255, 255, 255, 0.12);
+      --radius: 16px;
+      --shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 30px rgba(209, 165, 255, 0.02);
       --maxw: 980px;
     }
 
@@ -76,11 +77,21 @@
     }
 
     .card {
-      background: linear-gradient(180deg, rgba(255, 255, 255, .03), rgba(255, 255, 255, 0));
+      background: linear-gradient(135deg, #0a0a0c 0%, #030304 100%);
       border: 1px solid var(--frame);
-      border-radius: 14px;
+      border-radius: var(--radius);
       box-shadow: var(--shadow);
-      padding: 24px
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(209, 165, 255, 0.15), transparent);
+      pointer-events: none;
     }
 
     .muted {
@@ -93,20 +104,54 @@
     }
 
     h1 {
-      font-size: clamp(22px, 4.2vw, 32px);
-      margin: 0
+      font-size: clamp(24px, 4.5vw, 36px);
+      margin: 0;
+      background: linear-gradient(135deg, #d1a5ff 0%, #fca5a5 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: #d1a5ff;
+      font-weight: 700;
+      letter-spacing: 0.06em;
     }
 
     h2 {
       font-size: 20px;
-      margin: 0 0 6px 0;
-      break-after: avoid
+      margin: 0 0 12px 0;
+      color: #ffffff;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 8px;
+      break-after: avoid;
     }
 
     .topbar {
       display: flex;
       align-items: center;
-      gap: 12px
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 14px;
+      margin-bottom: 14px;
+    }
+
+    .order-watermark {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--ink-dim);
+      opacity: 0.6;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 50%;
+    }
+
+    .order-watermark b {
+      color: var(--accent-gold);
+      font-weight: 500;
     }
 
     .brand {
@@ -137,7 +182,62 @@
     }
 
     .meta {
-      font-size: 13px
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 18px;
+    }
+
+    @media (max-width: 820px) {
+      .meta {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .meta {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      border-left: 1px solid rgba(255, 255, 255, 0.08);
+      padding-left: 16px;
+    }
+
+    .meta-item:first-child {
+      border-left: none;
+      padding-left: 0;
+    }
+
+    @media (max-width: 820px) {
+      .meta-item {
+        border-left: none;
+        padding-left: 0;
+      }
+    }
+
+    .meta-item span {
+      font-size: 11px;
+      color: var(--ink-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-family: 'JetBrains Mono', monospace;
+      opacity: 0.7;
+    }
+
+    .meta-item b {
+      color: var(--accent-gold);
+      font-weight: 600;
+      font-size: 14px;
+      font-family: 'JetBrains Mono', monospace;
     }
 
     .welcome {
@@ -169,10 +269,17 @@
       line-height: 1;
       font-weight: 900;
       letter-spacing: 2px;
-      margin: 0;
+      margin: 0 auto;
+      width: max-content;
       display: flex;
       justify-content: center;
       align-items: center;
+      background: linear-gradient(135deg, #d1a5ff 0%, #fca5a5 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: #d1a5ff;
+      filter: drop-shadow(0 0 15px rgba(209, 165, 255, 0.35));
     }
 
     .portrait {
@@ -180,6 +287,15 @@
       border-radius: 12px;
       border: 1px solid #1b1b1b;
       background: #000
+    }
+
+    .persona-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--accent-gold);
+      letter-spacing: 0.12em;
+      margin: 18px 0 8px 0;
+      text-transform: uppercase;
     }
 
     .forecast {
@@ -198,13 +314,18 @@
       white-space: nowrap
     }
 
+    .forecast-line b {
+      color: var(--accent-gold);
+    }
+
     .chip {
-      border: 1px solid #1b1b1b;
-      background: #0c0c0d;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: #0f0f12;
+      color: var(--accent-gold);
       border-radius: 999px;
-      padding: 6px 10px;
-      font-weight: 700;
-      letter-spacing: .3px
+      padding: 6px 12px;
+      font-weight: 600;
+      letter-spacing: .5px;
     }
 
     .age-blocks {
@@ -213,21 +334,24 @@
     }
 
     .age-card {
-      padding: 12px;
-      border: 1px solid #1b1b1b;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
       border-radius: 12px;
-      background: #0c0c0d
+      background: linear-gradient(135deg, #0d0d0f 0%, #060607 100%);
     }
 
     .age-code {
       font-weight: 800;
       font-size: 18px;
-      margin-bottom: 6px
+      color: var(--accent-gold);
+      margin-bottom: 6px;
+      letter-spacing: 0.05em;
     }
 
     .age-card .title {
       font-weight: 700;
-      margin: 6px 0 6px
+      margin: 6px 0 6px;
+      color: #ffffff;
     }
 
     .hidden {
@@ -314,23 +438,39 @@
         orphans: 3;
         widows: 3
       }
-
-
     }
+
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 10px 16px; border-radius: 10px; text-decoration: none; cursor: pointer; user-select: none;
-      border: 1px solid #2a2a2a; background: #fff; color: #000; font-weight: 600;
-      transition: opacity .2s, background .2s, transform 0.1s;
+      padding: 10px 18px; border-radius: 10px; text-decoration: none; cursor: pointer; user-select: none;
+      border: 1px solid #e6e6e2; background: #f3f3f1; color: #000; font-weight: 600;
+      transition: all .2s;
     }
-    .btn.secondary { background: transparent; color: #f3f3f1; border-color: #3a3a3a }
+
+    .btn:hover {
+      background: transparent;
+      color: #f3f3f1;
+      border-color: #f3f3f1;
+    }
+
+    .btn.secondary {
+      background: transparent; color: #f3f3f1; border-color: #3a3a3a;
+    }
+
+    .btn.secondary:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: #f3f3f1;
+    }
+
     .btn:active { transform: translateY(1px); }
+
     .download-bar {
       position: sticky; top: 0; left: 0; right: 0;
       background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
       border-bottom: 1px solid #1b1b1b; padding: 12px 20px; z-index: 10000;
       display: flex; align-items: center; justify-content: space-between; gap: 15px;
     }
+
     @media print {
       .no-print { display: none !important; }
     }
@@ -367,15 +507,33 @@
           <div class="logo" aria-hidden="true"></div>
           <span>OMNIORA</span>
         </div>
+        <div class="order-watermark">
+          Order: <b id="orderId">—</b>
+        </div>
       </div>
       <p class="welcome">Hi <b id="name"></b>. The cosmos speaks in numbers, and your personal frequency is now
         revealed. What follows is not a prediction, but a reflection—a detailed blueprint of the archetypal forces that
         shape your journey. May it bring you resonance and insight.
 
       </p>
-      <p class="muted meta">
-     　Date of Birth： <b id="dob"></b>　Time： <b id="tob"></b>　Birthplace： <b id="birthplace"></b>　Order NO： <b id="orderId"></b>　Core Archetype： <b id="oVal"></b>
-      </p>
+      <div class="meta">
+        <div class="meta-item">
+          <span>Date of Birth</span>
+          <b id="dob">—</b>
+        </div>
+        <div class="meta-item">
+          <span>Time</span>
+          <b id="tob">—</b>
+        </div>
+        <div class="meta-item">
+          <span>Birthplace</span>
+          <b id="birthplace">—</b>
+        </div>
+        <div class="meta-item">
+          <span>Core Archetype</span>
+          <b id="oVal">—</b>
+        </div>
+      </div>
     </header>
 
     <section class="card">
@@ -392,9 +550,12 @@
               }
 
               .on-neutral {
-                fill: #111;
-                stroke: rgba(0, 0, 0, .25);
-                stroke-width: 1.1px
+                fill: #ffffff;
+                font-weight: 900;
+                paint-order: stroke fill;
+                stroke: rgba(255, 255, 255, .15);
+                stroke-width: 0.8px;
+                filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.4));
               }
 
               *[stroke] {
@@ -402,22 +563,44 @@
               }
             </style>
             <filter id="shadowSoft" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity=".18" />
+              <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000" flood-opacity=".45" />
             </filter>
             <filter id="triGlow" x="-40%" y="-40%" width="180%" height="180%">
-              <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#ffffff" flood-opacity=".12" />
+              <feGaussianBlur stdDeviation="8" result="blur" />
+              <feComponentTransfer in="blur" result="glow">
+                <feFuncA type="linear" slope="0.3" />
+              </feComponentTransfer>
+              <feMerge>
+                <feMergeNode in="glow" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
             </filter>
+            
+            <!-- Dynamic, luxurious color gradients matching the site -->
+            <linearGradient id="gPearl" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f4f3f1" />
+              <stop offset="100%" stop-color="#e7e5e2" />
+            </linearGradient>
+            <linearGradient id="gMoon" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ecebe7" />
+              <stop offset="100%" stop-color="#dedcd7" />
+            </linearGradient>
+            <linearGradient id="gInk" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#252528" />
+              <stop offset="100%" stop-color="#0e0e11" />
+            </linearGradient>
+
             <marker id="arrowHead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6"
               orient="auto-start-reverse">
-              <path d="M0 0 L10 5 L0 10 Z" fill="rgba(255, 255, 255, .28)" />
+              <path d="M0 0 L10 5 L0 10 Z" fill="#e6e6e2" />
             </marker>
           </defs>
 
-          <polygon points="600,160 220,660 980,660" fill="transparent" stroke="rgba(255, 255, 255, .28)" stroke-width="1.6"
-            filter="url(#triGlow)" />
-          <line x1="295" y1="560" x2="902" y2="560" stroke="rgba(255, 255, 255, .28)" stroke-width="1.2" />
-          <line x1="404" y1="420" x2="796" y2="420" stroke="rgba(255, 255, 255, .28)" stroke-width="1.2" />
-          <line x1="600" y1="160" x2="600" y2="660" stroke="rgba(255, 255, 255, .28)" stroke-width="1.2" />
+          <polygon points="600,160 220,660 980,660" fill="transparent" stroke="#e6e6e2" stroke-width="1.6"
+            filter="url(#triGlow)" style="opacity: 0.7;" />
+          <line x1="295" y1="560" x2="902" y2="560" stroke="#e6e6e2" stroke-width="1.2" style="opacity: 0.6;" />
+          <line x1="404" y1="420" x2="796" y2="420" stroke="#e6e6e2" stroke-width="1.2" style="opacity: 0.6;" />
+          <line x1="600" y1="160" x2="600" y2="660" stroke="#e6e6e2" stroke-width="1.2" style="opacity: 0.6;" />
 
           <g id="main-star" fill="#e64646" stroke="rgba(255,255,255,.35)" stroke-width="1"
             transform="translate(600,260)">
@@ -428,42 +611,42 @@
           <line x1="240" y1="206" x2="520" y2="260" stroke="rgba(255, 255, 255, .28)" stroke-width="1.6"
             marker-end="url(#arrowHead)" />
 
-          <rect x="290" y="565" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+          <rect x="290" y="565" width="120" height="90" rx="10" fill="url(#gPearl)" stroke="rgba(255,255,255,0.06)" stroke-width="1.2"
             filter="url(#shadowSoft)" data-for="I_val" /><text id="I_val" class="blk">I</text>
-          <rect x="460" y="565" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+          <rect x="460" y="565" width="120" height="90" rx="10" fill="url(#gPearl)" stroke="rgba(255,255,255,0.06)" stroke-width="1.2"
             filter="url(#shadowSoft)" data-for="J_val" /><text id="J_val" class="blk">J</text>
-          <rect x="620" y="565" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+          <rect x="620" y="565" width="120" height="90" rx="10" fill="url(#gPearl)" stroke="rgba(255,255,255,0.06)" stroke-width="1.2"
             filter="url(#shadowSoft)" data-for="K_val" /><text id="K_val" class="blk">K</text>
-          <rect x="790" y="565" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+          <rect x="790" y="565" width="120" height="90" rx="10" fill="url(#gPearl)" stroke="rgba(255,255,255,0.06)" stroke-width="1.2"
             filter="url(#shadowSoft)" data-for="L_val" /><text id="L_val" class="blk">L</text>
 
-          <rect x="460" y="445" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+          <rect x="460" y="445" width="120" height="90" rx="10" fill="url(#gMoon)" stroke="rgba(255,255,255,0.06)" stroke-width="1.2"
             filter="url(#shadowSoft)" data-for="M_val" /><text id="M_val" class="blk">M</text>
-          <rect x="620" y="445" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+          <rect x="620" y="445" width="120" height="90" rx="10" fill="url(#gMoon)" stroke="rgba(255,255,255,0.06)" stroke-width="1.2"
             filter="url(#shadowSoft)" data-for="N_val" /><text id="N_val" class="blk">N</text>
 
-          <rect x="540" y="300" width="120" height="110" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+          <rect x="540" y="300" width="120" height="110" rx="10" fill="url(#gInk)" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"
             filter="url(#shadowSoft)" data-for="O_val" /><text id="O_val" class="on-neutral">O</text>
 
-          <rect x="460" y="30" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+          <rect x="460" y="30" width="120" height="90" rx="10" fill="url(#gMoon)" stroke="rgba(255,255,255,0.06)" stroke-width="1.2"
             filter="url(#shadowSoft)" data-for="Q_val" /><text id="Q_val" class="blk">Q</text>
-          <rect x="620" y="30" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+          <rect x="620" y="30" width="120" height="90" rx="10" fill="url(#gMoon)" stroke="rgba(255,255,255,0.06)" stroke-width="1.2"
             filter="url(#shadowSoft)" data-for="P_val" /><text id="P_val" class="blk">P</text>
-          <rect x="540" y="-80" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+          <rect x="540" y="-80" width="120" height="90" rx="10" fill="url(#gPearl)" stroke="rgba(255,255,255,0.06)" stroke-width="1.2"
             filter="url(#shadowSoft)" data-for="R_val" /><text id="R_val" class="blk">R</text>
 
-          <rect x="60" y="565" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+          <rect x="60" y="565" width="120" height="90" rx="10" fill="url(#gMoon)" stroke="rgba(255,255,255,0.06)" stroke-width="1.2"
             filter="url(#shadowSoft)" data-for="T_val" /><text id="T_val" class="blk">T</text>
-          <rect x="-80" y="565" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+          <rect x="-80" y="565" width="120" height="90" rx="10" fill="url(#gMoon)" stroke="rgba(255,255,255,0.06)" stroke-width="1.2"
             filter="url(#shadowSoft)" data-for="S_val" /><text id="S_val" class="blk">S</text>
-          <rect x="-10" y="445" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+          <rect x="-10" y="445" width="120" height="90" rx="10" fill="url(#gPearl)" stroke="rgba(255,255,255,0.06)" stroke-width="1.2"
             filter="url(#shadowSoft)" data-for="U_val" /><text id="U_val" class="blk">U</text>
 
-          <rect x="1160" y="565" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+          <rect x="1160" y="565" width="120" height="90" rx="10" fill="url(#gMoon)" stroke="rgba(255,255,255,0.06)" stroke-width="1.2"
             filter="url(#shadowSoft)" data-for="V_val" /><text id="V_val" class="blk">V</text>
-          <rect x="1020" y="565" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+          <rect x="1020" y="565" width="120" height="90" rx="10" fill="url(#gMoon)" stroke="rgba(255,255,255,0.06)" stroke-width="1.2"
             filter="url(#shadowSoft)" data-for="W_val" /><text id="W_val" class="blk">W</text>
-          <rect x="1090" y="445" width="120" height="90" rx="10" fill="#fff" stroke="#1b1b1b" stroke-width="1.2"
+          <rect x="1090" y="445" width="120" height="90" rx="10" fill="url(#gPearl)" stroke="rgba(255,255,255,0.06)" stroke-width="1.2"
             filter="url(#shadowSoft)" data-for="X_val" /><text id="X_val" class="blk">X</text>
         </svg>
       </div>
@@ -496,7 +679,7 @@
 
     <div id="codes" class="hidden"></div>
 
-    <footer class="card" style="text-align:center;color:var(--ink-dim)">
+    <footer class="card" style="text-align:center;color:var(--ink-dim);background:transparent;box-shadow:none;border:none;">
       We appreciate you beginning your journey with us · © OMNIORA
     </footer>
   </div>
@@ -1263,6 +1446,14 @@
         const fromLS = readFromStorage();
         if (fromLS && (!orderID || fromLS.orderId === orderID)) {
           seed = fromLS;
+        }
+      }
+
+      // 1.5. 其次尝试从 URL Query 中解析，方便直接打开预览
+      if (!seed || !seed.dob) {
+        const fromQuery = buildSeedFromQuery();
+        if (fromQuery && fromQuery.dob) {
+          seed = fromQuery;
         }
       }
 
