@@ -270,14 +270,15 @@ async function waitPageStable(page) {
   } catch { }
 }
 
-async function sendReportEmailFromPayload(payload) {
+async function sendReportEmailFromPayload(payload, baseUrl = null) {
   console.log('发送邮件', payload);
   const recipient = (payload?.email || '').trim();
   if (recipient === 'buyer@omniora13.com' || recipient === '') {
     console.log('[email] dummy or empty recipient, skipping email sending.');
     return;
   }
-  const reportLink = `${PUBLIC_BASE_URL}/report-print.html?orderID=${encodeURIComponent(payload.orderId)}&email=${encodeURIComponent(recipient)}`;
+  const base = baseUrl || PUBLIC_BASE_URL;
+  const reportLink = `${base}/report-print.html?orderID=${encodeURIComponent(payload.orderId)}&email=${encodeURIComponent(recipient)}`;
   const htmlBody = await renderTemplate('report-email.html', {
     title: 'Your Personal Blueprint',
     intro: 'We appreciate you beginning your journey with us.',
@@ -479,7 +480,11 @@ app.post('/api/report/save', async (req, res) => {
 
     if (!merged.emailed) {
       console.log('开始发送邮件')
-      await sendReportEmailFromPayload(merged);
+      // Dynamically extract the incoming request's base URL (protocol + host)
+      const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+      const host = req.headers['x-forwarded-host'] || req.headers.host || `localhost:${PORT}`;
+      const baseUrl = `${protocol}://${host}`;
+      await sendReportEmailFromPayload(merged, baseUrl);
       merged.emailed = true;
       merged.firstSentAt = merged.lastSentAt = Date.now();
       await saveOrUpdateReport(orderId, merged);
