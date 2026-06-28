@@ -265,21 +265,12 @@
     }
 
     .o-big {
-      font-size: 108px;
-      line-height: 1;
-      font-weight: 900;
-      letter-spacing: 2px;
       margin: 0 auto;
-      width: max-content;
+      width: 120px;
+      height: 120px;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #d1a5ff 0%, #fca5a5 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: #d1a5ff;
-      filter: drop-shadow(0 0 15px rgba(209, 165, 255, 0.35));
     }
 
     .portrait {
@@ -1267,7 +1258,18 @@
     function renderPersona(pOrO) {
       const o = reduce1(pOrO || 1) || 1;
       $('oVal').textContent = o;
-      $('oBig').textContent = o;
+      // Use inline SVG with gradients for the big number so html2canvas renders the text gradient perfectly in generated PDFs (bypasses background-clip:text limitation)
+      $('oBig').innerHTML = `
+        <svg viewBox="0 0 120 120" width="120" height="120" style="display: block; overflow: visible;">
+          <defs>
+            <linearGradient id="oBigGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#d1a5ff" />
+              <stop offset="100%" stop-color="#fca5a5" />
+            </linearGradient>
+          </defs>
+          <text x="60" y="96" text-anchor="middle" fill="url(#oBigGrad)" font-family="'Cinzel', Georgia, serif" font-weight="900" font-size="108" style="filter: drop-shadow(0 0 10px rgba(209, 165, 255, 0.35));">${o}</text>
+        </svg>
+      `;
       const p = PERSONA_MAP[String(o)] || { title: '—', text: '' };
       $('personaTitle').textContent = p.title || '—';
       $('personaText').innerHTML = (p.text || '').replace(/\n/g, '<br>');
