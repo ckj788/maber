@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 import { PostHogProvider } from '@posthog/react';
+import { Analytics } from '@vercel/analytics/react';
 
 const isLocalhost = typeof window !== 'undefined' && 
   (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
@@ -20,6 +21,7 @@ createRoot(document.getElementById('root')!).render(
       options={options}
     >
       <App />
+      <Analytics />
     </PostHogProvider>
   </StrictMode>,
 );
