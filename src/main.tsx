@@ -7,6 +7,7 @@ import { PostHogProvider } from '@posthog/react';
 const options = {
   api_host: 'https://us.i.posthog.com',
   person_profiles: 'identified_only',
+  defaults: '2026-05-30',
 } as const;
 
 createRoot(document.getElementById('root')!).render(
