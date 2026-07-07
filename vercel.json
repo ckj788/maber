@@ -2,6 +2,7 @@
   "version": 2,
   "outputDirectory": "public",
   "rewrites": [
+    { "source": "/sky/:path*", "destination": "https://us.i.posthog.com/:path*" },
     { "source": "/api/(.*)", "destination": "/api/index.js" },
     { "source": "/sitemap.xml", "destination": "/public/sitemap.xml" },
     { "source": "/robots.txt", "destination": "/public/robots.txt" },

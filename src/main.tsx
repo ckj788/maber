@@ -4,8 +4,11 @@ import App from './App.tsx';
 import './index.css';
 import { PostHogProvider } from '@posthog/react';
 
+const isLocalhost = typeof window !== 'undefined' && 
+  (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
 const options = {
-  api_host: 'https://us.i.posthog.com',
+  api_host: isLocalhost ? 'https://us.i.posthog.com' : '/sky',
   person_profiles: 'identified_only',
   defaults: '2026-05-30',
 } as const;
