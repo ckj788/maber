@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App.tsx';
 import './index.css';
 import { PostHogProvider } from '@posthog/react';
@@ -21,8 +22,10 @@ createRoot(document.getElementById('root')!).render(
       apiKey="phc_DoAuw4v3tapM96hL7U46zRwHiY2aa9jPbAAGWgBxa6AP" 
       options={options}
     >
-      <App />
-      <Analytics />
+      <BrowserRouter>
+        <App />
+        <Analytics />
+      </BrowserRouter>
     </PostHogProvider>
   </StrictMode>,
 );
