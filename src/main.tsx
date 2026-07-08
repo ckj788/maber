@@ -9,7 +9,8 @@ const isLocalhost = typeof window !== 'undefined' &&
   (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
 const options = {
-  api_host: isLocalhost ? 'https://us.i.posthog.com' : '/sky',
+  api_host: isLocalhost ? 'https://us.i.posthog.com' : window.location.origin + '/sky',
+  ui_host: 'https://us.posthog.com',
   person_profiles: 'identified_only',
   defaults: '2026-05-30',
 } as const;
