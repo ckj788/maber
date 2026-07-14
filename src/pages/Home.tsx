@@ -32,6 +32,25 @@ export default function App() {
   const [ritualProgress, setRitualProgress] = useState(0);
 
   const [showResultFooter, setShowResultFooter] = useState(false);
+  const [showStickyBtn, setShowStickyBtn] = useState(false);
+
+  useEffect(() => {
+    if (isRitualActive || showResultSection) {
+      setShowStickyBtn(false);
+      return;
+    }
+
+    const handleScroll = () => {
+      if (window.scrollY > 450) {
+        setShowStickyBtn(true);
+      } else {
+        setShowStickyBtn(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isRitualActive, showResultSection]);
 
   useEffect(() => {
     if (showResultSection) {
@@ -94,18 +113,11 @@ export default function App() {
       delay: 0.15,
       ease: "power3.out"
     });
-    gsap.from(".hero-desc", {
-      y: 15,
+    gsap.from(".hero-form-container", {
+      y: 20,
       opacity: 0,
       duration: 1.0,
       delay: 0.3,
-      ease: "power3.out"
-    });
-    gsap.from(".hero-ctas", {
-      y: 15,
-      opacity: 0,
-      duration: 1.0,
-      delay: 0.45,
       ease: "power3.out"
     });
     gsap.from(".hero-extra", {
@@ -167,17 +179,7 @@ export default function App() {
       ease: "power2.out"
     });
 
-    // 4. Section 4: Ritual Form Reveal
-    gsap.from("#ritual-form-anchor .form-container", {
-      scrollTrigger: {
-        trigger: "#ritual-form-anchor",
-        start: "top 80%",
-      },
-      y: 40,
-      opacity: 0,
-      duration: 1.0,
-      ease: "power2.out"
-    });
+    // 4. Section 4: Ritual Form Reveal (Removed scrollTrigger since form is now in hero)
 
     // 5. Section 6: Client Voices Cards Stagger
     gsap.from("#voices-section .voice-card", {
@@ -527,24 +529,115 @@ export default function App() {
                   </p>
                 </div>
 
-                <p className="text-neutral-400 text-base md:text-lg leading-relaxed font-light max-w-xl hero-desc">
-                  Omniora translates your unique birth time and location into a mathematically balanced triadic pyramid geometry. Discover your Core Archetype, unlock your early, mid, and late lifecycle chapters, and unlock deep insights into your shadow and growth.
-                </p>
+                {/* ERROR FRAME */}
+                {errorText && (
+                  <div className="w-full p-4 bg-red-950/40 border border-red-900/50 rounded-xl text-red-300 text-xs font-medium text-left mt-2 hero-form-error">
+                    ⚠️ {errorText}
+                  </div>
+                )}
 
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto mt-4 hero-ctas">
-                  <a 
-                    href="#ritual-form-anchor" 
-                    className="p-4 px-8 border border-[#e6e6e2] rounded-xl text-[#000] bg-[#f3f3f1] font-semibold text-center hover:bg-transparent hover:text-white transition-all duration-300 shadow-xl"
-                  >
-                    Start the ritual
-                  </a>
-                  <a
-                    href="#story-section"
-                    className="p-4 px-6 border border-white/[0.12] rounded-xl text-neutral-300 hover:text-white font-medium text-center bg-white/[0.02] hover:bg-white/[0.06] transition-all duration-200"
-                  >
-                    From myth to map
-                  </a>
-                </div>
+                {/* FORM CONTAINER */}
+                <form 
+                  id="ritual-form-anchor"
+                  onSubmit={handleBeginRitual}
+                  autoComplete="off"
+                  noValidate
+                  className="w-full mt-4 bg-neutral-950/40 backdrop-blur-md border border-neutral-900/60 rounded-2xl p-6 md:p-8 flex flex-col gap-4 shadow-[0_20px_50px_rgba(0,0,0,0.5)] hero-form-container"
+                >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                    {/* Full Name */}
+                    <div>
+                      <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1">
+                        Full Name
+                      </label>
+                      <input
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="e.g., Ava Morgan"
+                        className="w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3 placeholder:text-neutral-700 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-xs font-mono"
+                        autoComplete="off"
+                      />
+                    </div>
+
+                    {/* Email Address */}
+                    <div>
+                      <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="name@example.com"
+                        className="w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3 placeholder:text-neutral-700 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-xs font-mono"
+                        autoComplete="off"
+                      />
+                    </div>
+
+                    {/* Date of Birth */}
+                    <div>
+                      <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1">
+                        Date of Birth
+                      </label>
+                      <input
+                        type="date"
+                        name="dob"
+                        value={formData.dob}
+                        onChange={handleInputChange}
+                        placeholder="YYYY / MM / DD"
+                        className={`w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-xs font-mono ${formData.dob ? "has-value" : ""}`}
+                        autoComplete="off"
+                        lang="en-US"
+                      />
+                    </div>
+
+                    {/* Time of Birth */}
+                    <div>
+                      <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1">
+                        Time of Birth <span className="text-neutral-600">(Recommended)</span>
+                      </label>
+                      <input
+                        type="time"
+                        name="tob"
+                        value={formData.tob}
+                        onChange={handleInputChange}
+                        placeholder="HH : MM (e.g., 14:30)"
+                        className={`w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-xs font-mono ${formData.tob ? "has-value" : ""}`}
+                        autoComplete="off"
+                        lang="en-US"
+                      />
+                    </div>
+
+                    {/* Birthplace */}
+                    <div className="md:col-span-2">
+                      <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1">
+                        Birthplace <span className="text-neutral-600">(City, Country — for local magnetic & timezone calibration)</span>
+                      </label>
+                      <input
+                        name="address"
+                        value={formData.address}
+                        onChange={handleInputChange}
+                        placeholder="e.g., London, UK"
+                        className="w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3 placeholder:text-neutral-700 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-xs font-mono"
+                        autoComplete="off"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-neutral-900 pt-4 mt-2">
+                    <span className="text-[10px] text-neutral-500 font-mono text-left">
+                      🔒 We respect your privacy. No data is sold or stored.
+                    </span>
+                    <button
+                      type="submit"
+                      className="w-full sm:w-auto p-3 px-8 border border-neutral-700 hover:border-neutral-400 bg-neutral-950 text-white rounded-xl hover:bg-white hover:text-black transition-all duration-300 font-semibold cursor-pointer text-center text-xs"
+                    >
+                      Decode My Coordinates
+                    </button>
+                  </div>
+                </form>
 
                 <div className="flex flex-col gap-1 mt-2 hero-extra">
                   <p className="text-xs text-neutral-500 font-mono">
@@ -618,129 +711,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* SECTION 4: RITUAL FORM */}
-        <section id="ritual-form-anchor" className="py-24 border-t border-neutral-900/60 bg-neutral-950/20 backdrop-blur-sm relative">
-          <div className="w-full max-w-[820px] mx-auto px-6 text-center flex flex-col items-center gap-6">
-            <span className="text-xs tracking-[0.2em] uppercase text-neutral-400 font-mono">
-              Numerology · Western & Eastern Synthesis
-            </span>
-            <h2 className="text-4xl md:text-5xl font-serif text-white font-bold">
-              Unlock Your <span className="text-gradient-cosmic">Code</span>
-            </h2>
-            <p className="text-neutral-400 font-light text-base max-w-xl">
-              Enter your birth coordinates below. We’ll calculate and draw your triadic signature map first, then you can preview your personalized life chapters.
-            </p>
-
-            {/* ERROR FRAME */}
-            {errorText && (
-              <div className="w-full max-w-[720px] p-4 bg-red-950/40 border border-red-900/50 rounded-xl text-red-300 text-sm font-medium text-left">
-                ⚠️ {errorText}
-              </div>
-            )}
-
-            {/* FORM CONTAINER */}
-            <form 
-              onSubmit={handleBeginRitual}
-              autoComplete="off"
-              noValidate
-              className="w-full mt-6 bg-neutral-950/90 border border-neutral-900 rounded-2xl p-6 md:p-10 flex flex-col gap-6 shadow-[0_20px_50px_rgba(0,0,0,0.8)] form-container"
-            >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-                {/* Full Name */}
-                <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-2">
-                    Full Name
-                  </label>
-                  <input
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="e.g., Ava Morgan"
-                    className="w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-4 placeholder:text-neutral-700 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-sm font-mono"
-                    autoComplete="off"
-                  />
-                </div>
-
-                {/* Email Address */}
-                <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-2">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    placeholder="name@example.com"
-                    className="w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-4 placeholder:text-neutral-700 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-sm font-mono"
-                    autoComplete="off"
-                  />
-                </div>
-
-                {/* Date of Birth */}
-                <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-2">
-                    Date of Birth
-                  </label>
-                  <input
-                    type="date"
-                    name="dob"
-                    value={formData.dob}
-                    onChange={handleInputChange}
-                    placeholder="YYYY / MM / DD"
-                    className={`w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-4 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-sm font-mono ${formData.dob ? "has-value" : ""}`}
-                    autoComplete="off"
-                    lang="en-US"
-                  />
-                </div>
-
-                {/* Time of Birth */}
-                <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-2">
-                    Time of Birth <span className="text-neutral-600">(Recommended)</span>
-                  </label>
-                  <input
-                    type="time"
-                    name="tob"
-                    value={formData.tob}
-                    onChange={handleInputChange}
-                    placeholder="HH : MM (e.g., 14:30)"
-                    className={`w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-4 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-sm font-mono ${formData.tob ? "has-value" : ""}`}
-                    autoComplete="off"
-                    lang="en-US"
-                  />
-                </div>
-
-                {/* Birthplace */}
-                <div className="md:col-span-2">
-                  <label className="block text-xs font-mono uppercase tracking-wider text-neutral-400 mb-2">
-                    Birthplace <span className="text-neutral-600">(City, Country — for local magnetic & timezone calibration)</span>
-                  </label>
-                  <input
-                    name="address"
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    placeholder="e.g., London, UK"
-                    className="w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-4 placeholder:text-neutral-700 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-sm font-mono"
-                    autoComplete="off"
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-neutral-900 pt-6 mt-4">
-                <span className="text-xs text-neutral-500 font-mono text-left">
-                  🔒 We respect your privacy. No personal data is sold or stored.
-                </span>
-                <button
-                  type="submit"
-                  className="w-full sm:w-auto p-4 px-10 border border-neutral-700 hover:border-neutral-400 bg-neutral-950 text-white rounded-xl hover:bg-white hover:text-black transition-all duration-300 font-semibold cursor-pointer text-center"
-                >
-                  Begin Ritual Analysis
-                </button>
-              </div>
-            </form>
-          </div>
-        </section>
+        {/* SECTION 4: RITUAL FORM REMOVED (INTEGRATED INTO HERO ABOVE THE FOLD) */}
 
         {/* SECTION 6: CLIENT VOICES FEEDBACKS */}
         <section id="voices-section" className="py-24 border-t border-neutral-900/60 bg-[#060608]/40">
@@ -1108,6 +1079,25 @@ export default function App() {
         onClose={() => setIsModalOpen(false)}
         tri={triangleData}
       />
+
+      {/* MOBILE STICKY FLOATING CTA */}
+      <div 
+        className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-[360px] md:hidden transition-all duration-500 ease-in-out ${
+          showStickyBtn ? "translate-y-0 opacity-100 pointer-events-auto" : "translate-y-12 opacity-0 pointer-events-none"
+        }`}
+      >
+        <button
+          onClick={() => {
+            const el = document.getElementById("ritual-form-anchor");
+            if (el) {
+              el.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
+          className="w-full p-4 border border-[#e6e6e2]/20 rounded-xl text-[#000] bg-[#f3f3f1] font-semibold text-center shadow-[0_10px_35px_rgba(0,0,0,0.5)] active:scale-95 transition-all text-xs uppercase tracking-widest cursor-pointer"
+        >
+          ↑ Decode My Coordinates
+        </button>
+      </div>
     </div>
   );
 }
