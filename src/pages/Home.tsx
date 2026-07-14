@@ -6,6 +6,7 @@ import { ReportModal, PERSONA_TITLES, PERSONA_TEASERS } from "../components/Repo
 import { HeroGeometry, CosmicHarmony, NumerologyMap, ReportMockup } from "../components/DecorativeGraphics";
 import { TriangleData, BirthFormData } from "../types";
 import { Link } from "react-router-dom";
+import { usePostHog } from "@posthog/react";
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -14,6 +15,7 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
+  const posthog = usePostHog();
   const [formData, setFormData] = useState<BirthFormData>({
     name: "",
     email: "",
@@ -328,6 +330,12 @@ export default function App() {
     setErrorText("");
     setIsRitualActive(true);
     setRitualProgress(0);
+
+    if (posthog) {
+      posthog.capture("calculate_coordinates", {
+        email: email
+      });
+    }
 
     const ROMAN_MAP: Record<number, string> = {
       1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI",
