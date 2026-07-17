@@ -530,10 +530,10 @@ export default function App() {
 
                 <div className="flex flex-col gap-3">
                   <h1 className="text-4xl md:text-6xl font-serif text-white tracking-wide leading-[1.1] font-bold hero-title">
-                    Your <span className="text-gradient-cosmic">Life Path</span>, Decoded in 30 Seconds
+                    Your Birth Coordinates, <span className="text-gradient-cosmic">Geometrically Mapped</span>
                   </h1>
-                  <p className="text-xs tracking-[0.16em] uppercase text-neutral-400 font-mono mt-1 hero-subcopy">
-                    A personal cosmic blueprint, mapped from your exact birth entry coordinates
+                  <p className="text-xs md:text-sm text-neutral-400 font-mono mt-1 leading-relaxed hero-subcopy">
+                    Instant precision calculations based on your birth moment. Discover your core archetype, shadow loops, and active life chapters.
                   </p>
                 </div>
 
