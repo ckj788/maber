@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { TriangleData } from "../types";
+import { Link } from "react-router-dom";
 
 export const PERSONA_TITLES: Record<string, string> = {
   "1": "The Origin",
@@ -284,13 +285,19 @@ export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, tri }
           </div>
         </div>
 
-        <div className="mt-8 text-center">
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <button
-            className="px-6 py-2 border border-neutral-700 hover:border-neutral-500 text-neutral-300 hover:text-white rounded-xl transition-all duration-300 text-sm font-medium"
+            className="w-full sm:w-auto px-6 py-3 border border-neutral-800 hover:border-neutral-600 text-neutral-400 hover:text-white rounded-xl transition-all duration-300 text-xs font-mono uppercase tracking-wider cursor-pointer"
             onClick={onClose}
           >
-            Close Structure Preview
+            Close Preview
           </button>
+          <Link
+            to="/pay"
+            className="w-full sm:w-auto px-8 py-3 bg-white text-black font-semibold rounded-xl hover:bg-[#dedcd7] transition-all duration-300 text-xs font-mono uppercase tracking-wider text-center shadow-lg cursor-pointer"
+          >
+            Reveal My Full Shadow & Gifts — $19.90
+          </Link>
         </div>
       </div>
     </div>
