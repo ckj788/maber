@@ -545,29 +545,41 @@ export default function App() {
                   </div>
                 )}
 
-                {/* FORM CONTAINER - 4-STEP GAMIFIED WIZARD */}
+                {/* FORM CONTAINER - ESOTERIC RITUAL CALIBRATION */}
                 <form 
                   id="ritual-form-anchor"
                   onSubmit={handleBeginRitual}
                   autoComplete="off"
                   noValidate
-                  className="w-full mt-4 bg-neutral-950/40 backdrop-blur-md border border-neutral-900/60 rounded-2xl p-6 md:p-8 flex flex-col gap-4 shadow-[0_20px_50px_rgba(0,0,0,0.5)] hero-form-container relative overflow-hidden"
+                  className="w-full mt-4 bg-neutral-950/60 backdrop-blur-xl border border-neutral-900/80 rounded-2xl p-6 md:p-8 flex flex-col gap-4 shadow-[0_20px_60px_rgba(0,0,0,0.8)] hero-form-container relative overflow-hidden"
                 >
-                  {/* GOLD PROGRESS BAR */}
-                  <div className="w-full mb-2">
-                    <div className="flex justify-between items-center text-[10px] font-mono text-neutral-400 mb-2 uppercase tracking-wider">
-                      <span className="flex items-center gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                        Step {formStep} of 4
-                      </span>
-                      <span className="text-amber-400 font-semibold">{formStep * 25}% Completed</span>
-                    </div>
-                    <div className="w-full bg-neutral-900/80 h-1.5 rounded-full overflow-hidden border border-white/5">
-                      <motion.div 
-                        className="bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-200 h-full rounded-full shadow-[0_0_10px_rgba(245,158,11,0.5)]" 
-                        animate={{ width: `${formStep * 25}%` }}
-                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                      />
+                  {/* MINIMALIST MYSTICAL STEP NODES */}
+                  <div className="w-full mb-4 flex items-center justify-between px-1 border-b border-white/5 pb-3">
+                    <span className="text-[10px] font-mono tracking-[0.2em] text-neutral-500 uppercase flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                      COSMIC CALIBRATION
+                    </span>
+                    <div className="flex items-center gap-3 font-mono text-[11px]">
+                      {["I", "II", "III", "IV"].map((num, idx) => {
+                        const isActive = formStep === idx + 1;
+                        const isPast = formStep > idx + 1;
+                        return (
+                          <div key={num} className="flex items-center gap-3">
+                            <span 
+                              className={`transition-all duration-300 ${
+                                isActive 
+                                  ? "text-amber-400 font-bold tracking-widest shadow-[0_0_10px_rgba(251,191,36,0.5)]" 
+                                  : isPast 
+                                    ? "text-neutral-300 font-medium" 
+                                    : "text-neutral-700 font-light"
+                              }`}
+                            >
+                              {num}
+                            </span>
+                            {idx < 3 && <span className="text-neutral-800 text-[9px]">·</span>}
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
 
@@ -576,26 +588,23 @@ export default function App() {
                     {formStep === 1 && (
                       <motion.div
                         key="step-1"
-                        initial={{ opacity: 0, x: 20 }}
+                        initial={{ opacity: 0, x: 15 }}
                         animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
+                        exit={{ opacity: 0, x: -15 }}
                         transition={{ duration: 0.3 }}
                         className="flex flex-col gap-4 text-left"
                       >
                         <div>
-                          <span className="text-[11px] font-mono text-amber-400 uppercase tracking-widest block mb-1">
-                            Phase 1 · Solar Alignment
-                          </span>
                           <h3 className="text-xl md:text-2xl font-serif font-bold text-white mb-1">
-                            1. Select Your Birth Date
+                            When did you enter the world?
                           </h3>
                           <p className="text-xs text-neutral-400 font-mono leading-relaxed mb-4">
-                            Your core planetary matrix is anchored in the exact solar coordinates at your moment of birth.
+                            Your exact date of birth anchors your core geometric axis and natal node.
                           </p>
                         </div>
 
                         <div>
-                          <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1">
+                          <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
                             Date of Birth *
                           </label>
                           <input
@@ -604,7 +613,7 @@ export default function App() {
                             value={formData.dob}
                             onChange={handleInputChange}
                             placeholder="YYYY / MM / DD"
-                            className={`w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3.5 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 transition-all text-sm font-mono ${formData.dob ? "has-value" : ""}`}
+                            className={`w-full bg-[#070709] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3.5 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 transition-all text-sm font-mono ${formData.dob ? "has-value" : ""}`}
                             autoComplete="off"
                             lang="en-US"
                           />
@@ -623,7 +632,7 @@ export default function App() {
                             }}
                             className="w-full sm:w-auto p-3.5 px-8 bg-white text-black font-semibold rounded-xl hover:bg-[#dedcd7] transition-all duration-300 text-xs font-mono uppercase tracking-wider cursor-pointer text-center shadow-lg"
                           >
-                            Next: Birth Time →
+                            Continue →
                           </button>
                         </div>
                       </motion.div>
@@ -633,26 +642,23 @@ export default function App() {
                     {formStep === 2 && (
                       <motion.div
                         key="step-2"
-                        initial={{ opacity: 0, x: 20 }}
+                        initial={{ opacity: 0, x: 15 }}
                         animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
+                        exit={{ opacity: 0, x: -15 }}
                         transition={{ duration: 0.3 }}
                         className="flex flex-col gap-4 text-left"
                       >
                         <div>
-                          <span className="text-[11px] font-mono text-amber-400 uppercase tracking-widest block mb-1">
-                            Phase 2 · Ascendant Calibration
-                          </span>
                           <h3 className="text-xl md:text-2xl font-serif font-bold text-white mb-1">
-                            2. What Time Were You Born?
+                            What time was your first breath?
                           </h3>
                           <p className="text-xs text-neutral-400 font-mono leading-relaxed mb-4">
-                            Calibrates your precise ascendant axis and houses. (Optional if exact time is unknown).
+                            Calibrates your precise ascendant axis and houses. (Select approximate if unknown).
                           </p>
                         </div>
 
                         <div>
-                          <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1">
+                          <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
                             Time of Birth <span className="text-neutral-500">(Recommended)</span>
                           </label>
                           <input
@@ -661,7 +667,7 @@ export default function App() {
                             value={formData.tob}
                             onChange={handleInputChange}
                             placeholder="HH : MM (e.g., 14:30)"
-                            className={`w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3.5 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 transition-all text-sm font-mono ${formData.tob ? "has-value" : ""}`}
+                            className={`w-full bg-[#070709] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3.5 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 transition-all text-sm font-mono ${formData.tob ? "has-value" : ""}`}
                             autoComplete="off"
                             lang="en-US"
                           />
@@ -687,7 +693,7 @@ export default function App() {
                             }}
                             className="w-full sm:w-auto p-3.5 px-8 bg-white text-black font-semibold rounded-xl hover:bg-[#dedcd7] transition-all duration-300 text-xs font-mono uppercase tracking-wider cursor-pointer text-center shadow-lg"
                           >
-                            Next: Birth Location →
+                            Continue →
                           </button>
                         </div>
                       </motion.div>
@@ -697,26 +703,23 @@ export default function App() {
                     {formStep === 3 && (
                       <motion.div
                         key="step-3"
-                        initial={{ opacity: 0, x: 20 }}
+                        initial={{ opacity: 0, x: 15 }}
                         animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
+                        exit={{ opacity: 0, x: -15 }}
                         transition={{ duration: 0.3 }}
                         className="flex flex-col gap-4 text-left"
                       >
                         <div>
-                          <span className="text-[11px] font-mono text-amber-400 uppercase tracking-widest block mb-1">
-                            Phase 3 · Geographic Resonance
-                          </span>
                           <h3 className="text-xl md:text-2xl font-serif font-bold text-white mb-1">
-                            3. Where Did You Take Your First Breath?
+                            Where were your coordinates set?
                           </h3>
                           <p className="text-xs text-neutral-400 font-mono leading-relaxed mb-4">
-                            Pinpoints geographic magnetic variation and timezone coordinates.
+                            Pinpoints local magnetic variation and geographic frequencies.
                           </p>
                         </div>
 
                         <div>
-                          <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1">
+                          <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
                             Birthplace <span className="text-neutral-500">(City, Country)</span>
                           </label>
                           <input
@@ -724,7 +727,7 @@ export default function App() {
                             value={formData.address}
                             onChange={handleInputChange}
                             placeholder="e.g., London, UK"
-                            className="w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3.5 placeholder:text-neutral-700 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 transition-all text-sm font-mono"
+                            className="w-full bg-[#070709] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3.5 placeholder:text-neutral-700 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 transition-all text-sm font-mono"
                             autoComplete="off"
                           />
                         </div>
@@ -749,7 +752,7 @@ export default function App() {
                             }}
                             className="w-full sm:w-auto p-3.5 px-8 bg-white text-black font-semibold rounded-xl hover:bg-[#dedcd7] transition-all duration-300 text-xs font-mono uppercase tracking-wider cursor-pointer text-center shadow-lg"
                           >
-                            Next: Final Step →
+                            Continue →
                           </button>
                         </div>
                       </motion.div>
@@ -759,28 +762,25 @@ export default function App() {
                     {formStep === 4 && (
                       <motion.div
                         key="step-4"
-                        initial={{ opacity: 0, x: 20 }}
+                        initial={{ opacity: 0, x: 15 }}
                         animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
+                        exit={{ opacity: 0, x: -15 }}
                         transition={{ duration: 0.3 }}
                         className="flex flex-col gap-4 text-left"
                       >
                         <div>
-                          <span className="text-[11px] font-mono text-amber-400 uppercase tracking-widest block mb-1">
-                            Phase 4 · Synthesis & Lock
-                          </span>
                           <h3 className="text-xl md:text-2xl font-serif font-bold text-white mb-1">
-                            4. Your Triadic Pattern is Ready
+                            Where should we send your matrix?
                           </h3>
                           <p className="text-xs text-neutral-400 font-mono leading-relaxed mb-4">
-                            Enter your details to generate and lock your custom cosmic blueprint.
+                            Enter your identity and secure email to lock and reveal your custom blueprint.
                           </p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           {/* Full Name */}
                           <div>
-                            <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1">
+                            <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
                               Full Name *
                             </label>
                             <input
@@ -788,14 +788,14 @@ export default function App() {
                               value={formData.name}
                               onChange={handleInputChange}
                               placeholder="e.g., Ava Morgan"
-                              className="w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3.5 placeholder:text-neutral-700 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 transition-all text-sm font-mono"
+                              className="w-full bg-[#070709] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3.5 placeholder:text-neutral-700 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 transition-all text-sm font-mono"
                               autoComplete="off"
                             />
                           </div>
 
                           {/* Email Address */}
                           <div>
-                            <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1">
+                            <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
                               Email Address *
                             </label>
                             <input
@@ -804,7 +804,7 @@ export default function App() {
                               value={formData.email}
                               onChange={handleInputChange}
                               placeholder="name@example.com"
-                              className="w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3.5 placeholder:text-neutral-700 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 transition-all text-sm font-mono"
+                              className="w-full bg-[#070709] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3.5 placeholder:text-neutral-700 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 transition-all text-sm font-mono"
                               autoComplete="off"
                             />
                           </div>
