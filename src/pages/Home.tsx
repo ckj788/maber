@@ -553,35 +553,7 @@ export default function App() {
                   noValidate
                   className="w-full mt-4 bg-neutral-950/60 backdrop-blur-xl border border-neutral-900/80 rounded-2xl p-6 md:p-8 flex flex-col gap-4 shadow-[0_20px_60px_rgba(0,0,0,0.8)] hero-form-container relative overflow-hidden"
                 >
-                  {/* MINIMALIST MYSTICAL STEP NODES */}
-                  <div className="w-full mb-4 flex items-center justify-between px-1 border-b border-white/5 pb-3">
-                    <span className="text-[10px] font-mono tracking-[0.2em] text-neutral-500 uppercase flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-                      COSMIC CALIBRATION
-                    </span>
-                    <div className="flex items-center gap-3 font-mono text-[11px]">
-                      {["I", "II", "III", "IV"].map((num, idx) => {
-                        const isActive = formStep === idx + 1;
-                        const isPast = formStep > idx + 1;
-                        return (
-                          <div key={num} className="flex items-center gap-3">
-                            <span 
-                              className={`transition-all duration-300 ${
-                                isActive 
-                                  ? "text-amber-400 font-bold tracking-widest shadow-[0_0_10px_rgba(251,191,36,0.5)]" 
-                                  : isPast 
-                                    ? "text-neutral-300 font-medium" 
-                                    : "text-neutral-700 font-light"
-                              }`}
-                            >
-                              {num}
-                            </span>
-                            {idx < 3 && <span className="text-neutral-800 text-[9px]">·</span>}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
+
 
                   <AnimatePresence mode="wait">
                     {/* STEP 1: Date of Birth */}
