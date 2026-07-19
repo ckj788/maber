@@ -630,9 +630,22 @@ export default function App() {
                         </div>
 
                         <div>
-                          <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                            Time of Birth <span className="text-neutral-500">(Recommended)</span>
-                          </label>
+                          <div className="flex justify-between items-center mb-1.5">
+                            <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400">
+                              Time of Birth
+                            </label>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setFormData(prev => ({ ...prev, tob: "12:00" }));
+                                setErrorText("");
+                                setFormStep(3);
+                              }}
+                              className="text-[11px] font-mono text-amber-400/90 hover:text-amber-300 underline underline-offset-4 cursor-pointer transition-colors"
+                            >
+                              I don't know my exact time →
+                            </button>
+                          </div>
                           <input
                             type="time"
                             name="tob"
@@ -692,7 +705,7 @@ export default function App() {
 
                         <div>
                           <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                            Birthplace <span className="text-neutral-500">(City, Country)</span>
+                            Birthplace * <span className="text-neutral-500">(City, Country)</span>
                           </label>
                           <input
                             name="address"
@@ -719,6 +732,10 @@ export default function App() {
                           <button
                             type="button"
                             onClick={() => {
+                              if (!formData.address || !formData.address.trim()) {
+                                setErrorText("Please enter your birth city to calibrate geographic coordinates.");
+                                return;
+                              }
                               setErrorText("");
                               setFormStep(4);
                             }}
