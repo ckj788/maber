@@ -1261,7 +1261,7 @@
       for (const k in map) { const el = $(map[k]); if (el) el.textContent = (tri && tri[k] != null) ? String(tri[k]) : ''; }
       centerSvgLabels();
     }
-    function personaImagePath(o) { return `/assets/personas/${o}.png`; }
+    function personaImagePath(o) { return `/personas/${o}.png`; }
     function renderPersona(pOrO) {
       const o = reduce1(pOrO || 1) || 1;
       $('oVal').textContent = o;
