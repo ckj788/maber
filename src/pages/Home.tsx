@@ -605,7 +605,7 @@ export default function App() {
                     {/* Time of Birth */}
                     <div>
                       <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1">
-                        TIME OF BIRTH <span className="text-neutral-600">(RECOMMENDED)</span>
+                        TIME OF BIRTH <span className="text-neutral-600">(OPTIONAL)</span>
                       </label>
                       <input
                         type="time"
