@@ -5,7 +5,7 @@ import { PyramidSvg } from "../components/PyramidSvg";
 import { ReportModal, PERSONA_TITLES, PERSONA_TEASERS } from "../components/ReportModal";
 import { HeroGeometry, CosmicHarmony, NumerologyMap, ReportMockup } from "../components/DecorativeGraphics";
 import { TriangleData, BirthFormData } from "../types";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { usePostHog } from "@posthog/react";
 
 import { gsap } from "gsap";
@@ -16,6 +16,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
   const posthog = usePostHog();
+  const [searchParams] = useSearchParams();
   const [formData, setFormData] = useState<BirthFormData>({
     name: "",
     email: "",
@@ -23,6 +24,35 @@ export default function App() {
     tob: "",
     address: "",
   });
+
+  // Recognize leadID parameter from email recovery links
+  useEffect(() => {
+    const leadID = searchParams.get("leadID") || searchParams.get("leadId");
+    if (leadID) {
+      fetch(`/api/lead/get?leadID=${leadID}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.ok && data.lead) {
+            const lead = data.lead;
+            setFormData({
+              name: lead.name || "",
+              email: lead.email || "",
+              dob: lead.dob || "",
+              tob: lead.tob || "",
+              address: lead.address || "",
+            });
+            if (lead.dob) {
+              const calculated = computeTriangle(lead.dob);
+              if (calculated) {
+                setTriangleData(calculated);
+                setIsModalOpen(true); // Auto-open locked chapter preview modal with $19.90 buy button!
+              }
+            }
+          }
+        })
+        .catch(() => {});
+    }
+  }, [searchParams]);
 
   const [triangleData, setTriangleData] = useState<TriangleData | null>(null);
   const [isRitualActive, setIsRitualActive] = useState(false);
@@ -337,6 +367,23 @@ export default function App() {
         email: email
       });
     }
+
+    // Trigger background lead capture for automated 1-minute recovery email
+    try {
+      fetch("/api/lead/capture", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          dob: dob,
+          tob: tob,
+          address: address,
+          persona: calculated.O,
+          tri: calculated,
+        }),
+      }).catch(() => {});
+    } catch {}
 
     const ROMAN_MAP: Record<number, string> = {
       1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI",

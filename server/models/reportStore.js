@@ -69,6 +69,53 @@ function writeLocalDb(data) {
 }
 
 // Query report by Order ID (Async)
+export async function getLeadById(leadId) {
+  if (useLocalDb || !pool) {
+    console.log(`[localDb] fetching lead for leadId=${leadId}`);
+    const db = readLocalDb();
+    const row = db[`lead:${leadId}`];
+    return row ? JSON.parse(row.omniora_payload || row.payload) : null;
+  }
+
+  try {
+    const res = await pool.query('SELECT omniora_payload FROM omniora_reports WHERE omniora_order_id = $1', [`lead:${leadId}`]);
+    const row = res.rows[0];
+    return row ? JSON.parse(row.omniora_payload) : null;
+  } catch (err) {
+    console.error(`❌ getLeadById error for leadId=${leadId}, falling back to local storage:`, err);
+    const db = readLocalDb();
+    const row = db[`lead:${leadId}`];
+    return row ? JSON.parse(row.omniora_payload || row.payload) : null;
+  }
+}
+
+// Save lead
+export async function saveLead(leadId, payload) {
+  const ts = Date.now();
+  const db = readLocalDb();
+  db[`lead:${leadId}`] = {
+    omniora_order_id: `lead:${leadId}`,
+    omniora_payload: JSON.stringify(payload),
+    omniora_ts: ts
+  };
+  writeLocalDb(db);
+
+  if (pool) {
+    try {
+      await pool.query(
+        `INSERT INTO omniora_reports (omniora_order_id, omniora_payload, omniora_ts)
+         VALUES ($1, $2, $3)
+         ON CONFLICT (omniora_order_id)
+         DO UPDATE SET omniora_payload = EXCLUDED.omniora_payload, omniora_ts = EXCLUDED.omniora_ts`,
+        [`lead:${leadId}`, JSON.stringify(payload), ts]
+      );
+    } catch (e) {
+      console.error('❌ saveLead database query failed:', e);
+    }
+  }
+}
+
+// Query report by Order ID (Async)
 export async function getReportByOrderId(orderId) {
   if (useLocalDb || !pool) {
     console.log(`[localDb] fetching report for orderId=${orderId}`);
@@ -101,14 +148,13 @@ export async function saveOrUpdateReport(orderId, payload, emailed = false, firs
       omniora_order_id: orderId,
       omniora_payload: JSON.stringify(payload),
       omniora_emailed: emailedInt,
-      omniora_first_sent_at: firstSentAt || (db[orderId]?.omniora_first_sent_at) || (db[orderId]?.firstSentAt) || null,
+      omniora_first_sent_at: firstSentAt || ts,
       omniora_last_sent_at: lastSentAt || ts,
       omniora_ts: ts
     };
     writeLocalDb(db);
-    console.log(`[localDb] saved report for orderId=${orderId}`);
   } catch (e) {
-    console.error('❌ Failed to write local fallback during save:', e);
+    console.error('❌ Local database write failed:', e);
   }
 
   if (useLocalDb || !pool) {
@@ -116,26 +162,27 @@ export async function saveOrUpdateReport(orderId, payload, emailed = false, firs
   }
 
   try {
-    await pool.query(`
-      INSERT INTO omniora_reports (omniora_order_id, omniora_payload, omniora_emailed, omniora_first_sent_at, omniora_last_sent_at, omniora_ts)
-      VALUES ($1, $2, $3, $4, $5, $6)
-      ON CONFLICT(omniora_order_id) DO UPDATE SET
-        omniora_payload = EXCLUDED.omniora_payload,
-        omniora_emailed = EXCLUDED.omniora_emailed,
-        omniora_first_sent_at = COALESCE(omniora_reports.omniora_first_sent_at, EXCLUDED.omniora_first_sent_at),
-        omniora_last_sent_at = EXCLUDED.omniora_last_sent_at,
-        omniora_ts = EXCLUDED.omniora_ts
-    `, [orderId, JSON.stringify(payload), emailedInt, firstSentAt, lastSentAt, ts]);
+    await pool.query(
+      `INSERT INTO omniora_reports (omniora_order_id, omniora_payload, omniora_emailed, omniora_first_sent_at, omniora_last_sent_at, omniora_ts)
+       VALUES ($1, $2, $3, $4, $5, $6)
+       ON CONFLICT (omniora_order_id)
+       DO UPDATE SET
+         omniora_payload = EXCLUDED.omniora_payload,
+         omniora_emailed = EXCLUDED.omniora_emailed,
+         omniora_last_sent_at = EXCLUDED.omniora_last_sent_at,
+         omniora_ts = EXCLUDED.omniora_ts`,
+      [orderId, JSON.stringify(payload), emailedInt, firstSentAt || ts, lastSentAt || ts, ts]
+    );
+    console.log(`✅ [DB] Successfully saved report for orderId=${orderId}`);
   } catch (err) {
-    console.error(`❌ saveOrUpdateReport PG error for orderId=${orderId}:`, err);
+    console.error(`❌ saveOrUpdateReport database error for orderId=${orderId}:`, err);
   }
 }
 
 export function getDbStatus() {
   return {
     useLocalDb,
-    poolInitialized: !!pool,
-    localDbPath
+    localDbPath,
+    hasPool: !!pool
   };
 }
-

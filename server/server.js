@@ -10,7 +10,7 @@ import { Resend } from 'resend';
 import { readFile } from 'fs/promises';
 
 /********************* 新增代码 start ************************/
-import { getReportByOrderId, saveOrUpdateReport, getDbStatus, pool } from './models/reportStore.js';
+import { getReportByOrderId, saveOrUpdateReport, getDbStatus, pool, saveLead, getLeadById } from './models/reportStore.js';
 /********************* 新增代码 end ************************/
 
 // ★★★ 新增：Stripe
@@ -604,11 +604,113 @@ app.post('/api/stripe/create-intent', async (req, res) => {
       params.receipt_email = email.trim();
     }
 
-    const intent = await stripe.paymentIntents.create(params);
-    res.json({ clientSecret: intent.client_secret, id: intent.id });
+// POST /api/lead/capture - 捕获未付费 Lead 并开启 1 分钟自动追单邮件定时器
+app.post('/api/lead/capture', async (req, res) => {
+  try {
+    const { name, email, dob, tob, address, persona, tri } = req.body || {};
+    if (!email || !isValidEmail(email)) {
+      return res.status(400).json({ error: 'Valid email is required.' });
+    }
+
+    const leadId = 'lead_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+    const payload = {
+      leadId,
+      name: name || 'Seeker',
+      email: email.trim(),
+      dob: dob || '',
+      tob: tob || '',
+      address: address || '',
+      persona: persona || 7,
+      tri: tri || {},
+      ts: Date.now()
+    };
+
+    await saveLead(leadId, payload);
+    console.log(`✅ [lead/capture] Captured unpaid lead leadId=${leadId} for email=${email}`);
+
+    // 定时器：1分钟后自动发送追单邮件（用于本地及线上测试）
+    setTimeout(async () => {
+      try {
+        const host = req.headers.host || 'omniora13.com';
+        const protocol = req.headers['x-forwarded-proto'] || 'http';
+        const directReportUrl = `${protocol}://${host}/?leadID=${leadId}`;
+
+        const personaCode = payload.tri?.O || payload.persona || 7;
+        const recipientName = payload.name || 'Seeker';
+
+        const subject = `Your Cosmic Axis (Code ${personaCode}) is locked for ${recipientName}`;
+        const html = `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <style>
+              body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #030304; color: #ecebe7; margin: 0; padding: 40px 20px; }
+              .card { max-width: 560px; margin: 0 auto; background-color: #09090b; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 32px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+              .logo { font-size: 20px; font-weight: 700; letter-spacing: 0.15em; color: #ffffff; text-align: center; margin-bottom: 24px; }
+              .title { font-size: 22px; font-weight: 600; color: #ffffff; margin-bottom: 12px; }
+              .text { font-size: 14px; line-height: 1.6; color: #b8b8b8; margin-bottom: 24px; }
+              .btn { display: block; width: 100%; text-align: center; background-color: #ffffff; color: #000000; font-weight: 600; padding: 14px 20px; border-radius: 12px; text-decoration: none; font-size: 14px; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+              .footer { font-size: 11px; color: #666666; text-align: center; margin-top: 32px; line-height: 1.5; }
+              .footer a { color: #888888; text-decoration: underline; }
+            </style>
+          </head>
+          <body>
+            <div class="card">
+              <div class="logo">OMNIORA</div>
+              <div class="title">${recipientName}, your cosmic coordinates have been calibrated.</div>
+              <div class="text">
+                Your birth moment calculations (Code <strong>${personaCode}</strong>) and active shadow loops are currently locked and awaiting your review.
+              </div>
+              <a href="${directReportUrl}" class="btn">Unlock My Full Blueprint →</a>
+              <div class="footer">
+                You received this email because you initiated a cosmic calculation on OMNIORA.<br>
+                If you wish to stop receiving updates, <a href="${directReportUrl}&unsubscribe=true">click here to unsubscribe</a>.<br>
+                © 2026 OMNIORA. All rights reserved.
+              </div>
+            </div>
+          </body>
+          </html>
+        `;
+
+        if (process.env.RESEND_API_KEY && process.env.RESEND_API_KEY !== 're_placeholder_key_for_startup') {
+          console.log(`✉️ Sending 1-minute lead recovery email to ${payload.email}...`);
+          await resend.emails.send({
+            from: MAIL_FROM,
+            to: [payload.email],
+            subject: subject,
+            html: html
+          });
+          console.log(`✅ [Lead Recovery] Email sent successfully to ${payload.email}`);
+        } else {
+          console.log(`ℹ️ [Lead Recovery Simulated Send]: Email to ${payload.email}. Direct URL: ${directReportUrl}`);
+        }
+      } catch (err) {
+        console.error(`❌ [Lead Recovery Email Error]:`, err);
+      }
+    }, 60000); // 1 分钟定时器
+
+    res.json({ ok: true, leadId });
   } catch (e) {
-    console.error('create-intent error:', e);
-    res.status(400).json({ error: e.message });
+    console.error('lead/capture error:', e);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// GET /api/lead/get - 根据 leadID 提取未付费 Lead 信息直通预览
+app.get('/api/lead/get', async (req, res) => {
+  try {
+    const leadId = req.query.leadID || req.query.leadId;
+    if (!leadId) {
+      return res.status(400).json({ error: 'leadID is required' });
+    }
+    const lead = await getLeadById(leadId);
+    if (!lead) {
+      return res.status(404).json({ error: 'Lead not found' });
+    }
+    res.json({ ok: true, lead });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
   }
 });
 
