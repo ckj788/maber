@@ -545,282 +545,107 @@ export default function App() {
                   </div>
                 )}
 
-                {/* FORM CONTAINER - ESOTERIC RITUAL CALIBRATION */}
+                {/* FORM CONTAINER - SINGLE CARD HIGH CONVERSION LAYOUT */}
                 <form 
                   id="ritual-form-anchor"
                   onSubmit={handleBeginRitual}
                   autoComplete="off"
                   noValidate
-                  className="w-full mt-4 bg-neutral-950/60 backdrop-blur-xl border border-neutral-900/80 rounded-2xl p-6 md:p-8 flex flex-col gap-4 shadow-[0_20px_60px_rgba(0,0,0,0.8)] hero-form-container relative overflow-hidden"
+                  className="w-full mt-4 bg-neutral-950/40 backdrop-blur-md border border-neutral-900/60 rounded-2xl p-6 md:p-8 flex flex-col gap-4 shadow-[0_20px_50px_rgba(0,0,0,0.5)] hero-form-container"
                 >
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
+                    {/* Full Name */}
+                    <div>
+                      <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1">
+                        FULL NAME
+                      </label>
+                      <input
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="e.g., Ava Morgan"
+                        className="w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3 placeholder:text-neutral-700 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-xs font-mono"
+                        autoComplete="off"
+                      />
+                    </div>
 
+                    {/* Email Address */}
+                    <div>
+                      <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1">
+                        EMAIL ADDRESS
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="name@example.com"
+                        className="w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3 placeholder:text-neutral-700 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-xs font-mono"
+                        autoComplete="off"
+                      />
+                    </div>
 
-                  <AnimatePresence mode="wait">
-                    {/* STEP 1: Date of Birth */}
-                    {formStep === 1 && (
-                      <motion.div
-                        key="step-1"
-                        initial={{ opacity: 0, x: 15 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -15 }}
-                        transition={{ duration: 0.3 }}
-                        className="flex flex-col gap-4 text-left"
-                      >
-                        <div>
-                          <h3 className="text-xl md:text-2xl font-serif font-bold text-white mb-1">
-                            When did you enter the world?
-                          </h3>
-                          <p className="text-xs text-neutral-400 font-mono leading-relaxed mb-4">
-                            Your exact date of birth anchors your core geometric axis and natal node.
-                          </p>
-                        </div>
+                    {/* Date of Birth */}
+                    <div>
+                      <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1">
+                        DATE OF BIRTH
+                      </label>
+                      <input
+                        type="date"
+                        name="dob"
+                        value={formData.dob}
+                        onChange={handleInputChange}
+                        placeholder="YYYY / MM / DD"
+                        className={`w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-xs font-mono ${formData.dob ? "has-value" : ""}`}
+                        autoComplete="off"
+                        lang="en-US"
+                      />
+                    </div>
 
-                        <div>
-                          <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                            Date of Birth *
-                          </label>
-                          <input
-                            type="date"
-                            name="dob"
-                            value={formData.dob}
-                            onChange={handleInputChange}
-                            placeholder="YYYY / MM / DD"
-                            className={`w-full bg-[#070709] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3.5 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 transition-all text-sm font-mono ${formData.dob ? "has-value" : ""}`}
-                            autoComplete="off"
-                            lang="en-US"
-                          />
-                        </div>
+                    {/* Time of Birth */}
+                    <div>
+                      <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1">
+                        TIME OF BIRTH <span className="text-neutral-600">(RECOMMENDED)</span>
+                      </label>
+                      <input
+                        type="time"
+                        name="tob"
+                        value={formData.tob}
+                        onChange={handleInputChange}
+                        placeholder="HH : MM (e.g., 14:30)"
+                        className={`w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-xs font-mono ${formData.tob ? "has-value" : ""}`}
+                        autoComplete="off"
+                        lang="en-US"
+                      />
+                    </div>
 
-                        <div className="flex justify-end pt-2">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              if (!formData.dob) {
-                                setErrorText("Please select your Date of Birth to proceed.");
-                                return;
-                              }
-                              setErrorText("");
-                              setFormStep(2);
-                            }}
-                            className="w-full sm:w-auto p-3.5 px-8 bg-white text-black font-semibold rounded-xl hover:bg-[#dedcd7] transition-all duration-300 text-xs font-mono uppercase tracking-wider cursor-pointer text-center shadow-lg"
-                          >
-                            Continue →
-                          </button>
-                        </div>
-                      </motion.div>
-                    )}
+                    {/* Birthplace */}
+                    <div className="md:col-span-2">
+                      <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1">
+                        BIRTHPLACE <span className="text-neutral-600">(CITY, COUNTRY — FOR LOCAL MAGNETIC & TIMEZONE CALIBRATION)</span>
+                      </label>
+                      <input
+                        name="address"
+                        value={formData.address}
+                        onChange={handleInputChange}
+                        placeholder="e.g., London, UK"
+                        className="w-full bg-[#0a0a0c] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3 placeholder:text-neutral-700 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-all text-xs font-mono"
+                        autoComplete="off"
+                      />
+                    </div>
+                  </div>
 
-                    {/* STEP 2: Time of Birth */}
-                    {formStep === 2 && (
-                      <motion.div
-                        key="step-2"
-                        initial={{ opacity: 0, x: 15 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -15 }}
-                        transition={{ duration: 0.3 }}
-                        className="flex flex-col gap-4 text-left"
-                      >
-                        <div>
-                          <h3 className="text-xl md:text-2xl font-serif font-bold text-white mb-1">
-                            What time was your first breath?
-                          </h3>
-                          <p className="text-xs text-neutral-400 font-mono leading-relaxed mb-4">
-                            Calibrates your precise ascendant axis and houses. (Select approximate if unknown).
-                          </p>
-                        </div>
-
-                        <div>
-                          <div className="flex justify-between items-center mb-1.5">
-                            <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400">
-                              Time of Birth
-                            </label>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setFormData(prev => ({ ...prev, tob: "12:00" }));
-                                setErrorText("");
-                                setFormStep(3);
-                              }}
-                              className="text-[11px] font-mono text-amber-400/90 hover:text-amber-300 underline underline-offset-4 cursor-pointer transition-colors"
-                            >
-                              I don't know my exact time →
-                            </button>
-                          </div>
-                          <input
-                            type="time"
-                            name="tob"
-                            value={formData.tob}
-                            onChange={handleInputChange}
-                            placeholder="HH : MM (e.g., 14:30)"
-                            className={`w-full bg-[#070709] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3.5 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 transition-all text-sm font-mono ${formData.tob ? "has-value" : ""}`}
-                            autoComplete="off"
-                            lang="en-US"
-                          />
-                        </div>
-
-                        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setErrorText("");
-                              setFormStep(1);
-                            }}
-                            className="w-full sm:w-auto p-3 px-6 border border-neutral-800 text-neutral-400 hover:text-white rounded-xl transition-all text-xs font-mono uppercase tracking-wider cursor-pointer"
-                          >
-                            ← Back
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setErrorText("");
-                              setFormStep(3);
-                            }}
-                            className="w-full sm:w-auto p-3.5 px-8 bg-white text-black font-semibold rounded-xl hover:bg-[#dedcd7] transition-all duration-300 text-xs font-mono uppercase tracking-wider cursor-pointer text-center shadow-lg"
-                          >
-                            Continue →
-                          </button>
-                        </div>
-                      </motion.div>
-                    )}
-
-                    {/* STEP 3: Birthplace */}
-                    {formStep === 3 && (
-                      <motion.div
-                        key="step-3"
-                        initial={{ opacity: 0, x: 15 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -15 }}
-                        transition={{ duration: 0.3 }}
-                        className="flex flex-col gap-4 text-left"
-                      >
-                        <div>
-                          <h3 className="text-xl md:text-2xl font-serif font-bold text-white mb-1">
-                            Where were your coordinates set?
-                          </h3>
-                          <p className="text-xs text-neutral-400 font-mono leading-relaxed mb-4">
-                            Pinpoints local magnetic variation and geographic frequencies.
-                          </p>
-                        </div>
-
-                        <div>
-                          <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                            Birthplace * <span className="text-neutral-500">(City, Country)</span>
-                          </label>
-                          <input
-                            name="address"
-                            value={formData.address}
-                            onChange={handleInputChange}
-                            placeholder="e.g., London, UK"
-                            className="w-full bg-[#070709] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3.5 placeholder:text-neutral-700 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 transition-all text-sm font-mono"
-                            autoComplete="off"
-                          />
-                        </div>
-
-                        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setErrorText("");
-                              setFormStep(2);
-                            }}
-                            className="w-full sm:w-auto p-3 px-6 border border-neutral-800 text-neutral-400 hover:text-white rounded-xl transition-all text-xs font-mono uppercase tracking-wider cursor-pointer"
-                          >
-                            ← Back
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => {
-                              if (!formData.address || !formData.address.trim()) {
-                                setErrorText("Please enter your birth city to calibrate geographic coordinates.");
-                                return;
-                              }
-                              setErrorText("");
-                              setFormStep(4);
-                            }}
-                            className="w-full sm:w-auto p-3.5 px-8 bg-white text-black font-semibold rounded-xl hover:bg-[#dedcd7] transition-all duration-300 text-xs font-mono uppercase tracking-wider cursor-pointer text-center shadow-lg"
-                          >
-                            Continue →
-                          </button>
-                        </div>
-                      </motion.div>
-                    )}
-
-                    {/* STEP 4: Name & Email (Final Step) */}
-                    {formStep === 4 && (
-                      <motion.div
-                        key="step-4"
-                        initial={{ opacity: 0, x: 15 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -15 }}
-                        transition={{ duration: 0.3 }}
-                        className="flex flex-col gap-4 text-left"
-                      >
-                        <div>
-                          <h3 className="text-xl md:text-2xl font-serif font-bold text-white mb-1">
-                            Where should we send your matrix?
-                          </h3>
-                          <p className="text-xs text-neutral-400 font-mono leading-relaxed mb-4">
-                            Enter your identity and secure email to lock and reveal your custom blueprint.
-                          </p>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          {/* Full Name */}
-                          <div>
-                            <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                              Full Name *
-                            </label>
-                            <input
-                              name="name"
-                              value={formData.name}
-                              onChange={handleInputChange}
-                              placeholder="e.g., Ava Morgan"
-                              className="w-full bg-[#070709] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3.5 placeholder:text-neutral-700 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 transition-all text-sm font-mono"
-                              autoComplete="off"
-                            />
-                          </div>
-
-                          {/* Email Address */}
-                          <div>
-                            <label className="block text-[10px] font-mono uppercase tracking-wider text-neutral-400 mb-1.5">
-                              Email Address *
-                            </label>
-                            <input
-                              type="email"
-                              name="email"
-                              value={formData.email}
-                              onChange={handleInputChange}
-                              placeholder="name@example.com"
-                              className="w-full bg-[#070709] text-[#f3f3f1] border border-neutral-900 rounded-xl p-3.5 placeholder:text-neutral-700 focus:outline-none focus:border-amber-400/50 focus:ring-1 focus:ring-amber-400/30 transition-all text-sm font-mono"
-                              autoComplete="off"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setErrorText("");
-                              setFormStep(3);
-                            }}
-                            className="w-full sm:w-auto p-3 px-6 border border-neutral-800 text-neutral-400 hover:text-white rounded-xl transition-all text-xs font-mono uppercase tracking-wider cursor-pointer"
-                          >
-                            ← Back
-                          </button>
-
-                          <button
-                            type="submit"
-                            className="w-full sm:w-auto p-3.5 px-8 bg-white text-black font-semibold rounded-xl hover:bg-[#dedcd7] transition-all duration-300 text-xs font-mono uppercase tracking-wider cursor-pointer text-center shadow-[0_0_25px_rgba(255,255,255,0.4)]"
-                          >
-                            Decode My Coordinates ✨
-                          </button>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-neutral-900 pt-4 mt-2">
+                    <span className="text-[10px] text-neutral-500 font-mono text-left flex items-center gap-1.5">
+                      🔒 We respect your privacy. No data is sold or stored.
+                    </span>
+                    <button
+                      type="submit"
+                      className="w-full sm:w-auto p-3.5 px-8 border border-neutral-700 hover:border-neutral-400 bg-neutral-950 text-white rounded-xl hover:bg-white hover:text-black transition-all duration-300 font-semibold cursor-pointer text-center text-xs"
+                    >
+                      Decode My Coordinates
+                    </button>
+                  </div>
                 </form>
 
                 <div className="flex flex-col gap-1 mt-2 hero-extra">
