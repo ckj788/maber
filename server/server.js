@@ -10,7 +10,7 @@ import { Resend } from 'resend';
 import { readFile } from 'fs/promises';
 
 /********************* 新增代码 start ************************/
-import { getReportByOrderId, saveOrUpdateReport, getDbStatus, pool, saveLead, getLeadById, getLeadByEmail } from './models/reportStore.js';
+import { getReportByOrderId, saveOrUpdateReport, getDbStatus, pool, saveLead, getLeadById, getLeadEmailIdsByEmail } from './models/reportStore.js';
 /********************* 新增代码 end ************************/
 
 // ★★★ 新增：Stripe
@@ -291,14 +291,20 @@ async function sendReportEmailFromPayload(payload, baseUrl = null) {
       console.warn(`[email] invalid recipient "${recipient}", fallback to owner: ${MAIL_TO_OWNER}`);
     }
 
-    // Auto-cancel any scheduled unpaid recovery email for this purchaser
+    // Auto-cancel all scheduled unpaid recovery emails for this purchaser
     try {
       if (recipient && process.env.RESEND_API_KEY && process.env.RESEND_API_KEY !== 're_placeholder_key_for_startup') {
-        const lead = await getLeadByEmail(recipient);
-        if (lead && lead.emailId) {
-          console.log(`🚫 [Auto-Cancel] User ${recipient} purchased! Cancelling scheduled lead recovery email ID: ${lead.emailId}...`);
-          await resend.emails.cancel(lead.emailId);
-          console.log(`✅ [Auto-Cancel Success] Resend recovery email ${lead.emailId} cancelled.`);
+        const scheduledIds = await getLeadEmailIdsByEmail(recipient);
+        if (scheduledIds && scheduledIds.length > 0) {
+          console.log(`🚫 [Auto-Cancel] User ${recipient} purchased! Cancelling ${scheduledIds.length} scheduled lead recovery email(s)...`);
+          for (const emailId of scheduledIds) {
+            try {
+              const cancelRes = await resend.emails.cancel(emailId);
+              console.log(`✅ [Auto-Cancel Success] Resend recovery email ${emailId} cancelled:`, cancelRes);
+            } catch (singleErr) {
+              console.warn(`⚠️ Failed to cancel ${emailId}:`, singleErr?.message || singleErr);
+            }
+          }
         }
       }
     } catch (cancelErr) {

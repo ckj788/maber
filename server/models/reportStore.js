@@ -68,21 +68,24 @@ function writeLocalDb(data) {
   }
 }
 
-// Query lead by Email
-export async function getLeadByEmail(email) {
+// Query all lead email IDs by Email
+export async function getLeadEmailIdsByEmail(email) {
   const targetEmail = (email || '').trim().toLowerCase();
-  if (!targetEmail) return null;
+  if (!targetEmail) return [];
 
   const db = readLocalDb();
   const keys = Object.keys(db).filter(k => k.startsWith('lead:'));
+  const ids = [];
   for (const k of keys) {
     const row = db[k];
-    const payload = JSON.parse(row.omniora_payload || row.payload || '{}');
-    if ((payload.email || '').trim().toLowerCase() === targetEmail) {
-      return payload;
-    }
+    try {
+      const payload = JSON.parse(row.omniora_payload || row.payload || '{}');
+      if ((payload.email || '').trim().toLowerCase() === targetEmail && payload.emailId) {
+        ids.push(payload.emailId);
+      }
+    } catch {}
   }
-  return null;
+  return ids;
 }
 export async function getLeadById(leadId) {
   if (useLocalDb || !pool) {
