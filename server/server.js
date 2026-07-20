@@ -700,7 +700,7 @@ app.post('/api/lead/capture', async (req, res) => {
       } catch (err) {
         console.error(`❌ [Lead Recovery Email Error]:`, err);
       }
-    }, 15 * 60 * 1000); // 15 分钟定时器（生产环境黄金追单窗口）
+    }, 20 * 60 * 1000); // 20 分钟定时器（线上生产环境黄金追单窗口）
 
     res.json({ ok: true, leadId });
   } catch (e) {
