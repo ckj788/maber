@@ -339,7 +339,7 @@ export default function App() {
 
   const handleBeginRitual = (e: React.FormEvent) => {
     e.preventDefault();
-    const { name, email, dob } = formData;
+    const { name, email, dob, tob, address } = formData;
 
     if (!name.trim() || !dob.trim() || !email.trim()) {
       setErrorText("Please fill out your full name, email, and date of birth.");
@@ -370,6 +370,7 @@ export default function App() {
 
     // Trigger background lead capture for automated 1-minute recovery email
     try {
+      console.log("🚀 [Lead Capture] Sending lead payload to /api/lead/capture...", { name, email, dob, tob, address });
       fetch("/api/lead/capture", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -382,8 +383,13 @@ export default function App() {
           persona: calculated.O,
           tri: calculated,
         }),
-      }).catch(() => {});
-    } catch {}
+      })
+        .then((r) => r.json())
+        .then((res) => console.log("✅ [Lead Capture Response]:", res))
+        .catch((err) => console.error("❌ [Lead Capture Fetch Error]:", err));
+    } catch (err) {
+      console.error("❌ [Lead Capture Outer Error]:", err);
+    }
 
     const ROMAN_MAP: Record<number, string> = {
       1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI",

@@ -604,6 +604,14 @@ app.post('/api/stripe/create-intent', async (req, res) => {
       params.receipt_email = email.trim();
     }
 
+    const intent = await stripe.paymentIntents.create(params);
+    res.json({ clientSecret: intent.client_secret, id: intent.id });
+  } catch (e) {
+    console.error('create-intent error:', e);
+    res.status(400).json({ error: e.message });
+  }
+});
+
 // POST /api/lead/capture - 捕获未付费 Lead 并开启 1 分钟自动追单邮件定时器
 app.post('/api/lead/capture', async (req, res) => {
   try {
@@ -644,20 +652,24 @@ app.post('/api/lead/capture', async (req, res) => {
           <html>
           <head>
             <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <style>
-              body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #030304; color: #ecebe7; margin: 0; padding: 40px 20px; }
-              .card { max-width: 560px; margin: 0 auto; background-color: #09090b; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 32px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
-              .logo { font-size: 20px; font-weight: 700; letter-spacing: 0.15em; color: #ffffff; text-align: center; margin-bottom: 24px; }
-              .title { font-size: 22px; font-weight: 600; color: #ffffff; margin-bottom: 12px; }
-              .text { font-size: 14px; line-height: 1.6; color: #b8b8b8; margin-bottom: 24px; }
-              .btn { display: block; width: 100%; text-align: center; background-color: #ffffff; color: #000000; font-weight: 600; padding: 14px 20px; border-radius: 12px; text-decoration: none; font-size: 14px; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
-              .footer { font-size: 11px; color: #666666; text-align: center; margin-top: 32px; line-height: 1.5; }
+              * { box-sizing: border-box; }
+              body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #030304; color: #ecebe7; margin: 0; padding: 40px 16px; -webkit-font-smoothing: antialiased; }
+              .card { max-width: 580px; margin: 0 auto; background-color: #09090b; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; padding: 40px 32px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
+              .logo { font-family: Georgia, 'Times New Roman', serif; font-size: 18px; font-weight: 600; letter-spacing: 0.3em; color: #ffffff; text-align: center; margin-bottom: 28px; }
+              .badge { display: inline-block; background-color: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #f59e0b; font-family: monospace; font-size: 11px; letter-spacing: 0.1em; padding: 4px 12px; border-radius: 20px; margin-bottom: 20px; }
+              .title { font-family: Georgia, 'Times New Roman', serif; font-size: 24px; font-weight: 500; line-height: 1.35; color: #ffffff; text-align: center; margin-bottom: 16px; }
+              .text { font-size: 14px; line-height: 1.65; color: #a1a1aa; text-align: center; margin-bottom: 32px; }
+              .btn { display: block; width: 100%; box-sizing: border-box; text-align: center; background-color: #ffffff; color: #000000; font-weight: 600; font-size: 13px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; padding: 16px 24px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2); }
+              .footer { font-size: 11px; font-family: monospace, sans-serif; color: #52525b; text-align: center; margin-top: 36px; line-height: 1.6; }
               .footer a { color: #888888; text-decoration: underline; }
             </style>
           </head>
           <body>
             <div class="card">
               <div class="logo">OMNIORA</div>
+              <div style="text-align: center;"><span class="badge">CALIBRATION COMPLETE</span></div>
               <div class="title">${recipientName}, your cosmic coordinates have been calibrated.</div>
               <div class="text">
                 Your birth moment calculations (Code <strong>${personaCode}</strong>) and active shadow loops are currently locked and awaiting your review.
@@ -688,7 +700,7 @@ app.post('/api/lead/capture', async (req, res) => {
       } catch (err) {
         console.error(`❌ [Lead Recovery Email Error]:`, err);
       }
-    }, 60000); // 1 分钟定时器
+    }, 15 * 60 * 1000); // 15 分钟定时器（生产环境黄金追单窗口）
 
     res.json({ ok: true, leadId });
   } catch (e) {
