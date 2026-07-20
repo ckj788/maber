@@ -68,7 +68,22 @@ function writeLocalDb(data) {
   }
 }
 
-// Query report by Order ID (Async)
+// Query lead by Email
+export async function getLeadByEmail(email) {
+  const targetEmail = (email || '').trim().toLowerCase();
+  if (!targetEmail) return null;
+
+  const db = readLocalDb();
+  const keys = Object.keys(db).filter(k => k.startsWith('lead:'));
+  for (const k of keys) {
+    const row = db[k];
+    const payload = JSON.parse(row.omniora_payload || row.payload || '{}');
+    if ((payload.email || '').trim().toLowerCase() === targetEmail) {
+      return payload;
+    }
+  }
+  return null;
+}
 export async function getLeadById(leadId) {
   if (useLocalDb || !pool) {
     console.log(`[localDb] fetching lead for leadId=${leadId}`);

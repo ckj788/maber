@@ -10,7 +10,7 @@ import { Resend } from 'resend';
 import { readFile } from 'fs/promises';
 
 /********************* 新增代码 start ************************/
-import { getReportByOrderId, saveOrUpdateReport, getDbStatus, pool, saveLead, getLeadById } from './models/reportStore.js';
+import { getReportByOrderId, saveOrUpdateReport, getDbStatus, pool, saveLead, getLeadById, getLeadByEmail } from './models/reportStore.js';
 /********************* 新增代码 end ************************/
 
 // ★★★ 新增：Stripe
@@ -289,6 +289,20 @@ async function sendReportEmailFromPayload(payload, baseUrl = null) {
     const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipient);
     if (!ok) {
       console.warn(`[email] invalid recipient "${recipient}", fallback to owner: ${MAIL_TO_OWNER}`);
+    }
+
+    // Auto-cancel any scheduled unpaid recovery email for this purchaser
+    try {
+      if (recipient && process.env.RESEND_API_KEY && process.env.RESEND_API_KEY !== 're_placeholder_key_for_startup') {
+        const lead = await getLeadByEmail(recipient);
+        if (lead && lead.emailId) {
+          console.log(`🚫 [Auto-Cancel] User ${recipient} purchased! Cancelling scheduled lead recovery email ID: ${lead.emailId}...`);
+          await resend.emails.cancel(lead.emailId);
+          console.log(`✅ [Auto-Cancel Success] Resend recovery email ${lead.emailId} cancelled.`);
+        }
+      }
+    } catch (cancelErr) {
+      console.log(`ℹ️ [Auto-Cancel Check Notice]:`, cancelErr?.message || cancelErr);
     }
 
     const result = await resend.emails.send({
@@ -696,6 +710,10 @@ app.post('/api/lead/capture', async (req, res) => {
         scheduledAt: scheduledTime
       });
       console.log(`✅ [Lead Recovery Cloud Scheduled]:`, resendResult);
+      if (resendResult?.data?.id) {
+        payload.emailId = resendResult.data.id;
+        await saveLead(leadId, payload);
+      }
     } else {
       console.log(`ℹ️ [Lead Recovery Simulated Send]: Email to ${payload.email}. Direct URL: ${directReportUrl}`);
     }
