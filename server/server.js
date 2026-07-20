@@ -637,70 +637,68 @@ app.post('/api/lead/capture', async (req, res) => {
     console.log(`✅ [lead/capture] Captured unpaid lead leadId=${leadId} for email=${email}`);
 
     // 定时器：1分钟后自动发送追单邮件（用于本地及线上测试）
-    setTimeout(async () => {
-      try {
-        const host = req.headers.host || 'omniora13.com';
-        const protocol = req.headers['x-forwarded-proto'] || 'http';
-        const directReportUrl = `${protocol}://${host}/?leadID=${leadId}`;
+    const host = req.headers.host || 'omniora13.com';
+    const protocol = req.headers['x-forwarded-proto'] || 'http';
+    const directReportUrl = `${protocol}://${host}/?leadID=${leadId}`;
 
-        const personaCode = payload.tri?.O || payload.persona || 7;
-        const recipientName = payload.name || 'Seeker';
+    const personaCode = payload.tri?.O || payload.persona || 7;
+    const recipientName = payload.name || 'Seeker';
 
-        const subject = `Your Cosmic Axis (Code ${personaCode}) is locked for ${recipientName}`;
-        const html = `
-          <!DOCTYPE html>
-          <html>
-          <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <style>
-              * { box-sizing: border-box; }
-              body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #030304; color: #ecebe7; margin: 0; padding: 40px 16px; -webkit-font-smoothing: antialiased; }
-              .card { max-width: 580px; margin: 0 auto; background-color: #09090b; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; padding: 40px 32px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
-              .logo { font-family: Georgia, 'Times New Roman', serif; font-size: 18px; font-weight: 600; letter-spacing: 0.3em; color: #ffffff; text-align: center; margin-bottom: 28px; }
-              .badge { display: inline-block; background-color: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #f59e0b; font-family: monospace; font-size: 11px; letter-spacing: 0.1em; padding: 4px 12px; border-radius: 20px; margin-bottom: 20px; }
-              .title { font-family: Georgia, 'Times New Roman', serif; font-size: 24px; font-weight: 500; line-height: 1.35; color: #ffffff; text-align: center; margin-bottom: 16px; }
-              .text { font-size: 14px; line-height: 1.65; color: #a1a1aa; text-align: center; margin-bottom: 32px; }
-              .btn { display: block; width: 100%; box-sizing: border-box; text-align: center; background-color: #ffffff; color: #000000; font-weight: 600; font-size: 13px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; padding: 16px 24px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2); }
-              .footer { font-size: 11px; font-family: monospace, sans-serif; color: #52525b; text-align: center; margin-top: 36px; line-height: 1.6; }
-              .footer a { color: #888888; text-decoration: underline; }
-            </style>
-          </head>
-          <body>
-            <div class="card">
-              <div class="logo">OMNIORA</div>
-              <div style="text-align: center;"><span class="badge">CALIBRATION COMPLETE</span></div>
-              <div class="title">${recipientName}, your cosmic coordinates have been calibrated.</div>
-              <div class="text">
-                Your birth moment calculations (Code <strong>${personaCode}</strong>) and active shadow loops are currently locked and awaiting your review.
-              </div>
-              <a href="${directReportUrl}" class="btn">Unlock My Full Blueprint →</a>
-              <div class="footer">
-                You received this email because you initiated a cosmic calculation on OMNIORA.<br>
-                If you wish to stop receiving updates, <a href="${directReportUrl}&unsubscribe=true">click here to unsubscribe</a>.<br>
-                © 2026 OMNIORA. All rights reserved.
-              </div>
-            </div>
-          </body>
-          </html>
-        `;
+    const subject = `Your Cosmic Axis (Code ${personaCode}) is locked for ${recipientName}`;
+    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+          * { box-sizing: border-box; }
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #030304; color: #ecebe7; margin: 0; padding: 40px 16px; -webkit-font-smoothing: antialiased; }
+          .card { max-width: 580px; margin: 0 auto; background-color: #09090b; border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; padding: 40px 32px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
+          .logo { font-family: Georgia, 'Times New Roman', serif; font-size: 18px; font-weight: 600; letter-spacing: 0.3em; color: #ffffff; text-align: center; margin-bottom: 28px; }
+          .badge { display: inline-block; background-color: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: #f59e0b; font-family: monospace; font-size: 11px; letter-spacing: 0.1em; padding: 4px 12px; border-radius: 20px; margin-bottom: 20px; }
+          .title { font-family: Georgia, 'Times New Roman', serif; font-size: 24px; font-weight: 500; line-height: 1.35; color: #ffffff; text-align: center; margin-bottom: 16px; }
+          .text { font-size: 14px; line-height: 1.65; color: #a1a1aa; text-align: center; margin-bottom: 32px; }
+          .btn { display: block; width: 100%; box-sizing: border-box; text-align: center; background-color: #ffffff; color: #000000; font-weight: 600; font-size: 13px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; letter-spacing: 0.08em; text-transform: uppercase; padding: 16px 24px; border-radius: 12px; text-decoration: none; box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2); }
+          .footer { font-size: 11px; font-family: monospace, sans-serif; color: #52525b; text-align: center; margin-top: 36px; line-height: 1.6; }
+          .footer a { color: #888888; text-decoration: underline; }
+        </style>
+      </head>
+      <body>
+        <div class="card">
+          <div class="logo">OMNIORA</div>
+          <div style="text-align: center;"><span class="badge">CALIBRATION COMPLETE</span></div>
+          <div class="title">${recipientName}, your cosmic coordinates have been calibrated.</div>
+          <div class="text">
+            Your birth moment calculations (Code <strong>${personaCode}</strong>) and active shadow loops are currently locked and awaiting your review.
+          </div>
+          <a href="${directReportUrl}" class="btn">Unlock My Full Blueprint →</a>
+          <div class="footer">
+            You received this email because you initiated a cosmic calculation on OMNIORA.<br>
+            If you wish to stop receiving updates, <a href="${directReportUrl}&unsubscribe=true">click here to unsubscribe</a>.<br>
+            © 2026 OMNIORA. All rights reserved.
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
 
-        if (process.env.RESEND_API_KEY && process.env.RESEND_API_KEY !== 're_placeholder_key_for_startup') {
-          console.log(`✉️ Sending 1-minute lead recovery email to ${payload.email}...`);
-          await resend.emails.send({
-            from: MAIL_FROM,
-            to: [payload.email],
-            subject: subject,
-            html: html
-          });
-          console.log(`✅ [Lead Recovery] Email sent successfully to ${payload.email}`);
-        } else {
-          console.log(`ℹ️ [Lead Recovery Simulated Send]: Email to ${payload.email}. Direct URL: ${directReportUrl}`);
-        }
-      } catch (err) {
-        console.error(`❌ [Lead Recovery Email Error]:`, err);
-      }
-    }, 20 * 60 * 1000); // 20 分钟定时器（线上生产环境黄金追单窗口）
+    if (process.env.RESEND_API_KEY && process.env.RESEND_API_KEY !== 're_placeholder_key_for_startup') {
+      // 生产环境 Vercel Serverless：使用 Resend 云端原生定时调度 (scheduledAt: ISO string)
+      const scheduledTime = new Date(Date.now() + 20 * 60 * 1000).toISOString();
+      console.log(`✉️ Scheduling Resend cloud email for ${payload.email} at ${scheduledTime}...`);
+      
+      const resendResult = await resend.emails.send({
+        from: MAIL_FROM,
+        to: [payload.email],
+        subject: subject,
+        html: html,
+        scheduledAt: scheduledTime
+      });
+      console.log(`✅ [Lead Recovery Cloud Scheduled]:`, resendResult);
+    } else {
+      console.log(`ℹ️ [Lead Recovery Simulated Send]: Email to ${payload.email}. Direct URL: ${directReportUrl}`);
+    }
 
     res.json({ ok: true, leadId });
   } catch (e) {
