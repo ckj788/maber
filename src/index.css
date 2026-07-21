@@ -129,14 +129,29 @@ input[type="time"]:not(.has-value):not(:focus)::before {
 /* Custom breathing glowing gold number pulse animation for live counter */
 @keyframes text-glow-pulse {
   0%, 100% {
-    color: rgba(255, 255, 255, 0.95);
-    text-shadow: 0 0 4px rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(245, 158, 11, 0.4);
   }
   50% {
     color: #f59e0b; /* Amber Gold */
-    text-shadow: 0 0 10px rgba(245, 158, 11, 0.5), 0 0 18px rgba(245, 158, 11, 0.25);
+    text-shadow: 0 0 16px rgba(245, 158, 11, 0.7), 0 0 24px rgba(251, 191, 36, 0.4);
   }
 }
 .number-pulse {
-  animation: text-glow-pulse 2.2s infinite ease-in-out;
+  animation: text-glow-pulse 2.5s infinite ease-in-out;
+}
+
+/* Subtle cosmic pulse aura for live badge */
+@keyframes cosmic-badge-pulse {
+  0%, 100% {
+    border-color: rgba(245, 158, 11, 0.25);
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.05);
+  }
+  50% {
+    border-color: rgba(245, 158, 11, 0.45);
+    box-shadow: 0 0 25px rgba(245, 158, 11, 0.15);
+  }
+}
+.cosmic-badge-pulse {
+  animation: cosmic-badge-pulse 3s infinite ease-in-out;
 }
