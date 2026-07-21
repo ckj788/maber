@@ -699,6 +699,16 @@ export default function App() {
                       Decode My Coordinates
                     </button>
                   </div>
+
+                  {/* Social Proof Counter Banner */}
+                  <div className="w-full flex items-center justify-center gap-2 pt-3 border-t border-white/5 text-[11px] font-mono text-neutral-400">
+                    <div className="flex items-center gap-0.5 text-amber-400 text-xs tracking-wider select-none">
+                      ★★★★★
+                    </div>
+                    <span>
+                      Joined by <strong className="text-white font-semibold">500+</strong> seekers calibrated today
+                    </span>
+                  </div>
                 </form>
 
                 <div className="flex flex-col gap-1 mt-2 hero-extra">
