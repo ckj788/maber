@@ -125,3 +125,18 @@ input[type="time"]:not(.has-value):not(:focus)::before {
   background-clip: text;
   color: transparent;
 }
+
+/* Custom breathing glowing gold number pulse animation for live counter */
+@keyframes text-glow-pulse {
+  0%, 100% {
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.15);
+  }
+  50% {
+    color: #f59e0b; /* Amber Gold */
+    text-shadow: 0 0 10px rgba(245, 158, 11, 0.5), 0 0 18px rgba(245, 158, 11, 0.25);
+  }
+}
+.number-pulse {
+  animation: text-glow-pulse 2.2s infinite ease-in-out;
+}

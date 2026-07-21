@@ -66,6 +66,18 @@ export default function App() {
   const [showResultFooter, setShowResultFooter] = useState(false);
   const [showStickyBtn, setShowStickyBtn] = useState(false);
   const [formStep, setFormStep] = useState(1);
+  const [liveLeadCount, setLiveLeadCount] = useState(511);
+
+  useEffect(() => {
+    fetch('/api/lead/count')
+      .then(res => res.json())
+      .then(data => {
+        if (data?.total) {
+          setLiveLeadCount(data.total);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (isRitualActive || showResultSection) {
@@ -385,7 +397,10 @@ export default function App() {
         }),
       })
         .then((r) => r.json())
-        .then((res) => console.log("✅ [Lead Capture Response]:", res))
+        .then((res) => {
+          console.log("✅ [Lead Capture Response]:", res);
+          setLiveLeadCount((prev) => prev + 1);
+        })
         .catch((err) => console.error("❌ [Lead Capture Fetch Error]:", err));
     } catch (err) {
       console.error("❌ [Lead Capture Outer Error]:", err);
@@ -606,6 +621,17 @@ export default function App() {
                   noValidate
                   className="w-full mt-4 bg-neutral-950/40 backdrop-blur-md border border-neutral-900/60 rounded-2xl p-6 md:p-8 flex flex-col gap-4 shadow-[0_20px_50px_rgba(0,0,0,0.5)] hero-form-container"
                 >
+                  {/* Live Counter Banner - Above inputs */}
+                  <div className="w-full flex items-center justify-between pb-3 border-b border-neutral-900 mb-1 select-none">
+                    <div className="flex items-center gap-2 text-[11px] font-mono text-neutral-400">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      <span>
+                        <strong className="number-pulse text-white font-bold">{liveLeadCount}</strong> personal blueprints decoded in total
+                      </span>
+                    </div>
+                    <span className="text-[9px] font-mono tracking-widest text-neutral-600 uppercase">LIVE COUNTER</span>
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
                     {/* Full Name */}
                     <div>
@@ -698,16 +724,6 @@ export default function App() {
                     >
                       Decode My Coordinates
                     </button>
-                  </div>
-
-                  {/* Social Proof Counter Banner */}
-                  <div className="w-full flex items-center justify-center gap-2 pt-3 border-t border-white/5 text-[11px] font-mono text-neutral-400">
-                    <div className="flex items-center gap-0.5 text-amber-400 text-xs tracking-wider select-none">
-                      ★★★★★
-                    </div>
-                    <span>
-                      Joined by <strong className="text-white font-semibold">500+</strong> seekers calibrated today
-                    </span>
                   </div>
                 </form>
 

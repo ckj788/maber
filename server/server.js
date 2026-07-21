@@ -731,6 +731,18 @@ app.post('/api/lead/capture', async (req, res) => {
   }
 });
 
+// GET /api/lead/count - 获取全球实时积累测算人数 (从 511 开始)
+app.get('/api/lead/count', async (req, res) => {
+  try {
+    const db = readLocalDb();
+    const leadKeys = Object.keys(db).filter(k => k.startsWith('lead:'));
+    const total = 511 + leadKeys.length;
+    res.json({ total });
+  } catch (e) {
+    res.json({ total: 511 });
+  }
+});
+
 // GET /api/lead/get - 根据 leadID 提取未付费 Lead 信息直通预览
 app.get('/api/lead/get', async (req, res) => {
   try {
