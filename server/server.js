@@ -10,7 +10,7 @@ import { Resend } from 'resend';
 import { readFile } from 'fs/promises';
 
 /********************* 新增代码 start ************************/
-import { getReportByOrderId, saveOrUpdateReport, getDbStatus, pool, saveLead, getLeadById, getLeadEmailIdsByEmail } from './models/reportStore.js';
+import { getReportByOrderId, saveOrUpdateReport, getDbStatus, pool, saveLead, getLeadById, getLeadEmailIdsByEmail, getLeadCount } from './models/reportStore.js';
 /********************* 新增代码 end ************************/
 
 // ★★★ 新增：Stripe
@@ -734,9 +734,7 @@ app.post('/api/lead/capture', async (req, res) => {
 // GET /api/lead/count - 获取全球实时积累测算人数 (从 511 开始)
 app.get('/api/lead/count', async (req, res) => {
   try {
-    const db = readLocalDb();
-    const leadKeys = Object.keys(db).filter(k => k.startsWith('lead:'));
-    const total = 511 + leadKeys.length;
+    const total = await getLeadCount();
     res.json({ total });
   } catch (e) {
     res.json({ total: 511 });

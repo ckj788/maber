@@ -68,6 +68,22 @@ function writeLocalDb(data) {
   }
 }
 
+// Query total lead count (Postgres pool or local DB fallback)
+export async function getLeadCount() {
+  if (pool) {
+    try {
+      const res = await pool.query("SELECT COUNT(*) FROM omniora_reports WHERE omniora_order_id LIKE 'lead:%'");
+      const count = parseInt(res.rows[0]?.count || '0', 10);
+      return 511 + count;
+    } catch (e) {
+      console.error('❌ getLeadCount pool error:', e);
+    }
+  }
+  const db = readLocalDb();
+  const leadKeys = Object.keys(db).filter(k => k.startsWith('lead:'));
+  return 511 + leadKeys.length;
+}
+
 // Query all lead email IDs by Email
 export async function getLeadEmailIdsByEmail(email) {
   const targetEmail = (email || '').trim().toLowerCase();
