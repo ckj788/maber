@@ -659,7 +659,7 @@ app.post('/api/lead/capture', async (req, res) => {
     // 定时器：1分钟后自动发送追单邮件（用于本地及线上测试）
     const host = req.headers.host || 'omniora13.com';
     const protocol = req.headers['x-forwarded-proto'] || 'http';
-    const directReportUrl = `${protocol}://${host}/?leadID=${leadId}`;
+    const directReportUrl = `${protocol}://${host}/?leadID=${leadId}&utm_source=email&utm_medium=lead_recovery&utm_campaign=unpaid_lead_20m`;
 
     const personaCode = payload.tri?.O || payload.persona || 7;
     const recipientName = payload.name || 'Seeker';
