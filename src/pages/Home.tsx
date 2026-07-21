@@ -629,7 +629,7 @@ export default function App() {
                       <span className="font-serif text-sm md:text-base font-bold text-white number-pulse tracking-wider px-1 inline-block">
                         {liveLeadCount}
                       </span>{" "}
-                      <span>BLUEPRINTS DECODED WORLDWIDE</span>
+                      <span>SEEKERS HAVE REVEALED THEIR COORDINATES</span>
                       <span className="text-amber-400/80 ml-1.5 font-serif select-none">✦</span>
                     </p>
                   </div>
