@@ -66,7 +66,14 @@ export default function App() {
   const [showResultFooter, setShowResultFooter] = useState(false);
   const [showStickyBtn, setShowStickyBtn] = useState(false);
   const [formStep, setFormStep] = useState(1);
-  const [liveLeadCount, setLiveLeadCount] = useState(511);
+  const [liveLeadCount, setLiveLeadCount] = useState<number | null>(() => {
+    try {
+      const cached = localStorage.getItem("omniora_lead_count");
+      return cached ? parseInt(cached, 10) : null;
+    } catch {
+      return null;
+    }
+  });
 
   useEffect(() => {
     fetch('/api/lead/count')
@@ -74,6 +81,9 @@ export default function App() {
       .then(data => {
         if (data?.total) {
           setLiveLeadCount(data.total);
+          try {
+            localStorage.setItem("omniora_lead_count", String(data.total));
+          } catch {}
         }
       })
       .catch(() => {});
@@ -622,12 +632,12 @@ export default function App() {
                   className="w-full mt-4 bg-neutral-950/40 backdrop-blur-md border border-neutral-900/60 rounded-2xl p-6 md:p-8 flex flex-col gap-4 shadow-[0_20px_50px_rgba(0,0,0,0.5)] hero-form-container"
                 >
                   {/* Frameless High-End Mystical Live Counter Text */}
-                  <div className="w-full flex items-center justify-center py-1 mb-2 select-none text-center">
+                  <div className={`w-full flex items-center justify-center py-1 mb-2 select-none text-center transition-opacity duration-500 ${liveLeadCount !== null ? "opacity-100" : "opacity-0"}`}>
                     <p className="text-[11px] md:text-xs font-mono uppercase tracking-[0.18em] text-neutral-400">
                       <span className="text-amber-400/80 mr-1.5 font-serif select-none">✦</span>
                       <span>OVER</span>{" "}
                       <span className="font-serif text-sm md:text-base font-bold text-white number-pulse tracking-wider px-1 inline-block">
-                        {liveLeadCount}
+                        {liveLeadCount || 536}
                       </span>{" "}
                       <span>SEEKERS HAVE REVEALED THEIR COORDINATES</span>
                       <span className="text-amber-400/80 ml-1.5 font-serif select-none">✦</span>
