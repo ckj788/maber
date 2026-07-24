@@ -107,6 +107,29 @@ export default function App() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [isRitualActive, showResultSection]);
 
+  const [isStaticBtnReached, setIsStaticBtnReached] = useState(false);
+
+  useEffect(() => {
+    if (!showResultSection) return;
+
+    const checkOverlap = () => {
+      const el = document.getElementById("static-pay-button");
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+      if (rect.top <= windowHeight - 30 && rect.bottom >= 0) {
+        setIsStaticBtnReached(true);
+      } else {
+        setIsStaticBtnReached(false);
+      }
+    };
+
+    window.addEventListener("scroll", checkOverlap, { passive: true });
+    checkOverlap();
+    return () => window.removeEventListener("scroll", checkOverlap);
+  }, [showResultSection]);
+
   useEffect(() => {
     if (showResultSection) {
       window.scrollTo({ top: 0, behavior: "instant" });
@@ -1016,8 +1039,7 @@ export default function App() {
               </div>
 
               {/* FREE ARCHETYPE HOOK PREVIEW INSIGHT */}
-              <div className="w-full max-w-[850px] mx-auto mt-6 bg-gradient-to-r from-neutral-950 to-neutral-900 border border-white/5 rounded-2xl p-6 md:p-8 text-left flex flex-col md:flex-row items-start gap-6 select-none relative overflow-hidden shadow-2xl">
-                <div className="text-4xl">💡</div>
+              <div className="w-full max-w-[850px] mx-auto mt-6 bg-gradient-to-r from-neutral-950 to-neutral-900 border border-white/5 rounded-2xl p-6 md:p-8 text-left flex flex-col items-start gap-3 select-none relative overflow-hidden shadow-2xl">
                 <div className="flex-1 flex flex-col gap-2">
                   <div className="font-serif text-lg md:text-xl font-bold text-white">
                     Your Core Archetype is Node {coreArchetypeNum}: <span className="text-[#ecebe7] font-semibold">{coreArchetypeTitle}</span>
@@ -1026,7 +1048,7 @@ export default function App() {
                     "{coreArchetypeTeaser}"
                   </p>
                   <p className="text-xs text-neutral-500 font-mono mt-1">
-                    ✨ Free Core Insight — Authenticated securely via your custom date of birth geometry.
+                    Free Core Insight — Authenticated securely via your custom date of birth geometry.
                   </p>
                 </div>
               </div>
@@ -1053,20 +1075,20 @@ export default function App() {
                 <div className="w-full md:w-7/12 flex flex-col justify-between items-start gap-6 text-left">
                   <div className="flex flex-col gap-4">
                     <h3 className="text-2xl font-serif text-white font-semibold">
-                      Your Full 4-Page Personalized Detailed Report
+                      Your Personal Destiny & Shadow Blueprint
                     </h3>
                     <p className="text-[#c9c9c5] leading-relaxed text-sm">
-                      Your mathematical coordinates mapping holds deep implications. Unlock the standard companion booklet:
+                      Your birth coordinates reveal hidden patterns in your relationships, subconscious shadow loops, and future timing. Unlock your full analysis:
                     </p>
                     <ul className="grid grid-cols-1 gap-2 text-sm text-neutral-400 font-mono">
                       <li className="flex items-start gap-2">
-                        <span className="text-emerald-500">✔</span> A beautiful high-density PDF blueprint with your exact numbers
+                        <span className="text-emerald-500">✔</span> A custom PDF blueprint built directly from your birth geometry
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-emerald-500">✔</span> Relationship compatibility models & core work alignment strategies
+                        <span className="text-emerald-500">✔</span> Deep relationship pattern analysis & career turning points
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-emerald-500">✔</span> Early lifecycle, mid peak, & late harvest chapters analysis
+                        <span className="text-emerald-500">✔</span> Full 4-chapter breakdown covering Ages 21–40, 41–60 & 61–80
                       </li>
                     </ul>
                   </div>
@@ -1081,6 +1103,7 @@ export default function App() {
 
                     <Link 
                       to="/pay"
+                      id="static-pay-button"
                       className="w-full text-center p-4 bg-white text-black font-semibold rounded-xl hover:bg-[#dedcd7] transition-all duration-300 shadow-xl"
                     >
                       Reveal My Full Shadow & Gifts · $19.90 USD
@@ -1168,23 +1191,38 @@ export default function App() {
       />
 
       {/* MOBILE STICKY FLOATING CTA */}
-      <div 
-        className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-[360px] md:hidden transition-all duration-500 ease-in-out ${
-          showStickyBtn ? "translate-y-0 opacity-100 pointer-events-auto" : "translate-y-12 opacity-0 pointer-events-none"
-        }`}
-      >
-        <button
-          onClick={() => {
-            const el = document.getElementById("ritual-form-anchor");
-            if (el) {
-              el.scrollIntoView({ behavior: "smooth" });
-            }
-          }}
-          className="w-full p-4 border border-[#e6e6e2]/20 rounded-xl text-[#000] bg-[#f3f3f1] font-semibold text-center shadow-[0_10px_35px_rgba(0,0,0,0.5)] active:scale-95 transition-all text-xs uppercase tracking-widest cursor-pointer"
+      {showResultSection ? (
+        <div 
+          className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-[420px] md:hidden transition-all duration-300 ease-out ${
+            !isStaticBtnReached ? "opacity-100 translate-y-0 pointer-events-auto shadow-[0_10px_35px_rgba(0,0,0,0.8)]" : "opacity-0 translate-y-4 pointer-events-none"
+          }`}
         >
-          ↑ Decode My Coordinates
-        </button>
-      </div>
+          <Link
+            to="/pay"
+            className="w-full block text-center p-4 bg-white text-black font-semibold rounded-xl hover:bg-[#dedcd7] active:scale-95 transition-all shadow-2xl text-sm"
+          >
+            Reveal My Full Shadow & Gifts · $19.90 USD
+          </Link>
+        </div>
+      ) : (
+        <div 
+          className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-[360px] md:hidden transition-all duration-500 ease-in-out ${
+            showStickyBtn ? "translate-y-0 opacity-100 pointer-events-auto" : "translate-y-12 opacity-0 pointer-events-none"
+          }`}
+        >
+          <button
+            onClick={() => {
+              const el = document.getElementById("ritual-form-anchor");
+              if (el) {
+                el.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
+            className="w-full p-4 border border-[#e6e6e2]/20 rounded-xl text-[#000] bg-[#f3f3f1] font-semibold text-center shadow-[0_10px_35px_rgba(0,0,0,0.5)] active:scale-95 transition-all text-xs uppercase tracking-widest cursor-pointer"
+          >
+            ↑ Decode My Coordinates
+          </button>
+        </div>
+      )}
     </div>
   );
 }
