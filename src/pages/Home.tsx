@@ -1075,20 +1075,20 @@ export default function App() {
                 <div className="w-full md:w-7/12 flex flex-col justify-between items-start gap-6 text-left">
                   <div className="flex flex-col gap-4">
                     <h3 className="text-2xl font-serif text-white font-semibold">
-                      Your Personal Destiny & Shadow Blueprint
+                      Uncover Your Love Pattern & Shadow Gifts
                     </h3>
                     <p className="text-[#c9c9c5] leading-relaxed text-sm">
-                      Your birth coordinates reveal hidden patterns in your relationships, subconscious shadow loops, and future timing. Unlock your full analysis:
+                      Your birth coordinates hold the key to why you attract certain partners, your hidden magnetic gifts, and your exact turning points for 2026–2030:
                     </p>
                     <ul className="grid grid-cols-1 gap-2 text-sm text-neutral-400 font-mono">
                       <li className="flex items-start gap-2">
-                        <span className="text-emerald-500">✔</span> A custom PDF blueprint built directly from your birth geometry
+                        <span className="text-emerald-500">✔</span> Your Love & Shadow Loop: Why you pull away or attract specific partners
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-emerald-500">✔</span> Deep relationship pattern analysis & career turning points
+                        <span className="text-emerald-500">✔</span> Your Unconscious Superpower: The rare magnetic gift others admire in you
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-emerald-500">✔</span> Full 4-chapter breakdown covering Ages 21–40, 41–60 & 61–80
+                        <span className="text-emerald-500">✔</span> Lifetime Timing Map: Your exact career & destiny turning points (Ages 21–80)
                       </li>
                     </ul>
                   </div>
@@ -1109,8 +1109,8 @@ export default function App() {
                       Reveal My Full Shadow & Gifts · $9.90 USD
                     </Link>
                     
-                    <p className="text-[11px] text-neutral-500 text-center uppercase font-mono">
-                      Complete Secure Purchase · 4 Page High-Contrast PDF download
+                    <p className="text-[11px] text-neutral-500 text-center uppercase font-mono tracking-wider">
+                      Instant Digital Access · 100% Private & Confidential · Personalized Report
                     </p>
                   </div>
                 </div>
