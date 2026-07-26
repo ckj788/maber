@@ -1075,20 +1075,20 @@ export default function App() {
                 <div className="w-full md:w-7/12 flex flex-col justify-between items-start gap-6 text-left">
                   <div className="flex flex-col gap-4">
                     <h3 className="text-2xl font-serif text-white font-semibold">
-                      Uncover Your Love Pattern & Shadow Gifts
+                      Uncover Your Personal Pattern & Shadow Gifts
                     </h3>
                     <p className="text-[#c9c9c5] leading-relaxed text-sm">
-                      Your birth coordinates hold the key to why you attract certain partners, your hidden magnetic gifts, and your exact turning points for 2026–2030:
+                      Your birth coordinates hold the key to your subconscious shadow loops, magnetic strengths, and life-phase blueprint:
                     </p>
                     <ul className="grid grid-cols-1 gap-2 text-sm text-neutral-400 font-mono">
                       <li className="flex items-start gap-2">
-                        <span className="text-emerald-500">✔</span> Your Love & Shadow Loop: Why you pull away or attract specific partners
+                        <span className="text-emerald-500">✔</span> Your Shadow & Relationship Dynamics: Uncover hidden subconscious patterns
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-emerald-500">✔</span> Your Unconscious Superpower: The rare magnetic gift others admire in you
+                        <span className="text-emerald-500">✔</span> Your Core Superpower: The unique magnetic strengths that define your path
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="text-emerald-500">✔</span> Lifetime Timing Map: Your exact career & destiny turning points (Ages 21–80)
+                        <span className="text-emerald-500">✔</span> 3-Phase Life Blueprint: Deep breakdown covering Ages 21–40, 41–60 & 61–80
                       </li>
                     </ul>
                   </div>
