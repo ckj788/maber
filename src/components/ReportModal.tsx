@@ -296,7 +296,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, tri }
             to="/pay"
             className="w-full sm:w-auto px-8 py-3 bg-white text-black font-semibold rounded-xl hover:bg-[#dedcd7] transition-all duration-300 text-xs font-mono uppercase tracking-wider text-center shadow-lg cursor-pointer"
           >
-            Reveal My Full Shadow & Gifts — $19.90
+            Reveal My Full Shadow & Gifts — $9.90
           </Link>
         </div>
       </div>

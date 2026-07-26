@@ -607,9 +607,9 @@ app.post('/api/stripe/create-intent', async (req, res) => {
   try {
     const { email, metadata = {} } = req.body || {};
 
-    // 计算金额：优先 PRICE_CENTS（整数，单位分），否则默认为 $19.00
+    // 计算金额：优先 PRICE_CENTS（整数，单位分），否则默认为 $9.90 (990 cents)
     const centsFromEnv = Number(process.env.PRICE_CENTS || 0);
-    const amountCents = Number.isInteger(centsFromEnv) && centsFromEnv > 0 ? centsFromEnv : 1990;
+    const amountCents = Number.isInteger(centsFromEnv) && centsFromEnv > 0 ? centsFromEnv : 990;
 
     // 基础参数
     const params = {

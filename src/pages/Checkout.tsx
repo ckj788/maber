@@ -428,9 +428,9 @@ export default function Checkout() {
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm text-[#b8b8b8]">OMNIORA Detailed Report</span>
               <span className="text-lg font-bold text-white">
-                $19.90{" "}
+                $9.90{" "}
                 <span className="text-xs text-decoration-line-through text-[#b8b8b8] font-normal ml-1">
-                  $39.90
+                  $49.90
                 </span>
               </span>
             </div>
@@ -489,7 +489,7 @@ export default function Checkout() {
               type="button"
               onClick={() => initPayUI(email, true)}
             >
-              🔄 Re-initialize
+              Re-initialize Payment
             </button>
           </div>
 

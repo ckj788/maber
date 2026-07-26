@@ -1098,7 +1098,7 @@ export default function App() {
                       onClick={() => setIsModalOpen(true)}
                       className="w-full p-3.5 border border-white/10 hover:border-white/30 text-xs font-mono tracking-wider text-[#ecebe7] bg-white/[0.02] hover:bg-white/[0.05] rounded-xl transition-all"
                     >
-                      📋 View Personalized Chapter Titles
+                      View Personalized Chapter Titles
                     </button>
 
                     <Link 
@@ -1106,7 +1106,7 @@ export default function App() {
                       id="static-pay-button"
                       className="w-full text-center p-4 bg-white text-black font-semibold rounded-xl hover:bg-[#dedcd7] transition-all duration-300 shadow-xl"
                     >
-                      Reveal My Full Shadow & Gifts · $19.90 USD
+                      Reveal My Full Shadow & Gifts · $9.90 USD
                     </Link>
                     
                     <p className="text-[11px] text-neutral-500 text-center uppercase font-mono">
@@ -1191,20 +1191,7 @@ export default function App() {
       />
 
       {/* MOBILE STICKY FLOATING CTA */}
-      {showResultSection ? (
-        <div 
-          className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-[420px] md:hidden transition-all duration-300 ease-out ${
-            !isStaticBtnReached ? "opacity-100 translate-y-0 pointer-events-auto shadow-[0_10px_35px_rgba(0,0,0,0.8)]" : "opacity-0 translate-y-4 pointer-events-none"
-          }`}
-        >
-          <Link
-            to="/pay"
-            className="w-full block text-center p-4 bg-white text-black font-semibold rounded-xl hover:bg-[#dedcd7] active:scale-95 transition-all shadow-2xl text-sm"
-          >
-            Reveal My Full Shadow & Gifts · $19.90 USD
-          </Link>
-        </div>
-      ) : (
+      {showResultSection ? null : (
         <div 
           className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] w-[90%] max-w-[360px] md:hidden transition-all duration-500 ease-in-out ${
             showStickyBtn ? "translate-y-0 opacity-100 pointer-events-auto" : "translate-y-12 opacity-0 pointer-events-none"
@@ -1219,7 +1206,7 @@ export default function App() {
             }}
             className="w-full p-4 border border-[#e6e6e2]/20 rounded-xl text-[#000] bg-[#f3f3f1] font-semibold text-center shadow-[0_10px_35px_rgba(0,0,0,0.5)] active:scale-95 transition-all text-xs uppercase tracking-widest cursor-pointer"
           >
-            ↑ Decode My Coordinates
+            Decode My Coordinates
           </button>
         </div>
       )}
