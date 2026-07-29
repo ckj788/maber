@@ -1034,85 +1034,123 @@ export default function App() {
               </div>
 
               {/* PYRAMID SVG VIEW CONTAINER */}
-              <div className="w-full max-w-[850px] mx-auto bg-neutral-950/40 border border-neutral-900 rounded-2xl p-6 md:p-10 shadow-2xl">
+              <div className="w-full max-w-[850px] mx-auto bg-neutral-950/60 border border-neutral-900/80 rounded-2xl p-4 sm:p-6 md:p-10 shadow-2xl backdrop-blur-md">
                 <PyramidSvg data={triangleData} />
               </div>
 
-              {/* FREE ARCHETYPE HOOK PREVIEW INSIGHT */}
-              <div className="w-full max-w-[850px] mx-auto mt-6 bg-gradient-to-r from-neutral-950 to-neutral-900 border border-white/5 rounded-2xl p-6 md:p-8 text-left flex flex-col items-start gap-3 select-none relative overflow-hidden shadow-2xl">
-                <div className="flex-1 flex flex-col gap-2">
-                  <div className="font-serif text-lg md:text-xl font-bold text-white">
-                    Your Core Archetype is Node {coreArchetypeNum}: <span className="text-[#ecebe7] font-semibold">{coreArchetypeTitle}</span>
+              {/* DARK CELESTIAL LUXURY RESULT CARD (TAILORED FOR 18-24 FEMALE AUDIENCE) */}
+              <div className="w-full max-w-[850px] mx-auto mt-8 bg-gradient-to-b from-[#0a0a0e] via-[#060608] to-[#040406] border border-[#c5a880]/25 rounded-3xl p-6 md:p-12 text-left flex flex-col gap-8 select-none relative overflow-hidden shadow-[0_25px_80px_rgba(0,0,0,0.9)] backdrop-blur-xl">
+                
+                {/* Background Stardust Aura Glow */}
+                <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-radial-gradient from-[#c5a880]/15 via-transparent to-transparent blur-3xl pointer-events-none" />
+                <div className="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-radial-gradient from-indigo-950/20 via-transparent to-transparent blur-3xl pointer-events-none" />
+
+                {/* Header Celestial Badge (PROMINENT USER NAME) */}
+                <div className="flex items-center justify-between border-b border-white/10 pb-5 relative z-10">
+                  <div className="flex flex-col text-left gap-0.5">
+                    {formData.name ? (
+                      <span className="text-lg md:text-xl font-serif font-bold text-[#f4f3f1] tracking-wider uppercase drop-shadow-[0_0_12px_rgba(255,255,255,0.25)]">
+                        {formData.name}'S BLUEPRINT
+                      </span>
+                    ) : null}
+                    <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#c5a880]">
+                      Personal Cosmic Matrix
+                    </span>
                   </div>
-                  <p className="text-neutral-400 font-light leading-relaxed text-base italic">
+                  <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-400 bg-white/5 border border-white/10 px-3 py-1 rounded-full">
+                    Node {coreArchetypeNum} Alignment
+                  </span>
+                </div>
+
+                {/* Free Primary Insight (Poetic & Deep) */}
+                <div className="flex flex-col gap-3 relative z-10">
+                  <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#c5a880]/80">
+                    Core Persona Unlocked
+                  </span>
+                  <h3 className="font-serif text-3xl md:text-4xl font-normal text-[#f4f3f1] tracking-wide leading-snug">
+                    {coreArchetypeTitle}
+                  </h3>
+                  <p className="text-neutral-300 font-light leading-relaxed text-base md:text-lg italic pt-1 border-l-2 border-[#c5a880]/40 pl-4 my-1">
                     "{coreArchetypeTeaser}"
                   </p>
-                  <p className="text-xs text-neutral-500 font-mono mt-1">
-                    Free Core Insight — Authenticated securely via your custom date of birth geometry.
-                  </p>
                 </div>
-              </div>
 
-              {/* LOCKED REPORT DETAILED MODULE */}
-              <div className="w-full max-w-[850px] mx-auto mt-6 flex flex-col md:flex-row items-stretch gap-10">
-                {/* Visual cover page */}
-                <div className="w-full md:w-5/12 flex items-center justify-center">
-                  <div 
-                    onClick={() => setIsModalOpen(true)}
-                    className="cursor-pointer relative group"
-                    title="Click to view full chapters structure"
-                  >
-                    <ReportMockup />
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-xl backdrop-blur-sm">
-                      <span className="text-xs font-mono text-white tracking-widest uppercase border border-white/20 p-2.5 px-4 bg-black/80 rounded">
-                        🔍 Inspect chapters
-                      </span>
+                {/* Subconscious Shadow Gate (Matches 100% Real 4-Chapter Report Structure) */}
+                <div className="flex flex-col gap-4 bg-white/[0.02] backdrop-blur-md border border-white/10 rounded-2xl p-5 md:p-7 relative z-10 overflow-hidden shadow-inner">
+                  <div className="flex items-center justify-between text-xs font-mono text-[#c5a880] uppercase tracking-wider">
+                    <span className="flex items-center gap-2">
+                      <span>✦</span> Complete Report Structure
+                    </span>
+                    <span className="text-amber-300/90 font-mono text-[10px] uppercase tracking-widest bg-amber-400/10 border border-amber-400/20 px-2.5 py-0.5 rounded-full">
+                      Partial Reveal
+                    </span>
+                  </div>
+
+                  {/* Real Section 1 - Revealed Core Archetype */}
+                  <div className="flex items-start gap-3 text-xs md:text-sm text-[#f4f3f1] font-mono py-2 border-b border-white/5">
+                    <span className="text-[#c5a880] font-bold shrink-0">✦</span>
+                    <span><strong>Section 1 (Unlocked):</strong> Core Archetype — {coreArchetypeTitle} calibrated.</span>
+                  </div>
+
+                  {/* Real Section 2 - Encrypted Ages 21-40 */}
+                  <div className="relative py-3 px-3.5 bg-black/40 rounded-xl border border-white/5 overflow-hidden select-none">
+                    <div className="flex items-center justify-between text-xs text-neutral-300 font-mono mb-1.5">
+                      <span className="font-medium text-[#ecebe7]">Section 2: Decoding Ages 21–40</span>
+                      <span className="text-[#c5a880] font-mono text-[10px] uppercase tracking-widest">🔒 Encrypted</span>
                     </div>
+                    <p className="text-xs md:text-sm text-neutral-400 blur-[6px] opacity-30 font-mono leading-relaxed pointer-events-none">
+                      Redirection codes, relational alignment windows, and career breakthrough timing calculated from your foundation nodes...
+                    </p>
+                  </div>
+
+                  {/* Real Section 3 - Encrypted Ages 41-60 */}
+                  <div className="relative py-3 px-3.5 bg-black/40 rounded-xl border border-white/5 overflow-hidden select-none">
+                    <div className="flex items-center justify-between text-xs text-neutral-300 font-mono mb-1.5">
+                      <span className="font-medium text-[#ecebe7]">Section 3: Decoding Ages 41–60</span>
+                      <span className="text-[#c5a880] font-mono text-[10px] uppercase tracking-widest">🔒 Encrypted</span>
+                    </div>
+                    <p className="text-xs md:text-sm text-neutral-400 blur-[6px] opacity-30 font-mono leading-relaxed pointer-events-none">
+                      Peak wealth accumulation cycles, leadership authority codes, and stability milestone coordinates...
+                    </p>
+                  </div>
+
+                  {/* Real Section 4 - Encrypted Ages 61-80 */}
+                  <div className="relative py-3 px-3.5 bg-black/40 rounded-xl border border-white/5 overflow-hidden select-none">
+                    <div className="flex items-center justify-between text-xs text-neutral-300 font-mono mb-1.5">
+                      <span className="font-medium text-[#ecebe7]">Section 4: Decoding Ages 61–80</span>
+                      <span className="text-[#c5a880] font-mono text-[10px] uppercase tracking-widest">🔒 Encrypted</span>
+                    </div>
+                    <p className="text-xs md:text-sm text-neutral-400 blur-[6px] opacity-30 font-mono leading-relaxed pointer-events-none">
+                      Harvest cycles, legacy completion roadmap, and wisdom sharing codes...
+                    </p>
                   </div>
                 </div>
 
-                {/* Promotional unlock card */}
-                <div className="w-full md:w-7/12 flex flex-col justify-between items-start gap-6 text-left">
-                  <div className="flex flex-col gap-4">
-                    <h3 className="text-2xl font-serif text-white font-semibold">
-                      Uncover Your Personal Pattern & Shadow Gifts
-                    </h3>
-                    <p className="text-[#c9c9c5] leading-relaxed text-sm">
-                      Your birth coordinates hold the key to your subconscious shadow loops, magnetic strengths, and life-phase blueprint:
-                    </p>
-                    <ul className="grid grid-cols-1 gap-2 text-sm text-neutral-400 font-mono">
-                      <li className="flex items-start gap-2">
-                        <span className="text-emerald-500">✔</span> Your Shadow & Relationship Dynamics: Uncover hidden subconscious patterns
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-emerald-500">✔</span> Your Core Superpower: The unique magnetic strengths that define your path
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="text-emerald-500">✔</span> 3-Phase Life Blueprint: Deep breakdown covering Ages 21–40, 41–60 & 61–80
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div className="w-full flex flex-col gap-3">
+                {/* Celestial Luxury CTA Button (Clean Button without Name in Button Text) */}
+                <div className="w-full flex flex-col gap-4 pt-2 relative z-10">
+                  <div className="flex items-center justify-between text-xs font-mono text-neutral-400 px-1">
+                    <span className="text-[11px] text-[#c5a880] uppercase tracking-widest">
+                      Personalized Digital Access
+                    </span>
                     <button 
                       onClick={() => setIsModalOpen(true)}
-                      className="w-full p-3.5 border border-white/10 hover:border-white/30 text-xs font-mono tracking-wider text-[#ecebe7] bg-white/[0.02] hover:bg-white/[0.05] rounded-xl transition-all"
+                      className="text-[11px] text-neutral-400 hover:text-[#c5a880] underline font-mono tracking-wider transition-colors"
                     >
-                      View Personalized Chapter Titles
+                      View Chapter Breakdown ➔
                     </button>
-
-                    <Link 
-                      to="/pay"
-                      id="static-pay-button"
-                      className="w-full text-center p-4 bg-white text-black font-semibold rounded-xl hover:bg-[#dedcd7] transition-all duration-300 shadow-xl"
-                    >
-                      Reveal My Full Shadow & Gifts · $9.90 USD
-                    </Link>
-                    
-                    <p className="text-[11px] text-neutral-500 text-center uppercase font-mono tracking-wider">
-                      Instant Digital Access · 100% Private & Confidential · Personalized Report
-                    </p>
                   </div>
+
+                  <Link 
+                    to="/pay"
+                    id="static-pay-button"
+                    className="w-full text-center p-4 md:p-5 bg-gradient-to-r from-[#f4f3f1] via-white to-[#ecebe7] text-neutral-950 font-serif font-medium rounded-2xl hover:brightness-110 active:scale-[0.99] transition-all duration-300 shadow-[0_0_35px_rgba(197,168,128,0.25)] text-sm md:text-base tracking-wider uppercase"
+                  >
+                    Reveal My Full Shadow & Gifts · $9.90 USD
+                  </Link>
+                  
+                  <p className="text-[10px] md:text-[11px] text-neutral-500 text-center uppercase font-mono tracking-widest pt-1">
+                    Instant Digital Access · 100% Private & Confidential · Guaranteed Authentic Report
+                  </p>
                 </div>
               </div>
 
@@ -1126,40 +1164,40 @@ export default function App() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-left">
                   <div className="border border-neutral-900 rounded-xl p-5 bg-neutral-950/20">
-                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">1 — The Origin & Will</div>
-                    <p className="text-neutral-400 font-light text-sm leading-relaxed">Initiation, core leadership, active decisive motion. Shadow: rigidity, preaching. Medicine: lead by pure example, not pressure.</p>
+                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">1 — The Origin</div>
+                    <p className="text-neutral-400 font-light text-sm leading-relaxed">A born initiator with a clear North Star, you move first, decide fast, and set the weather for everyone else.</p>
                   </div>
                   <div className="border border-neutral-900 rounded-xl p-5 bg-neutral-950/20">
-                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">2 — The Balance & Union</div>
-                    <p className="text-neutral-400 font-light text-sm leading-relaxed">Attunement, diplomacy, gentle grace. Shadow: inner indecision, over-pleasing. Medicine: set healthy gentle boundaries.</p>
+                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">2 — The Mediator</div>
+                    <p className="text-neutral-400 font-light text-sm leading-relaxed">You read the room, soften conflict, and make connection feel like home. Kindness is your architecture for trust.</p>
                   </div>
                   <div className="border border-neutral-900 rounded-xl p-5 bg-neutral-950/20">
-                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">3 — The Voice & Creation</div>
-                    <p className="text-neutral-400 font-light text-sm leading-relaxed">Expression, creative ideas, playful wit. Shadow: distraction, exaggeration. Medicine: focus on finishing one bright thing.</p>
+                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">3 — The Muse</div>
+                    <p className="text-neutral-400 font-light text-sm leading-relaxed">You light up spaces with wit and bright ideas. Prosperity finds you when play marries practice.</p>
                   </div>
                   <div className="border border-neutral-900 rounded-xl p-5 bg-neutral-950/20">
-                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">4 — The Order & Foundation</div>
-                    <p className="text-neutral-400 font-light text-sm leading-relaxed">Craft, clear systems, absolute reliability. Shadow: heavy resistance to change. Medicine: run controlled minimal experiments.</p>
+                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">4 — The Builder</div>
+                    <p className="text-neutral-400 font-light text-sm leading-relaxed">You turn chaos into systems, deadlines into deliveries, and promises into ledgers.</p>
                   </div>
                   <div className="border border-neutral-900 rounded-xl p-5 bg-neutral-950/20">
-                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">5 — The Motion & Freedom</div>
-                    <p className="text-neutral-400 font-light text-sm leading-relaxed">Adventure, gentle persuasion, self-reinvention. Shadow: restless impulse. Medicine: seek freedom inside consistent rhythm.</p>
+                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">5 — The Voyager</div>
+                    <p className="text-neutral-400 font-light text-sm leading-relaxed">You learn by living, persuade by experience, and blossom when horizons stay open.</p>
                   </div>
                   <div className="border border-neutral-900 rounded-xl p-5 bg-neutral-950/20">
-                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">6 — The Care & Harmony</div>
-                    <p className="text-neutral-400 font-light text-sm leading-relaxed">Devotion, pure fairness, aesthetic beauty. Shadow: score-keeping mentalities. Medicine: give cleanly, ask clearly.</p>
+                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">6 — The Healer</div>
+                    <p className="text-neutral-400 font-light text-sm leading-relaxed">You stabilize teams, beautify spaces, and keep promises long after the applause.</p>
                   </div>
                   <div className="border border-neutral-900 rounded-xl p-5 bg-neutral-950/20">
-                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">7 — The Insight & Mystery</div>
-                    <p className="text-neutral-400 font-light text-sm leading-relaxed">Inquiry, quiet intuition, sharp refinement. Shadow: aloof over-analysis. Medicine: share the draft, not just the perfect proof.</p>
+                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">7 — The Sage</div>
+                    <p className="text-neutral-400 font-light text-sm leading-relaxed">You hunt the pattern under the pattern, trust evidence, and speak only when it counts.</p>
                   </div>
                   <div className="border border-neutral-900 rounded-xl p-5 bg-neutral-950/20">
-                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">8 — The Power & Return</div>
-                    <p className="text-neutral-400 font-light text-sm leading-relaxed">Execution, resource leverage, cosmic consequence. Shadow: control, tight hurry. Medicine: apprentice with failures, harvest data.</p>
+                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">8 — The Power</div>
+                    <p className="text-neutral-400 font-light text-sm leading-relaxed">You orchestrate resources, hold pressure, and deliver outcomes with receipts.</p>
                   </div>
                   <div className="border border-neutral-900 rounded-xl p-5 bg-neutral-950/20 md:col-span-2">
-                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">9 — The Vastness & Completion</div>
-                    <p className="text-neutral-400 font-light text-sm leading-relaxed col-span-2">Compassion, deep synthesis, graceful closure. Shadow: leakage, savior fatigue. Medicine: practice loving with firm edges.</p>
+                    <div className="font-serif text-[#ecebe7] font-semibold text-lg mb-2">9 — The Empath</div>
+                    <p className="text-neutral-400 font-light text-sm leading-relaxed col-span-2">You dream of a kinder world and move people through meaning.</p>
                   </div>
                 </div>
               </div>
