@@ -495,6 +495,12 @@ export default function App() {
           setTriangleData(calculated);
           setShowResultSection(true);
 
+          if (posthog) {
+            posthog.capture("result_page_viewed", {
+              archetype_node: finalCoreNum
+            });
+          }
+
           try {
             const early = ['IJM', 'IMT', 'JMS', 'TSU'];
             const mid = ['MNO', 'MOP', 'NOQ', 'QPR'];
