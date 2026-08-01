@@ -1024,17 +1024,250 @@ export default function App() {
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)", y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="relative"
           >
-            <section id="triangle-section" className="py-12 md:py-20 bg-black relative z-20">
+            {/* Dynamic Starfield Background Canvas */}
+            <div className="fixed inset-0 pointer-events-none z-10 opacity-100">
+              <SpaceBackground />
+            </div>
+
+            <section id="triangle-section" className="py-12 md:py-20 bg-transparent relative z-20 overflow-hidden">
             <div className="w-full max-w-[1120px] mx-auto px-6 flex flex-col gap-12">
-              <div className="flex flex-col items-center gap-4 text-center">
-                <span className="text-xs tracking-widest text-neutral-400 uppercase font-mono">
-                  Your Signature Revealed
+            
+          {/* RESULT CONTAINER (SEAMLESS ETHEREAL VOID WITH CINEMATIC STAGGERED FADE-IN) */}
+          <motion.div 
+            initial="hidden"
+            animate="show"
+            variants={{
+              hidden: { opacity: 0 },
+              show: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.45,
+                  delayChildren: 0.2
+                }
+              }
+            }}
+            className="w-full max-w-[850px] mx-auto mt-6 flex flex-col gap-12 select-none relative z-10"
+          >
+            {/* ========================================================================= */}
+            {/* ACT I: SOUL ALIGNMENT & SACRED GATE (BORDERLESS CELESTIAL CODEX)          */}
+            {/* ========================================================================= */}
+            <div className="w-full text-center flex flex-col gap-10 relative">
+              
+              {/* Background Ethereal Stardust Glow (Floating Void Glow) */}
+              <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-radial-gradient from-[#c5a880]/15 via-indigo-950/15 to-transparent blur-3xl pointer-events-none" />
+
+              {/* 1. Header Celestial Badge (PERFECTLY CENTER-ALIGNED TITLE, REMOVED NODE BADGE) */}
+              <motion.div 
+                variants={{
+                  hidden: { opacity: 0, filter: "blur(16px)", y: 25 },
+                  show: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1] } }
+                }}
+                className="flex flex-col items-center justify-center text-center gap-2 border-b border-white/10 pb-6 relative z-10"
+              >
+                {formData.name ? (
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-medium text-[#f4f3f1] tracking-widest uppercase drop-shadow-[0_0_25px_rgba(255,255,255,0.45)]">
+                    {formData.name}'S BLUEPRINT
+                  </h2>
+                ) : (
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-medium text-[#f4f3f1] tracking-widest uppercase drop-shadow-[0_0_25px_rgba(255,255,255,0.45)]">
+                    YOUR COSMIC BLUEPRINT
+                  </h2>
+                )}
+                <span className="text-xs font-mono uppercase tracking-[0.35em] text-[#c5a880]">
+                  ✦ PERSONAL DESTINY COORDINATES ✦
                 </span>
-                <h2 className="text-4xl font-serif text-white font-bold">
+              </motion.div>
+
+              {/* 2. Free Primary Insight (Ethereal Hero Section - Emerging from Mist) */}
+              <motion.div 
+                variants={{
+                  hidden: { opacity: 0, filter: "blur(18px)", y: 30 },
+                  show: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 1.5, ease: [0.16, 1, 0.3, 1] } }
+                }}
+                className="flex flex-col gap-4 relative z-10 pt-2"
+              >
+                <div className="flex items-center gap-2.5 text-xs font-mono uppercase tracking-[0.25em] text-[#c5a880]">
+                  <span className="w-2 h-2 rounded-full bg-[#c5a880] animate-pulse drop-shadow-[0_0_8px_rgba(197,168,128,0.8)]" />
+                  <span>Core Persona Unlocked</span>
+                </div>
+                <h3 className="font-serif text-4xl sm:text-5xl md:text-6xl font-normal text-[#f4f3f1] tracking-wide leading-tight drop-shadow-[0_0_30px_rgba(197,168,128,0.15)]">
+                  {coreArchetypeTitle}
+                </h3>
+                <p className="text-neutral-200 font-light leading-relaxed text-base sm:text-lg md:text-xl italic pt-3 border-l-2 border-[#c5a880]/50 pl-6 my-2">
+                  "{coreArchetypeTeaser}"
+                </p>
+              </motion.div>
+
+              {/* 3. Subconscious Shadow Gate (Co-Star Left Book Cover + Right 4 Chapters Layout) */}
+              <motion.div 
+                variants={{
+                  hidden: { opacity: 0, filter: "blur(16px)", y: 30 },
+                  show: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 1.6, ease: [0.16, 1, 0.3, 1] } }
+                }}
+                className="flex flex-col gap-6 relative z-10 pt-4 border-t border-white/10"
+              >
+                <div className="flex items-center justify-between text-xs font-mono text-[#c5a880] uppercase tracking-widest pb-1">
+                  <span className="flex items-center gap-2">
+                    <span>✦</span> COMPLETE REPORT STRUCTURE
+                  </span>
+                  <span className="text-[#c5a880] font-mono text-[11px] uppercase tracking-[0.2em]">
+                    ✦ PARTIAL REVEAL
+                  </span>
+                </div>
+
+                {/* DUAL-COLUMN GRID: LEFT SLIM EMBOSSED SACRED BOOK MOCKUP + RIGHT 4 SECTIONS */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center pt-2">
+                  
+                  {/* LEFT COLUMN: SLIM 3D HARDCOVER SACRED GOLD BOOK MOCKUP */}
+                  <div className="md:col-span-4 w-full max-w-[260px] mx-auto md:mx-0 flex flex-col items-center justify-between p-5 sm:p-6 rounded-r-2xl rounded-l-md bg-gradient-to-b from-[#16151f] via-[#0d0c14] to-[#08070d] border-t border-r border-b border-[#c5a880]/40 border-l-[7px] border-l-[#c5a880] shadow-[-10px_10px_30px_rgba(0,0,0,0.9),_15px_15px_35px_rgba(197,168,128,0.08)] relative group overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[-15px_20px_45px_rgba(0,0,0,0.95),_0_0_35px_rgba(197,168,128,0.25)] min-h-[350px]"
+                       onClick={() => setIsModalOpen(true)}>
+                    
+                    {/* Book Spine Crease Shadow Line */}
+                    <div className="absolute top-0 bottom-0 left-2 w-[2px] bg-gradient-to-b from-black/60 via-white/15 to-black/80 pointer-events-none z-20" />
+
+                    {/* Book Cover Subtle Glow */}
+                    <div className="absolute inset-0 bg-radial-gradient from-[#c5a880]/20 via-transparent to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    
+                    {/* Top Star Accent */}
+                    <div className="w-full flex items-center justify-center text-[10px] font-mono uppercase text-[#c5a880]/90 tracking-widest relative z-10 pt-1">
+                      ✦ HARDCOVER CODEX ✦
+                    </div>
+
+                    {/* Sacred Geometry Focal Graphic */}
+                    <div className="flex flex-col items-center gap-2.5 relative z-10 my-auto py-3">
+                      <div className="w-12 h-12 rounded-full border border-[#c5a880]/50 flex items-center justify-center shadow-[0_0_20px_rgba(197,168,128,0.25)] bg-white/[0.02]">
+                        <span className="text-[#c5a880] text-lg font-serif">✦</span>
+                      </div>
+
+                      {/* Book Title Embossing */}
+                      <div className="flex flex-col items-center text-center gap-1">
+                        <span className="text-[8.5px] font-mono uppercase tracking-[0.3em] text-[#c5a880]">
+                          PERSONAL EDITION
+                        </span>
+                        <h4 className="text-base font-serif font-medium text-[#f4f3f1] tracking-widest uppercase line-clamp-2 px-1 drop-shadow-md leading-snug">
+                          {formData.name ? `${formData.name}'s` : "Personal"} Blueprint
+                        </h4>
+                        <div className="w-8 h-[1px] bg-[#c5a880]/40 my-1" />
+                        <span className="text-[9.5px] font-serif italic text-neutral-400">
+                          Destiny Matrix
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Highly Prominent "Click to Preview" Callout Badge (SOLVES "UNSURE IF CLICKABLE") */}
+                    <div className="w-full relative z-10">
+                      <div className="w-full py-2 px-2.5 rounded-xl bg-[#c5a880]/15 border border-[#c5a880]/40 group-hover:bg-[#c5a880]/25 group-hover:border-[#c5a880] transition-all duration-300 flex items-center justify-center gap-1.5 text-center text-[#f4f3f1] shadow-lg">
+                        <span className="text-[11px] animate-bounce">🔍</span>
+                        <span className="text-[11px] font-mono font-medium uppercase tracking-wider text-[#f4f3f1]">
+                          TAP TO PREVIEW BOOK
+                        </span>
+                        <span className="text-[11px] text-[#c5a880]">➔</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* RIGHT COLUMN: 4 REAL SECTIONS */}
+                  <div className="md:col-span-8 flex flex-col justify-center divide-y divide-white/10">
+                    
+                    {/* Section 1 - Unlocked */}
+                    <div className="py-3.5 flex items-start justify-between gap-4">
+                      <div className="flex items-start gap-3">
+                        <span className="text-[#c5a880] text-sm shrink-0 pt-0.5">✦</span>
+                        <div className="flex flex-col gap-0.5">
+                          <span className="text-base font-serif text-[#f4f3f1] font-medium tracking-wide">
+                            Section 1: Core Archetype — {coreArchetypeTitle}
+                          </span>
+                          <span className="text-xs font-mono text-[#c5a880]/90">
+                            Calibrated & Primary Reveal
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Section 2 - Encrypted */}
+                    <div className="py-3.5 flex flex-col gap-1.5 relative">
+                      <div className="flex items-center justify-between text-base">
+                        <span className="font-serif text-neutral-300 font-medium tracking-wide">
+                          Section 2: Decoding Ages 21–40
+                        </span>
+                        <span className="text-[#c5a880] font-mono text-[11px] uppercase tracking-widest flex items-center gap-1.5">
+                          <span className="animate-pulse">🔒</span> ENCRYPTED
+                        </span>
+                      </div>
+                      <p className="text-xs text-neutral-400 blur-[5.5px] opacity-35 font-mono leading-relaxed pointer-events-none select-none">
+                        Redirection codes, relational alignment windows, and career breakthrough timing...
+                      </p>
+                    </div>
+
+                    {/* Section 3 - Encrypted */}
+                    <div className="py-3.5 flex flex-col gap-1.5 relative">
+                      <div className="flex items-center justify-between text-base">
+                        <span className="font-serif text-neutral-300 font-medium tracking-wide">
+                          Section 3: Decoding Ages 41–60
+                        </span>
+                        <span className="text-[#c5a880] font-mono text-[11px] uppercase tracking-widest flex items-center gap-1.5">
+                          <span className="animate-pulse">🔒</span> ENCRYPTED
+                        </span>
+                      </div>
+                      <p className="text-xs text-neutral-400 blur-[5.5px] opacity-35 font-mono leading-relaxed pointer-events-none select-none">
+                        Peak wealth accumulation cycles, leadership authority codes, and milestone coordinates...
+                      </p>
+                    </div>
+
+                    {/* Section 4 - Encrypted */}
+                    <div className="py-3.5 flex flex-col gap-1.5 relative">
+                      <div className="flex items-center justify-between text-base">
+                        <span className="font-serif text-neutral-300 font-medium tracking-wide">
+                          Section 4: Decoding Ages 61–80
+                        </span>
+                        <span className="text-[#c5a880] font-mono text-[11px] uppercase tracking-widest flex items-center gap-1.5">
+                          <span className="animate-pulse">🔒</span> ENCRYPTED
+                        </span>
+                      </div>
+                      <p className="text-xs text-neutral-400 blur-[5.5px] opacity-35 font-mono leading-relaxed pointer-events-none select-none">
+                        Harvest cycles, legacy completion roadmap, and wisdom sharing codes...
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* 4. Celestial Luxury CTA Button (Emerging as Final Sacred Seal) */}
+              <motion.div 
+                variants={{
+                  hidden: { opacity: 0, filter: "blur(8px)", y: 30 },
+                  show: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } }
+                }}
+                className="w-full flex flex-col gap-4 pt-4 relative z-10 border-t border-white/10"
+              >
+                <Link 
+                  to="/pay"
+                  id="static-pay-button"
+                  className="w-full text-center p-4.5 md:p-5 bg-gradient-to-r from-[#f4f3f1] via-white to-[#ecebe7] text-neutral-950 font-serif font-medium rounded-2xl hover:brightness-110 active:scale-[0.99] transition-all duration-500 shadow-[0_0_50px_rgba(197,168,128,0.35)] text-sm md:text-base tracking-widest uppercase"
+                >
+                  Reveal My Full Shadow & Gifts · $9.90 USD
+                </Link>
+                
+                <p className="text-[10px] md:text-[11px] text-neutral-500 text-center uppercase font-mono tracking-widest pt-1">
+                  Instant Digital Access · 100% Private & Confidential · Guaranteed Authentic Report
+                </p>
+              </motion.div>
+            </div>
+
+            {/* ========================================================================= */}
+            {/* ACT II: SACRED GEOMETRIC MATRIX PROOF (SCROLL-DOWN PROOF SECTION)        */}
+            {/* ========================================================================= */}
+            <div className="flex flex-col items-center gap-6 mt-12 pt-8 border-t border-white/5">
+              <div className="flex flex-col items-center gap-2 text-center">
+                <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#c5a880]/80">
+                  ✦ HOW YOUR BIRTH COORDINATES WERE MAPPED ✦
+                </span>
+                <h2 className="text-3xl md:text-4xl font-serif text-white font-normal tracking-wide">
                   Triadic Structure Map
                 </h2>
-                <p className="text-neutral-400 max-w-lg leading-relaxed text-sm">
+                <p className="text-neutral-400 max-w-lg leading-relaxed text-xs md:text-sm font-light">
                   This geometric matrix maps your inner alignment, calculated specifically from your birth coordinates. Look closely at the calculated nodes.
                 </p>
               </div>
@@ -1043,122 +1276,7 @@ export default function App() {
               <div className="w-full max-w-[850px] mx-auto bg-neutral-950/60 border border-neutral-900/80 rounded-2xl p-4 sm:p-6 md:p-10 shadow-2xl backdrop-blur-md">
                 <PyramidSvg data={triangleData} />
               </div>
-
-              {/* DARK CELESTIAL LUXURY RESULT CARD (TAILORED FOR 18-24 FEMALE AUDIENCE) */}
-              <div className="w-full max-w-[850px] mx-auto mt-8 bg-gradient-to-b from-[#0a0a0e] via-[#060608] to-[#040406] border border-[#c5a880]/25 rounded-3xl p-6 md:p-12 text-left flex flex-col gap-8 select-none relative overflow-hidden shadow-[0_25px_80px_rgba(0,0,0,0.9)] backdrop-blur-xl">
-                
-                {/* Background Stardust Aura Glow */}
-                <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-radial-gradient from-[#c5a880]/15 via-transparent to-transparent blur-3xl pointer-events-none" />
-                <div className="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-radial-gradient from-indigo-950/20 via-transparent to-transparent blur-3xl pointer-events-none" />
-
-                {/* Header Celestial Badge (PROMINENT USER NAME) */}
-                <div className="flex items-center justify-between border-b border-white/10 pb-5 relative z-10">
-                  <div className="flex flex-col text-left gap-0.5">
-                    {formData.name ? (
-                      <span className="text-lg md:text-xl font-serif font-bold text-[#f4f3f1] tracking-wider uppercase drop-shadow-[0_0_12px_rgba(255,255,255,0.25)]">
-                        {formData.name}'S BLUEPRINT
-                      </span>
-                    ) : null}
-                    <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#c5a880]">
-                      Personal Cosmic Matrix
-                    </span>
-                  </div>
-                  <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-400 bg-white/5 border border-white/10 px-3 py-1 rounded-full">
-                    Node {coreArchetypeNum} Alignment
-                  </span>
-                </div>
-
-                {/* Free Primary Insight (Poetic & Deep) */}
-                <div className="flex flex-col gap-3 relative z-10">
-                  <span className="text-xs font-mono uppercase tracking-[0.2em] text-[#c5a880]/80">
-                    Core Persona Unlocked
-                  </span>
-                  <h3 className="font-serif text-3xl md:text-4xl font-normal text-[#f4f3f1] tracking-wide leading-snug">
-                    {coreArchetypeTitle}
-                  </h3>
-                  <p className="text-neutral-300 font-light leading-relaxed text-base md:text-lg italic pt-1 border-l-2 border-[#c5a880]/40 pl-4 my-1">
-                    "{coreArchetypeTeaser}"
-                  </p>
-                </div>
-
-                {/* Subconscious Shadow Gate (Matches 100% Real 4-Chapter Report Structure) */}
-                <div className="flex flex-col gap-4 bg-white/[0.02] backdrop-blur-md border border-white/10 rounded-2xl p-5 md:p-7 relative z-10 overflow-hidden shadow-inner">
-                  <div className="flex items-center justify-between text-xs font-mono text-[#c5a880] uppercase tracking-wider">
-                    <span className="flex items-center gap-2">
-                      <span>✦</span> Complete Report Structure
-                    </span>
-                    <span className="text-amber-300/90 font-mono text-[10px] uppercase tracking-widest bg-amber-400/10 border border-amber-400/20 px-2.5 py-0.5 rounded-full">
-                      Partial Reveal
-                    </span>
-                  </div>
-
-                  {/* Real Section 1 - Revealed Core Archetype */}
-                  <div className="flex items-start gap-3 text-xs md:text-sm text-[#f4f3f1] font-mono py-2 border-b border-white/5">
-                    <span className="text-[#c5a880] font-bold shrink-0">✦</span>
-                    <span><strong>Section 1 (Unlocked):</strong> Core Archetype — {coreArchetypeTitle} calibrated.</span>
-                  </div>
-
-                  {/* Real Section 2 - Encrypted Ages 21-40 */}
-                  <div className="relative py-3 px-3.5 bg-black/40 rounded-xl border border-white/5 overflow-hidden select-none">
-                    <div className="flex items-center justify-between text-xs text-neutral-300 font-mono mb-1.5">
-                      <span className="font-medium text-[#ecebe7]">Section 2: Decoding Ages 21–40</span>
-                      <span className="text-[#c5a880] font-mono text-[10px] uppercase tracking-widest">🔒 Encrypted</span>
-                    </div>
-                    <p className="text-xs md:text-sm text-neutral-400 blur-[6px] opacity-30 font-mono leading-relaxed pointer-events-none">
-                      Redirection codes, relational alignment windows, and career breakthrough timing calculated from your foundation nodes...
-                    </p>
-                  </div>
-
-                  {/* Real Section 3 - Encrypted Ages 41-60 */}
-                  <div className="relative py-3 px-3.5 bg-black/40 rounded-xl border border-white/5 overflow-hidden select-none">
-                    <div className="flex items-center justify-between text-xs text-neutral-300 font-mono mb-1.5">
-                      <span className="font-medium text-[#ecebe7]">Section 3: Decoding Ages 41–60</span>
-                      <span className="text-[#c5a880] font-mono text-[10px] uppercase tracking-widest">🔒 Encrypted</span>
-                    </div>
-                    <p className="text-xs md:text-sm text-neutral-400 blur-[6px] opacity-30 font-mono leading-relaxed pointer-events-none">
-                      Peak wealth accumulation cycles, leadership authority codes, and stability milestone coordinates...
-                    </p>
-                  </div>
-
-                  {/* Real Section 4 - Encrypted Ages 61-80 */}
-                  <div className="relative py-3 px-3.5 bg-black/40 rounded-xl border border-white/5 overflow-hidden select-none">
-                    <div className="flex items-center justify-between text-xs text-neutral-300 font-mono mb-1.5">
-                      <span className="font-medium text-[#ecebe7]">Section 4: Decoding Ages 61–80</span>
-                      <span className="text-[#c5a880] font-mono text-[10px] uppercase tracking-widest">🔒 Encrypted</span>
-                    </div>
-                    <p className="text-xs md:text-sm text-neutral-400 blur-[6px] opacity-30 font-mono leading-relaxed pointer-events-none">
-                      Harvest cycles, legacy completion roadmap, and wisdom sharing codes...
-                    </p>
-                  </div>
-                </div>
-
-                {/* Celestial Luxury CTA Button (Clean Button without Name in Button Text) */}
-                <div className="w-full flex flex-col gap-4 pt-2 relative z-10">
-                  <div className="flex items-center justify-between text-xs font-mono text-neutral-400 px-1">
-                    <span className="text-[11px] text-[#c5a880] uppercase tracking-widest">
-                      Personalized Digital Access
-                    </span>
-                    <button 
-                      onClick={() => setIsModalOpen(true)}
-                      className="text-[11px] text-neutral-400 hover:text-[#c5a880] underline font-mono tracking-wider transition-colors"
-                    >
-                      View Chapter Breakdown ➔
-                    </button>
-                  </div>
-
-                  <Link 
-                    to="/pay"
-                    id="static-pay-button"
-                    className="w-full text-center p-4 md:p-5 bg-gradient-to-r from-[#f4f3f1] via-white to-[#ecebe7] text-neutral-950 font-serif font-medium rounded-2xl hover:brightness-110 active:scale-[0.99] transition-all duration-300 shadow-[0_0_35px_rgba(197,168,128,0.25)] text-sm md:text-base tracking-wider uppercase"
-                  >
-                    Reveal My Full Shadow & Gifts · $9.90 USD
-                  </Link>
-                  
-                  <p className="text-[10px] md:text-[11px] text-neutral-500 text-center uppercase font-mono tracking-widest pt-1">
-                    Instant Digital Access · 100% Private & Confidential · Guaranteed Authentic Report
-                  </p>
-                </div>
-              </div>
+            </div>
 
               {/* ARCHETYPES DIALOG */}
               <div className="w-full max-w-[850px] mx-auto mt-16 border-t border-neutral-900 pt-16">
@@ -1217,6 +1335,7 @@ export default function App() {
                   ← Reset form to compute other birthday coordinates
                 </button>
               </div>
+            </motion.div>
             </div>
           </section>
           {showResultFooter && renderFooter()}
