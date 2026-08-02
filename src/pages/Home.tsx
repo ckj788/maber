@@ -912,30 +912,28 @@ export default function App() {
                 })}
               </div>
 
-              {/* TOP CELESTIAL HEADER */}
-              <div className="relative z-10 text-center flex flex-col items-center gap-2 pt-4">
-                <div className="flex items-center gap-3">
+              {/* Header Status Bar */}
+              <div className="flex flex-col items-center gap-1.5 text-center relative z-10 px-4">
+                <div className="flex items-center gap-2 text-[9px] sm:text-[10px] font-mono text-[#c5a880] uppercase tracking-[0.3em]">
                   <span className="w-1.5 h-[1px] bg-[#c5a880]/40" />
-                  <span className="text-[10px] tracking-[0.4em] text-[#c5a880] uppercase font-mono font-medium">
-                    Sovereign Matrix Synthesis
-                  </span>
+                  <span>Sovereign Matrix Synthesis</span>
                   <span className="w-1.5 h-[1px] bg-[#c5a880]/40" />
                 </div>
-                <h2 className="text-xl md:text-2xl font-serif font-light tracking-[0.15em] text-[#f4f3f1] mt-1">
+                <h2 className="text-base sm:text-xl md:text-2xl font-serif font-light tracking-[0.2em] text-[#f4f3f1] mt-0.5">
                   ALIGNING DESTINY AXIS
                 </h2>
-                <div className="w-8 h-[1px] bg-neutral-800 my-1" />
-                <span className="text-[10px] text-neutral-500 font-mono tracking-widest uppercase">
+                <div className="w-6 h-[1px] bg-neutral-800 my-0.5" />
+                <span className="text-[9px] sm:text-[10px] text-neutral-500 font-mono tracking-widest uppercase">
                   Phase IV • System Coordinates Active
                 </span>
               </div>
 
-              {/* CINEMATIC SVG ASTROLABE COMPASS ENGINE */}
-              <div className="relative z-10 w-full max-w-[360px] aspect-square flex items-center justify-center my-4">
+              {/* CINEMATIC SVG ASTROLABE COMPASS ENGINE (DELICATE RESPONSIVE SCALE) */}
+              <div className="relative z-10 w-full max-w-[250px] sm:max-w-[320px] aspect-square flex items-center justify-center my-2 sm:my-4">
                 {/* Concentric spin-circles */}
                 <div className="absolute inset-0 rounded-full border border-neutral-900/40 animate-[spin_40s_linear_infinite]" />
-                <div className="absolute inset-4 rounded-full border border-dashed border-[#c5a880]/10 animate-[spin_25s_linear_infinite_reverse]" />
-                <div className="absolute inset-8 rounded-full border border-neutral-800/80" />
+                <div className="absolute inset-3 rounded-full border border-dashed border-[#c5a880]/10 animate-[spin_25s_linear_infinite_reverse]" />
+                <div className="absolute inset-6 rounded-full border border-neutral-800/80" />
 
                 {/* Luxurious celestial SVG compass overlay */}
                 <svg className="absolute inset-0 w-full h-full pointer-events-none drop-shadow-[0_0_15px_rgba(197,168,128,0.08)]" viewBox="0 0 200 200">
@@ -946,7 +944,7 @@ export default function App() {
                       <line
                         key={idx}
                         x1="100"
-                        y1="5"
+                        y1="6"
                         x2="100"
                         y2="10"
                         transform={`rotate(${angle} 100 100)`}
@@ -981,34 +979,47 @@ export default function App() {
                 </svg>
 
                 {/* Glowing Golden Aura Circle behind numeral */}
-                <div className="absolute w-36 h-36 rounded-full bg-radial-gradient from-[#c5a880]/15 via-transparent to-transparent blur-xl animate-pulse" />
+                <div className="absolute w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-radial-gradient from-[#c5a880]/15 via-transparent to-transparent blur-xl animate-pulse" />
 
                 {/* Floating Central Matrix Lens */}
-                <div className="relative flex flex-col items-center justify-center w-40 h-40 rounded-full border border-[#c5a880]/20 bg-[#060609]/90 backdrop-blur-md shadow-[0_0_50px_rgba(197,168,128,0.12)]">
+                <div className="relative flex flex-col items-center justify-center w-28 h-28 sm:w-36 sm:h-36 rounded-full border border-[#c5a880]/20 bg-[#060609]/90 backdrop-blur-md shadow-[0_0_40px_rgba(197,168,128,0.12)]">
                   {/* Spinning progress trace ring */}
                   <svg className="absolute inset-0 w-full h-full -rotate-90">
                     <circle
-                      cx="80"
-                      cy="80"
-                      r="74"
-                      transform="translate(20,20)"
+                      cx="56"
+                      cy="56"
+                      r="50"
+                      transform="translate(0,0)"
                       fill="none"
                       stroke="#c5a880"
                       strokeWidth="1.2"
                       strokeOpacity="0.75"
-                      strokeDasharray={`${(2 * Math.PI * 74).toFixed(1)}`}
-                      strokeDashoffset={`${((1 - ritualProgress / 100) * (2 * Math.PI * 74)).toFixed(2)}`}
-                      className=""
+                      strokeDasharray={`${(2 * Math.PI * 50).toFixed(1)}`}
+                      strokeDashoffset={`${((1 - ritualProgress / 100) * (2 * Math.PI * 50)).toFixed(2)}`}
+                      className="sm:hidden"
+                    />
+                    <circle
+                      cx="72"
+                      cy="72"
+                      r="66"
+                      transform="translate(0,0)"
+                      fill="none"
+                      stroke="#c5a880"
+                      strokeWidth="1.2"
+                      strokeOpacity="0.75"
+                      strokeDasharray={`${(2 * Math.PI * 66).toFixed(1)}`}
+                      strokeDashoffset={`${((1 - ritualProgress / 100) * (2 * Math.PI * 66)).toFixed(2)}`}
+                      className="hidden sm:block"
                     />
                   </svg>
 
-                  <span className="text-[10px] tracking-[0.25em] text-[#c5a880]/70 font-mono uppercase mb-1">
+                  <span className="text-[8px] sm:text-[10px] tracking-[0.25em] text-[#c5a880]/70 font-mono uppercase mb-0.5">
                     Axiom
                   </span>
-                  <div className="text-5xl font-serif font-bold tracking-[0.05em] text-[#f4f3f1] drop-shadow-[0_0_15px_rgba(255,255,255,0.45)]">
+                  <div className="text-3xl sm:text-4xl md:text-5xl font-serif font-medium tracking-[0.05em] text-[#f4f3f1] drop-shadow-[0_0_15px_rgba(255,255,255,0.45)]">
                     {ritualRoman}
                   </div>
-                  <span className="text-[11px] tracking-widest text-[#ecebe7]/60 font-mono mt-2">
+                  <span className="text-[9px] sm:text-[11px] tracking-widest text-[#ecebe7]/60 font-mono mt-1">
                     {Math.floor(ritualProgress)}%
                   </span>
                 </div>
