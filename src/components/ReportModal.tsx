@@ -200,9 +200,12 @@ export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, tri }
   ] : ["112", "145", "167", "189"];
 
   return (
-    <div className="fixed inset-0 z-[10000] flex items-center justify-center p-2.5 sm:p-4 bg-black/85 backdrop-blur-xl transition-all duration-300">
+    <div 
+      className="fixed inset-0 z-[10000] flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-xl transition-all duration-300"
+      onClick={onClose}
+    >
       <div 
-        className="relative w-full max-w-xl max-h-[88vh] overflow-y-auto overflow-x-hidden bg-neutral-950 border border-neutral-800/80 rounded-2xl md:p-8 p-4 sm:p-6 shadow-2xl transition-transform transform duration-300 scale-100 box-border"
+        className="relative w-[92%] sm:w-full max-w-xl max-h-[76vh] sm:max-h-[85vh] overflow-y-auto overflow-x-hidden bg-[#0a0910] border border-[#c5a880]/35 rounded-2xl sm:rounded-3xl md:p-8 p-4 sm:p-6 shadow-[0_25px_70px_rgba(0,0,0,0.95)] transition-transform transform duration-300 scale-100 box-border mx-auto my-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -213,12 +216,12 @@ export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, tri }
           &times;
         </button>
 
-        <div className="text-center mb-5 sm:mb-6 pr-6 sm:pr-0">
-          <h3 className="text-lg sm:text-xl font-serif tracking-wider text-[#ecebe7] mb-1 break-words">
+        <div className="text-center mb-4 sm:mb-6 pr-6 sm:pr-0">
+          <h3 className="text-base sm:text-xl font-serif tracking-wider text-[#ecebe7] mb-1 break-words">
             Your Personalized Report Structure
           </h3>
-          <p className="text-[10px] sm:text-xs text-neutral-400 font-mono tracking-widest">
-            CALCULATED STRUCTURAL MAPPING FOR CODES
+          <p className="text-[9px] sm:text-xs text-[#c5a880] font-mono tracking-widest uppercase">
+            ✦ CALCULATED STRUCTURAL MAPPING FOR CODES ✦
           </p>
         </div>
 

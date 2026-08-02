@@ -1069,24 +1069,24 @@ export default function App() {
               {/* Background Ethereal Stardust Glow (Floating Void Glow - Responsive constrained) */}
               <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-full max-w-[600px] h-[400px] sm:h-[600px] rounded-full bg-radial-gradient from-[#c5a880]/15 via-indigo-950/15 to-transparent blur-3xl pointer-events-none" />
 
-              {/* 1. Header Celestial Badge (PERFECTLY CENTER-ALIGNED TITLE - MOBILE RESPONSIVE) */}
+              {/* 1. Header Celestial Badge (PERFECTLY CENTER-ALIGNED TITLE - MOBILE RESPONSIVE FIT) */}
               <motion.div 
                 variants={{
                   hidden: { opacity: 0, filter: "blur(16px)", y: 25 },
                   show: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1] } }
                 }}
-                className="flex flex-col items-center justify-center text-center gap-2 border-b border-white/10 pb-6 relative z-10 w-full box-border"
+                className="flex flex-col items-center justify-center text-center gap-1.5 border-b border-white/10 pb-5 relative z-10 w-full box-border"
               >
                 {formData.name ? (
-                  <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-[#f4f3f1] tracking-wider sm:tracking-widest uppercase drop-shadow-[0_0_25px_rgba(255,255,255,0.45)] break-words max-w-full px-2">
+                  <h2 className="text-lg sm:text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-[#f4f3f1] tracking-wider sm:tracking-widest uppercase drop-shadow-[0_0_25px_rgba(255,255,255,0.45)] break-words max-w-full px-1">
                     {formData.name}'S BLUEPRINT
                   </h2>
                 ) : (
-                  <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-[#f4f3f1] tracking-wider sm:tracking-widest uppercase drop-shadow-[0_0_25px_rgba(255,255,255,0.45)] break-words max-w-full px-2">
+                  <h2 className="text-lg sm:text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-[#f4f3f1] tracking-wider sm:tracking-widest uppercase drop-shadow-[0_0_25px_rgba(255,255,255,0.45)] break-words max-w-full px-1">
                     YOUR COSMIC BLUEPRINT
                   </h2>
                 )}
-                <span className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] sm:tracking-[0.35em] text-[#c5a880]">
+                <span className="text-[9px] sm:text-xs font-mono uppercase tracking-[0.2em] sm:tracking-[0.35em] text-[#c5a880]">
                   ✦ PERSONAL DESTINY COORDINATES ✦
                 </span>
               </motion.div>
@@ -1097,42 +1097,42 @@ export default function App() {
                   hidden: { opacity: 0, filter: "blur(18px)", y: 30 },
                   show: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 1.5, ease: [0.16, 1, 0.3, 1] } }
                 }}
-                className="flex flex-col gap-4 relative z-10 pt-2 w-full box-border px-1 sm:px-3"
+                className="flex flex-col gap-3 relative z-10 pt-1 w-full box-border px-1 sm:px-3"
               >
-                <div className="flex items-center justify-center gap-2.5 text-xs font-mono uppercase tracking-[0.25em] text-[#c5a880]">
-                  <span className="w-2 h-2 rounded-full bg-[#c5a880] animate-pulse drop-shadow-[0_0_8px_rgba(197,168,128,0.8)]" />
+                <div className="flex items-center justify-center gap-2 text-[10px] sm:text-xs font-mono uppercase tracking-[0.2em] text-[#c5a880]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#c5a880] animate-pulse drop-shadow-[0_0_8px_rgba(197,168,128,0.8)]" />
                   <span>Core Persona Unlocked</span>
                 </div>
-                <h3 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal text-[#f4f3f1] tracking-wide leading-tight drop-shadow-[0_0_30px_rgba(197,168,128,0.15)] break-words px-2">
+                <h3 className="font-serif text-2xl sm:text-5xl md:text-6xl font-normal text-[#f4f3f1] tracking-wide leading-tight drop-shadow-[0_0_30px_rgba(197,168,128,0.15)] break-words px-1">
                   {coreArchetypeTitle}
                 </h3>
-                <p className="text-neutral-200 font-light leading-relaxed text-sm sm:text-lg md:text-xl italic pt-2 sm:pt-3 border-l-2 border-[#c5a880]/50 pl-4 sm:pl-6 my-1 sm:my-2 text-left break-words w-full box-border">
+                <p className="text-neutral-200 font-light leading-relaxed text-xs sm:text-lg md:text-xl italic pt-1.5 sm:pt-3 border-l-2 border-[#c5a880]/50 pl-3 sm:pl-6 my-1 text-left break-words w-full box-border">
                   "{coreArchetypeTeaser}"
                 </p>
               </motion.div>
 
-              {/* 3. Subconscious Shadow Gate (Co-Star Left Book Cover + Right 4 Chapters Layout) */}
+              {/* 3. Subconscious Shadow Gate (Centered 3D Book Preview) */}
               <motion.div 
                 variants={{
                   hidden: { opacity: 0, filter: "blur(16px)", y: 30 },
                   show: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 1.6, ease: [0.16, 1, 0.3, 1] } }
                 }}
-                className="flex flex-col gap-6 relative z-10 pt-4 border-t border-white/10"
+                className="flex flex-col gap-4 sm:gap-6 relative z-10 pt-3 sm:pt-4 border-t border-white/10"
               >
-                <div className="flex items-center justify-between text-xs font-mono text-[#c5a880] uppercase tracking-widest pb-1">
-                  <span className="flex items-center gap-2">
+                <div className="flex items-center justify-between text-[10px] sm:text-xs font-mono text-[#c5a880] uppercase tracking-wider sm:tracking-widest pb-1">
+                  <span className="flex items-center gap-1.5">
                     <span>✦</span> COMPLETE REPORT STRUCTURE
                   </span>
-                  <span className="text-[#c5a880] font-mono text-[11px] uppercase tracking-[0.2em]">
+                  <span className="text-[#c5a880] font-mono text-[9px] sm:text-[11px] uppercase tracking-[0.15em] sm:tracking-[0.2em]">
                     ✦ PARTIAL REVEAL
                   </span>
                 </div>
 
                 {/* CENTERED SINGLE COLUMN: 3D HARDCOVER SACRED GOLD BOOK MOCKUP */}
-                <div className="flex flex-col items-center justify-center w-full pt-2">
+                <div className="flex flex-col items-center justify-center w-full pt-1">
                   
                   {/* SLIM 3D HARDCOVER SACRED GOLD BOOK MOCKUP (CENTERED HERO PREVIEW) */}
-                  <div className="w-full max-w-[260px] mx-auto flex flex-col items-center justify-between p-5 sm:p-6 rounded-r-2xl rounded-l-md bg-gradient-to-b from-[#16151f] via-[#0d0c14] to-[#08070d] border-t border-r border-b border-[#c5a880]/40 border-l-[7px] border-l-[#c5a880] shadow-[-10px_10px_30px_rgba(0,0,0,0.9),_15px_15px_35px_rgba(197,168,128,0.08)] relative group overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[-15px_20px_45px_rgba(0,0,0,0.95),_0_0_35px_rgba(197,168,128,0.25)] min-h-[350px]"
+                  <div className="w-full max-w-[220px] sm:max-w-[260px] mx-auto flex flex-col items-center justify-between p-4 sm:p-6 rounded-r-2xl rounded-l-md bg-gradient-to-b from-[#16151f] via-[#0d0c14] to-[#08070d] border-t border-r border-b border-[#c5a880]/40 border-l-[6px] sm:border-l-[7px] border-l-[#c5a880] shadow-[-10px_10px_30px_rgba(0,0,0,0.9),_15px_15px_35px_rgba(197,168,128,0.08)] relative group overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[-15px_20px_45px_rgba(0,0,0,0.95),_0_0_35px_rgba(197,168,128,0.25)] min-h-[300px] sm:min-h-[350px]"
                        onClick={() => setIsModalOpen(true)}>
                     
                     {/* Book Spine Crease Shadow Line */}
@@ -1142,39 +1142,39 @@ export default function App() {
                     <div className="absolute inset-0 bg-radial-gradient from-[#c5a880]/20 via-transparent to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                     
                     {/* Top Star Accent */}
-                    <div className="w-full flex items-center justify-center text-[10px] font-mono uppercase text-[#c5a880]/90 tracking-widest relative z-10 pt-1">
+                    <div className="w-full flex items-center justify-center text-[9px] sm:text-[10px] font-mono uppercase text-[#c5a880]/90 tracking-widest relative z-10 pt-0.5">
                       ✦ HARDCOVER CODEX ✦
                     </div>
 
                     {/* Sacred Geometry Focal Graphic */}
-                    <div className="flex flex-col items-center gap-2.5 relative z-10 my-auto py-3">
-                      <div className="w-12 h-12 rounded-full border border-[#c5a880]/50 flex items-center justify-center shadow-[0_0_20px_rgba(197,168,128,0.25)] bg-white/[0.02]">
-                        <span className="text-[#c5a880] text-lg font-serif">✦</span>
+                    <div className="flex flex-col items-center gap-2 relative z-10 my-auto py-2">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border border-[#c5a880]/50 flex items-center justify-center shadow-[0_0_20px_rgba(197,168,128,0.25)] bg-white/[0.02]">
+                        <span className="text-[#c5a880] text-base sm:text-lg font-serif">✦</span>
                       </div>
 
                       {/* Book Title Embossing */}
-                      <div className="flex flex-col items-center text-center gap-1">
-                        <span className="text-[8.5px] font-mono uppercase tracking-[0.3em] text-[#c5a880]">
+                      <div className="flex flex-col items-center text-center gap-0.5">
+                        <span className="text-[8px] sm:text-[8.5px] font-mono uppercase tracking-[0.3em] text-[#c5a880]">
                           PERSONAL EDITION
                         </span>
-                        <h4 className="text-base font-serif font-medium text-[#f4f3f1] tracking-widest uppercase line-clamp-2 px-1 drop-shadow-md leading-snug">
+                        <h4 className="text-sm sm:text-base font-serif font-medium text-[#f4f3f1] tracking-wider sm:tracking-widest uppercase line-clamp-2 px-1 drop-shadow-md leading-snug">
                           {formData.name ? `${formData.name}'s` : "Personal"} Blueprint
                         </h4>
-                        <div className="w-8 h-[1px] bg-[#c5a880]/40 my-1" />
-                        <span className="text-[9.5px] font-serif italic text-neutral-400">
+                        <div className="w-6 sm:w-8 h-[1px] bg-[#c5a880]/40 my-0.5" />
+                        <span className="text-[8.5px] sm:text-[9.5px] font-serif italic text-neutral-400">
                           Destiny Matrix
                         </span>
                       </div>
                     </div>
 
-                    {/* Highly Prominent "Click to Preview" Callout Badge (SOLVES "UNSURE IF CLICKABLE") */}
+                    {/* Highly Prominent "Click to Preview" Callout Badge */}
                     <div className="w-full relative z-10">
-                      <div className="w-full py-2 px-2.5 rounded-xl bg-[#c5a880]/15 border border-[#c5a880]/40 group-hover:bg-[#c5a880]/25 group-hover:border-[#c5a880] transition-all duration-300 flex items-center justify-center gap-1.5 text-center text-[#f4f3f1] shadow-lg">
-                        <span className="text-[11px] animate-bounce">🔍</span>
-                        <span className="text-[11px] font-mono font-medium uppercase tracking-wider text-[#f4f3f1]">
+                      <div className="w-full py-1.5 sm:py-2 px-2 sm:px-2.5 rounded-xl bg-[#c5a880]/15 border border-[#c5a880]/40 group-hover:bg-[#c5a880]/25 group-hover:border-[#c5a880] transition-all duration-300 flex items-center justify-center gap-1 sm:gap-1.5 text-center text-[#f4f3f1] shadow-lg">
+                        <span className="text-[10px] sm:text-[11px] animate-bounce">🔍</span>
+                        <span className="text-[9.5px] sm:text-[11px] font-mono font-medium uppercase tracking-wider text-[#f4f3f1]">
                           TAP TO PREVIEW BOOK
                         </span>
-                        <span className="text-[11px] text-[#c5a880]">➔</span>
+                        <span className="text-[10px] sm:text-[11px] text-[#c5a880]">➔</span>
                       </div>
                     </div>
                   </div>
@@ -1187,17 +1187,17 @@ export default function App() {
                   hidden: { opacity: 0, filter: "blur(8px)", y: 30 },
                   show: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } }
                 }}
-                className="w-full flex flex-col gap-4 pt-4 relative z-10 border-t border-white/10"
+                className="w-full flex flex-col gap-3 pt-3 sm:pt-4 relative z-10 border-t border-white/10"
               >
                 <Link 
                   to="/pay"
                   id="static-pay-button"
-                  className="w-full text-center p-4.5 md:p-5 bg-gradient-to-r from-[#f4f3f1] via-white to-[#ecebe7] text-neutral-950 font-serif font-medium rounded-2xl hover:brightness-110 active:scale-[0.99] transition-all duration-500 shadow-[0_0_50px_rgba(197,168,128,0.35)] text-sm md:text-base tracking-widest uppercase"
+                  className="w-full text-center py-3.5 sm:py-4.5 px-3 sm:px-4 bg-gradient-to-r from-[#f4f3f1] via-white to-[#ecebe7] text-neutral-950 font-serif font-medium rounded-2xl hover:brightness-110 active:scale-[0.99] transition-all duration-500 shadow-[0_0_50px_rgba(197,168,128,0.35)] text-xs sm:text-base tracking-wider sm:tracking-widest uppercase break-words leading-tight block box-border"
                 >
                   Reveal My Full Shadow & Gifts · $9.90 USD
                 </Link>
                 
-                <p className="text-[10px] md:text-[11px] text-neutral-500 text-center uppercase font-mono tracking-widest pt-1">
+                <p className="text-[9px] sm:text-[11px] text-neutral-500 text-center uppercase font-mono tracking-widest pt-0.5">
                   Instant Digital Access · 100% Private & Confidential · Guaranteed Authentic Report
                 </p>
               </motion.div>
