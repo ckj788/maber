@@ -201,26 +201,26 @@ export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, tri }
 
   return (
     <div 
-      className="fixed inset-0 z-[10000] flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-xl transition-all duration-300"
+      className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl transition-all duration-300 overflow-hidden"
       onClick={onClose}
     >
       <div 
-        className="relative w-[92%] sm:w-full max-w-xl max-h-[76vh] sm:max-h-[85vh] overflow-y-auto overflow-x-hidden bg-[#0a0910] border border-[#c5a880]/35 rounded-2xl sm:rounded-3xl md:p-8 p-4 sm:p-6 shadow-[0_25px_70px_rgba(0,0,0,0.95)] transition-transform transform duration-300 scale-100 box-border mx-auto my-auto"
+        className="relative w-[88%] sm:w-full max-w-[350px] sm:max-w-xl max-h-[68vh] sm:max-h-[85vh] overflow-y-auto overflow-x-hidden bg-[#09080e] border border-[#c5a880]/40 rounded-2xl sm:rounded-3xl md:p-8 p-4 sm:p-6 shadow-[0_20px_60px_rgba(0,0,0,0.95)] transition-transform transform duration-300 scale-100 box-border mx-auto my-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 text-neutral-400 hover:text-white text-2xl sm:text-3xl font-light focus:outline-none transition-colors"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 text-neutral-400 hover:text-white text-xl sm:text-3xl font-light focus:outline-none transition-colors"
           onClick={onClose}
           aria-label="Close modal"
         >
           &times;
         </button>
 
-        <div className="text-center mb-4 sm:mb-6 pr-6 sm:pr-0">
-          <h3 className="text-base sm:text-xl font-serif tracking-wider text-[#ecebe7] mb-1 break-words">
+        <div className="text-center mb-3 sm:mb-6 pr-5 sm:pr-0">
+          <h3 className="text-sm sm:text-xl font-serif tracking-wider text-[#ecebe7] mb-1 break-words">
             Your Personalized Report Structure
           </h3>
-          <p className="text-[9px] sm:text-xs text-[#c5a880] font-mono tracking-widest uppercase">
+          <p className="text-[8px] sm:text-xs text-[#c5a880] font-mono tracking-widest uppercase">
             ✦ CALCULATED STRUCTURAL MAPPING FOR CODES ✦
           </p>
         </div>
