@@ -200,63 +200,63 @@ export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, tri }
   ] : ["112", "145", "167", "189"];
 
   return (
-    <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl transition-all duration-300">
+    <div className="fixed inset-0 z-[10000] flex items-center justify-center p-2.5 sm:p-4 bg-black/85 backdrop-blur-xl transition-all duration-300">
       <div 
-        className="relative w-full max-w-xl max-h-[85vh] overflow-y-auto bg-neutral-950 border border-neutral-800 rounded-2xl md:p-8 p-6 shadow-2xl transition-transform transform duration-300 scale-100"
+        className="relative w-full max-w-xl max-h-[88vh] overflow-y-auto overflow-x-hidden bg-neutral-950 border border-neutral-800/80 rounded-2xl md:p-8 p-4 sm:p-6 shadow-2xl transition-transform transform duration-300 scale-100 box-border"
         onClick={(e) => e.stopPropagation()}
       >
         <button
-          className="absolute top-4 right-4 text-neutral-400 hover:text-white text-3xl font-light focus:outline-none transition-colors"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 text-neutral-400 hover:text-white text-2xl sm:text-3xl font-light focus:outline-none transition-colors"
           onClick={onClose}
           aria-label="Close modal"
         >
           &times;
         </button>
 
-        <div className="text-center mb-6">
-          <h3 className="text-xl font-serif tracking-wider text-[#ecebe7] mb-1">
+        <div className="text-center mb-5 sm:mb-6 pr-6 sm:pr-0">
+          <h3 className="text-lg sm:text-xl font-serif tracking-wider text-[#ecebe7] mb-1 break-words">
             Your Personalized Report Structure
           </h3>
-          <p className="text-xs text-neutral-400 font-mono">
+          <p className="text-[10px] sm:text-xs text-neutral-400 font-mono tracking-widest">
             CALCULATED STRUCTURAL MAPPING FOR CODES
           </p>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-5 sm:space-y-6">
           {/* Chapter 1 */}
-          <div className="border-b border-neutral-900 pb-5 text-left">
-            <div className="flex justify-between items-start gap-4 mb-2 flex-wrap">
-              <span className="font-semibold text-sm text-[#dedcd7]">
-                Chapter 1: Core Archetype — The {archetypeTitle} (Number {archetypeNumber})
+          <div className="border-b border-neutral-900 pb-4 sm:pb-5 text-left w-full">
+            <div className="flex justify-between items-start gap-2.5 mb-2 flex-wrap w-full">
+              <span className="font-semibold text-xs sm:text-sm text-[#dedcd7] break-words max-w-[75%] sm:max-w-none">
+                Chapter 1: Core Archetype — {archetypeTitle.startsWith("The ") ? archetypeTitle : `The ${archetypeTitle}`} (Number {archetypeNumber})
               </span>
-              <span className="text-[11px] text-red-400 bg-red-400/5 border border-red-500/20 px-2 py-0.5 rounded font-mono flex items-center gap-1">
+              <span className="text-[10px] sm:text-[11px] text-red-400 bg-red-400/10 border border-red-500/30 px-2 py-0.5 rounded font-mono flex items-center gap-1 shrink-0">
                 🔒 Locked
               </span>
             </div>
-            <p className="text-sm text-neutral-400 italic mb-2 leading-relaxed">
+            <p className="text-xs sm:text-sm text-neutral-400 italic mb-2 leading-relaxed break-words">
               {archetypeTeaser}
             </p>
-            <p className="text-xs text-neutral-500 leading-relaxed">
+            <p className="text-[11px] sm:text-xs text-neutral-500 leading-relaxed break-words">
               [Contains: Career alignment, relationship psychology, shadow work & self-sabotage loops, destiny coordinates]
             </p>
           </div>
 
           {/* Chapter 2 */}
-          <div className="border-b border-neutral-900 pb-5 text-left">
-            <div className="flex justify-between items-start gap-4 mb-2 flex-wrap">
-              <span className="font-semibold text-sm text-[#dedcd7]">
+          <div className="border-b border-neutral-900 pb-4 sm:pb-5 text-left w-full">
+            <div className="flex justify-between items-start gap-2.5 mb-2 flex-wrap w-full">
+              <span className="font-semibold text-xs sm:text-sm text-[#dedcd7] break-words">
                 Chapter 2: Early Life-Phase (Ages 21–40)
               </span>
-              <span className="text-[11px] text-red-400 bg-red-400/5 border border-red-500/20 px-2 py-0.5 rounded font-mono flex items-center gap-1">
+              <span className="text-[10px] sm:text-[11px] text-red-400 bg-red-400/10 border border-red-500/30 px-2 py-0.5 rounded font-mono flex items-center gap-1 shrink-0">
                 🔒 Locked
               </span>
             </div>
-            <p className="text-sm text-neutral-400 mb-3 leading-relaxed">
+            <p className="text-xs sm:text-sm text-neutral-400 mb-3 leading-relaxed break-words">
               Governed by your foundational development energy and early redirection codes.
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {earlyCodes.map((code, idx) => (
-                <span key={idx} className="text-xs px-2.5 py-1 rounded bg-white/5 border border-white/10 text-neutral-300 font-mono">
+                <span key={idx} className="text-[11px] sm:text-xs px-2 py-1 rounded bg-white/5 border border-white/10 text-neutral-300 font-mono break-words">
                   {code} — {CODE_TITLES[code] || "Core Vibration"}
                 </span>
               ))}
@@ -264,21 +264,21 @@ export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, tri }
           </div>
 
           {/* Chapter 3 */}
-          <div className="border-b border-neutral-900 pb-5 text-left">
-            <div className="flex justify-between items-start gap-4 mb-2 flex-wrap">
-              <span className="font-semibold text-sm text-[#dedcd7]">
+          <div className="border-b border-neutral-900 pb-4 sm:pb-5 text-left w-full">
+            <div className="flex justify-between items-start gap-2.5 mb-2 flex-wrap w-full">
+              <span className="font-semibold text-xs sm:text-sm text-[#dedcd7] break-words">
                 Chapter 3: Mid Life-Phase (Ages 41–60)
               </span>
-              <span className="text-[11px] text-red-400 bg-red-400/5 border border-red-500/20 px-2 py-0.5 rounded font-mono flex items-center gap-1">
+              <span className="text-[10px] sm:text-[11px] text-red-400 bg-red-400/10 border border-red-500/30 px-2 py-0.5 rounded font-mono flex items-center gap-1 shrink-0">
                 🔒 Locked
               </span>
             </div>
-            <p className="text-sm text-neutral-400 mb-3 leading-relaxed">
+            <p className="text-xs sm:text-sm text-neutral-400 mb-3 leading-relaxed break-words">
               Governed by your career-peak, financial accumulation, and stability cycles.
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {midCodes.map((code, idx) => (
-                <span key={idx} className="text-xs px-2.5 py-1 rounded bg-white/5 border border-white/10 text-neutral-300 font-mono">
+                <span key={idx} className="text-[11px] sm:text-xs px-2 py-1 rounded bg-white/5 border border-white/10 text-neutral-300 font-mono break-words">
                   {code} — {CODE_TITLES[code] || "Core Vibration"}
                 </span>
               ))}
@@ -286,21 +286,21 @@ export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, tri }
           </div>
 
           {/* Chapter 4 */}
-          <div className="border-b border-neutral-900 pb-1 text-left">
-            <div className="flex justify-between items-start gap-4 mb-2 flex-wrap">
-              <span className="font-semibold text-sm text-[#dedcd7]">
+          <div className="border-b border-neutral-900 pb-1 text-left w-full">
+            <div className="flex justify-between items-start gap-2.5 mb-2 flex-wrap w-full">
+              <span className="font-semibold text-xs sm:text-sm text-[#dedcd7] break-words">
                 Chapter 4: Late Life-Phase (Ages 61–80)
               </span>
-              <span className="text-[11px] text-red-400 bg-red-400/5 border border-red-500/20 px-2 py-0.5 rounded font-mono flex items-center gap-1">
+              <span className="text-[10px] sm:text-[11px] text-red-400 bg-red-400/10 border border-red-500/30 px-2 py-0.5 rounded font-mono flex items-center gap-1 shrink-0">
                 🔒 Locked
               </span>
             </div>
-            <p className="text-sm text-neutral-400 mb-3 leading-relaxed">
+            <p className="text-xs sm:text-sm text-neutral-400 mb-3 leading-relaxed break-words">
               Governed by your harvest, wisdom sharing, and legacy completion blueprint.
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {lateCodes.map((code, idx) => (
-                <span key={idx} className="text-xs px-2.5 py-1 rounded bg-white/5 border border-white/10 text-neutral-300 font-mono">
+                <span key={idx} className="text-[11px] sm:text-xs px-2 py-1 rounded bg-white/5 border border-white/10 text-neutral-300 font-mono break-words">
                   {code} — {CODE_TITLES[code] || "Core Vibration"}
                 </span>
               ))}
@@ -308,16 +308,16 @@ export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, tri }
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
           <button
-            className="w-full sm:w-auto px-6 py-3 border border-neutral-800 hover:border-neutral-600 text-neutral-400 hover:text-white rounded-xl transition-all duration-300 text-xs font-mono uppercase tracking-wider cursor-pointer"
+            className="w-full sm:w-auto px-5 py-2.5 border border-neutral-800 hover:border-neutral-600 text-neutral-400 hover:text-white rounded-xl transition-all duration-300 text-xs font-mono uppercase tracking-wider cursor-pointer"
             onClick={onClose}
           >
             Close Preview
           </button>
           <Link
             to="/pay"
-            className="w-full sm:w-auto px-8 py-3 bg-white text-black font-semibold rounded-xl hover:bg-[#dedcd7] transition-all duration-300 text-xs font-mono uppercase tracking-wider text-center shadow-lg cursor-pointer"
+            className="w-full sm:w-auto px-6 py-3 bg-white text-black font-semibold rounded-xl hover:bg-[#dedcd7] transition-all duration-300 text-xs font-mono uppercase tracking-wider text-center shadow-lg cursor-pointer"
           >
             Reveal My Full Shadow & Gifts — $9.90
           </Link>
