@@ -1128,11 +1128,11 @@ export default function App() {
                   </span>
                 </div>
 
-                {/* DUAL-COLUMN GRID: LEFT SLIM EMBOSSED SACRED BOOK MOCKUP + RIGHT 4 SECTIONS */}
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center pt-2">
+                {/* CENTERED SINGLE COLUMN: 3D HARDCOVER SACRED GOLD BOOK MOCKUP */}
+                <div className="flex flex-col items-center justify-center w-full pt-2">
                   
-                  {/* LEFT COLUMN: SLIM 3D HARDCOVER SACRED GOLD BOOK MOCKUP */}
-                  <div className="md:col-span-4 w-full max-w-[260px] mx-auto md:mx-0 flex flex-col items-center justify-between p-5 sm:p-6 rounded-r-2xl rounded-l-md bg-gradient-to-b from-[#16151f] via-[#0d0c14] to-[#08070d] border-t border-r border-b border-[#c5a880]/40 border-l-[7px] border-l-[#c5a880] shadow-[-10px_10px_30px_rgba(0,0,0,0.9),_15px_15px_35px_rgba(197,168,128,0.08)] relative group overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[-15px_20px_45px_rgba(0,0,0,0.95),_0_0_35px_rgba(197,168,128,0.25)] min-h-[350px]"
+                  {/* SLIM 3D HARDCOVER SACRED GOLD BOOK MOCKUP (CENTERED HERO PREVIEW) */}
+                  <div className="w-full max-w-[260px] mx-auto flex flex-col items-center justify-between p-5 sm:p-6 rounded-r-2xl rounded-l-md bg-gradient-to-b from-[#16151f] via-[#0d0c14] to-[#08070d] border-t border-r border-b border-[#c5a880]/40 border-l-[7px] border-l-[#c5a880] shadow-[-10px_10px_30px_rgba(0,0,0,0.9),_15px_15px_35px_rgba(197,168,128,0.08)] relative group overflow-hidden cursor-pointer transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[-15px_20px_45px_rgba(0,0,0,0.95),_0_0_35px_rgba(197,168,128,0.25)] min-h-[350px]"
                        onClick={() => setIsModalOpen(true)}>
                     
                     {/* Book Spine Crease Shadow Line */}
@@ -1176,70 +1176,6 @@ export default function App() {
                         </span>
                         <span className="text-[11px] text-[#c5a880]">➔</span>
                       </div>
-                    </div>
-                  </div>
-
-                  {/* RIGHT COLUMN: 4 REAL SECTIONS */}
-                  <div className="md:col-span-8 flex flex-col justify-center divide-y divide-white/10">
-                    
-                    {/* Section 1 - Unlocked */}
-                    <div className="py-3.5 flex items-start justify-between gap-4">
-                      <div className="flex items-start gap-3">
-                        <span className="text-[#c5a880] text-sm shrink-0 pt-0.5">✦</span>
-                        <div className="flex flex-col gap-0.5">
-                          <span className="text-base font-serif text-[#f4f3f1] font-medium tracking-wide">
-                            Section 1: Core Archetype — {coreArchetypeTitle}
-                          </span>
-                          <span className="text-xs font-mono text-[#c5a880]/90">
-                            Calibrated & Primary Reveal
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Section 2 - Encrypted */}
-                    <div className="py-3.5 flex flex-col gap-1.5 relative">
-                      <div className="flex items-center justify-between text-base">
-                        <span className="font-serif text-neutral-300 font-medium tracking-wide">
-                          Section 2: Decoding Ages 21–40
-                        </span>
-                        <span className="text-[#c5a880] font-mono text-[11px] uppercase tracking-widest flex items-center gap-1.5">
-                          <span className="animate-pulse">🔒</span> ENCRYPTED
-                        </span>
-                      </div>
-                      <p className="text-xs text-neutral-400 blur-[5.5px] opacity-35 font-mono leading-relaxed pointer-events-none select-none">
-                        Redirection codes, relational alignment windows, and career breakthrough timing...
-                      </p>
-                    </div>
-
-                    {/* Section 3 - Encrypted */}
-                    <div className="py-3.5 flex flex-col gap-1.5 relative">
-                      <div className="flex items-center justify-between text-base">
-                        <span className="font-serif text-neutral-300 font-medium tracking-wide">
-                          Section 3: Decoding Ages 41–60
-                        </span>
-                        <span className="text-[#c5a880] font-mono text-[11px] uppercase tracking-widest flex items-center gap-1.5">
-                          <span className="animate-pulse">🔒</span> ENCRYPTED
-                        </span>
-                      </div>
-                      <p className="text-xs text-neutral-400 blur-[5.5px] opacity-35 font-mono leading-relaxed pointer-events-none select-none">
-                        Peak wealth accumulation cycles, leadership authority codes, and milestone coordinates...
-                      </p>
-                    </div>
-
-                    {/* Section 4 - Encrypted */}
-                    <div className="py-3.5 flex flex-col gap-1.5 relative">
-                      <div className="flex items-center justify-between text-base">
-                        <span className="font-serif text-neutral-300 font-medium tracking-wide">
-                          Section 4: Decoding Ages 61–80
-                        </span>
-                        <span className="text-[#c5a880] font-mono text-[11px] uppercase tracking-widest flex items-center gap-1.5">
-                          <span className="animate-pulse">🔒</span> ENCRYPTED
-                        </span>
-                      </div>
-                      <p className="text-xs text-neutral-400 blur-[5.5px] opacity-35 font-mono leading-relaxed pointer-events-none select-none">
-                        Harvest cycles, legacy completion roadmap, and wisdom sharing codes...
-                      </p>
                     </div>
                   </div>
                 </div>
