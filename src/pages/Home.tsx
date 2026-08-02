@@ -1031,8 +1031,8 @@ export default function App() {
               <SpaceBackground />
             </div>
 
-            <section id="triangle-section" className="py-12 md:py-20 bg-transparent relative z-20 overflow-hidden">
-            <div className="w-full max-w-[1120px] mx-auto px-6 flex flex-col gap-12">
+            <section id="triangle-section" className="py-8 sm:py-12 md:py-20 bg-transparent relative z-20 overflow-hidden w-full max-w-full px-3 sm:px-6">
+            <div className="w-full max-w-[1120px] mx-auto flex flex-col gap-12 overflow-hidden">
             
           {/* RESULT CONTAINER (SEAMLESS ETHEREAL VOID WITH CINEMATIC STAGGERED FADE-IN) */}
           <motion.div 
@@ -1048,34 +1048,34 @@ export default function App() {
                 }
               }
             }}
-            className="w-full max-w-[850px] mx-auto mt-6 flex flex-col gap-12 select-none relative z-10"
+            className="w-full max-w-[850px] mx-auto mt-4 sm:mt-6 flex flex-col gap-8 sm:gap-12 select-none relative z-10 overflow-hidden px-1"
           >
             {/* ========================================================================= */}
             {/* ACT I: SOUL ALIGNMENT & SACRED GATE (BORDERLESS CELESTIAL CODEX)          */}
             {/* ========================================================================= */}
-            <div className="w-full text-center flex flex-col gap-10 relative">
+            <div className="w-full text-center flex flex-col gap-8 sm:gap-10 relative overflow-hidden">
               
-              {/* Background Ethereal Stardust Glow (Floating Void Glow) */}
-              <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[700px] rounded-full bg-radial-gradient from-[#c5a880]/15 via-indigo-950/15 to-transparent blur-3xl pointer-events-none" />
+              {/* Background Ethereal Stardust Glow (Floating Void Glow - Responsive constrained) */}
+              <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-full max-w-[600px] h-[400px] sm:h-[600px] rounded-full bg-radial-gradient from-[#c5a880]/15 via-indigo-950/15 to-transparent blur-3xl pointer-events-none" />
 
-              {/* 1. Header Celestial Badge (PERFECTLY CENTER-ALIGNED TITLE, REMOVED NODE BADGE) */}
+              {/* 1. Header Celestial Badge (PERFECTLY CENTER-ALIGNED TITLE - MOBILE RESPONSIVE) */}
               <motion.div 
                 variants={{
                   hidden: { opacity: 0, filter: "blur(16px)", y: 25 },
                   show: { opacity: 1, filter: "blur(0px)", y: 0, transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1] } }
                 }}
-                className="flex flex-col items-center justify-center text-center gap-2 border-b border-white/10 pb-6 relative z-10"
+                className="flex flex-col items-center justify-center text-center gap-2 border-b border-white/10 pb-6 relative z-10 w-full"
               >
                 {formData.name ? (
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-medium text-[#f4f3f1] tracking-widest uppercase drop-shadow-[0_0_25px_rgba(255,255,255,0.45)]">
+                  <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-[#f4f3f1] tracking-wider sm:tracking-widest uppercase drop-shadow-[0_0_25px_rgba(255,255,255,0.45)] break-words max-w-full px-2">
                     {formData.name}'S BLUEPRINT
                   </h2>
                 ) : (
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-medium text-[#f4f3f1] tracking-widest uppercase drop-shadow-[0_0_25px_rgba(255,255,255,0.45)]">
+                  <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-medium text-[#f4f3f1] tracking-wider sm:tracking-widest uppercase drop-shadow-[0_0_25px_rgba(255,255,255,0.45)] break-words max-w-full px-2">
                     YOUR COSMIC BLUEPRINT
                   </h2>
                 )}
-                <span className="text-xs font-mono uppercase tracking-[0.35em] text-[#c5a880]">
+                <span className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] sm:tracking-[0.35em] text-[#c5a880]">
                   ✦ PERSONAL DESTINY COORDINATES ✦
                 </span>
               </motion.div>
@@ -1088,14 +1088,14 @@ export default function App() {
                 }}
                 className="flex flex-col gap-4 relative z-10 pt-2"
               >
-                <div className="flex items-center gap-2.5 text-xs font-mono uppercase tracking-[0.25em] text-[#c5a880]">
+                <div className="flex items-center justify-center gap-2.5 text-xs font-mono uppercase tracking-[0.25em] text-[#c5a880]">
                   <span className="w-2 h-2 rounded-full bg-[#c5a880] animate-pulse drop-shadow-[0_0_8px_rgba(197,168,128,0.8)]" />
                   <span>Core Persona Unlocked</span>
                 </div>
-                <h3 className="font-serif text-4xl sm:text-5xl md:text-6xl font-normal text-[#f4f3f1] tracking-wide leading-tight drop-shadow-[0_0_30px_rgba(197,168,128,0.15)]">
+                <h3 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal text-[#f4f3f1] tracking-wide leading-tight drop-shadow-[0_0_30px_rgba(197,168,128,0.15)] break-words px-2">
                   {coreArchetypeTitle}
                 </h3>
-                <p className="text-neutral-200 font-light leading-relaxed text-base sm:text-lg md:text-xl italic pt-3 border-l-2 border-[#c5a880]/50 pl-6 my-2">
+                <p className="text-neutral-200 font-light leading-relaxed text-sm sm:text-lg md:text-xl italic pt-2 sm:pt-3 border-l-2 border-[#c5a880]/50 pl-4 sm:pl-6 my-1 sm:my-2 text-left">
                   "{coreArchetypeTeaser}"
                 </p>
               </motion.div>

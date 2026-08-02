@@ -36,8 +36,8 @@ export const SpaceBackground: React.FC = () => {
         stars.push({
           x: rnd(0, w),
           y: rnd(0, h),
-          r: rnd(0.4, 1.4) * dpr,
-          a: rnd(0.35, 0.85),
+          r: rnd(0.3, 1.0) * (dpr > 1.5 ? 1.2 : dpr),
+          a: rnd(0.25, 0.75),
           z: rnd(0.2, 1),
         });
       }
