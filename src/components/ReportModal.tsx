@@ -5,39 +5,39 @@ import { Link } from "react-router-dom";
 export const PERSONA_MAP: Record<string, { title: string; text: string }> = {
   "1": {
     "title": "The Origin",
-    "text": "A born initiator with a clear North Star, you move first, decide fast, and set the weather for everyone else. People follow because your clarity cuts through noise; your real mastery begins when you trade control for clean boundaries and transform raw drive into leadership others can trust for the long run. You don’t just win—you define the game and invite others into a field you’ve designed with intention.\n\nLead with questions that enroll ownership (“How would you do it?”), choose one audacious priority per cycle, and slow pivotal decisions by a single breath so wisdom can catch up to will. Practice delegation as energetic hygiene: hand off what doesn’t need your signature touch and set acceptance criteria so standards stay high. In love, signal safety through clarity rather than pressure; at work, convert quick wins into assets—documentation, brand equity, repeatable funnels.\n\nMorning intent: hand on heart—“I create safety through clarity, not control.”\nAffirmation: I lead with courage and clarity, and I welcome support."
+    "text": "A born initiator with a clear North Star, you move fast and set the weather for everyone else. People follow your clarity — but your true mastery remains bound until you uncover your hidden energy boundaries.\n\nLead with questions that enroll ownership (“How would you do it?”), choose one audacious priority per cycle, and slow pivotal decisions by a single breath so wisdom can catch up to will. Practice delegation as energetic hygiene: hand off what doesn’t need your signature touch and set acceptance criteria so standards stay high. In love, signal safety through clarity rather than pressure; at work, convert quick wins into assets—documentation, brand equity, repeatable funnels.\n\nMorning intent: hand on heart—“I create safety through clarity, not control.”\nAffirmation: I lead with courage and clarity, and I welcome support."
   },
   "2": {
     "title": "The Mediator",
-    "text": "You read the room, soften conflict, and make connection feel like home. Your kindness isn’t weakness—it’s architecture for trust—but it turns heavy when you trade your needs for harmony. Balance, in your code, isn’t 50/50; it’s honest and mutual. When you include yourself in the circle of care, your presence becomes both gentle and powerful.\n\nName your need first, then collaborate; your “no” protects the sanctity of your “yes.” Co-design agreements in love (how we argue, how we repair, alone time) and price invisible labor at work—your care creates value and should be valued. Build a weekly “decision solo”—two quiet hours where you choose without polling the room; then tell the room.\n\nAn evening ritual—shoulders soft, jaw unclenched, one clear boundary spoken aloud—resets your field.\nAffirmation: My compassion includes me; my boundaries are love in action."
+    "text": "You read the room instantly and make connection feel like home. People lean on your grace — but your peace turns heavy when you silently trade your needs for harmony.\n\nName your need first, then collaborate; your “no” protects the sanctity of your “yes.” Co-design agreements in love (how we argue, how we repair, alone time) and price invisible labor at work—your care creates value and should be valued. Build a weekly “decision solo”—two quiet hours where you choose without polling the room; then tell the room.\n\nAn evening ritual—shoulders soft, jaw unclenched, one clear boundary spoken aloud—resets your field.\nAffirmation: My compassion includes me; my boundaries are love in action."
   },
   "3": {
     "title": "The Muse",
-    "text": "You light up spaces with wit and bright ideas. Applause finds you easily; prosperity finds you when play marries practice and inspiration learns to land. You’re the natural broadcaster—stories become momentum, and momentum becomes culture when your spark is shaped into finished work.\n\nChoose one “canon project” for 90 days and make it unmissable: daily protected creation time before metrics or messages; a public shipping cadence so ideas harden into artifacts—videos, designs, courses. Schedule novelty instead of chasing it (exploration days, travel sprints) so freshness and commitment can co-exist. In love, keep the spark by creating together; at work, turn heat into long-tail assets (evergreen content, licensing, memberships).\n\nA three-minute free-write before drafting turns static into signal.\nAffirmation: My inspiration is steady; my creations land and last."
+    "text": "You light up spaces with wit and contagious inspiration. Applause finds you easily — but your true wealth unlocks when your spark learns to land without burning out.\n\nChoose one “canon project” for 90 days and make it unmissable: daily protected creation time before metrics or messages; a public shipping cadence so ideas harden into artifacts—videos, designs, courses. Schedule novelty instead of chasing it (exploration days, travel sprints) so freshness and commitment can co-exist. In love, keep the spark by creating together; at work, turn heat into long-tail assets (evergreen content, licensing, memberships).\n\nA three-minute free-write before drafting turns static into signal.\nAffirmation: My inspiration is steady; my creations land and last."
   },
   "4": {
     "title": "The Builder",
-    "text": "You turn chaos into systems, deadlines into deliveries, and promises into ledgers. People relax around you because things get finished. Yet safety isn’t stasis; growth begins where your structure meets smart risk and a little play. Order, in your world, isn’t a cage—it’s the runway for bigger flights.\n\nKeep your engine steady while piloting small, asymmetric bets: reserve 5% of time or budget for high-potential experiments and run a 90-day SOP audit to prevent calcification. Make progress visible—roadmaps, Kanban, working demos—so influence grows with reliability. In love, ritualize romance (predictable rhythms plus tiny surprises); in money, upgrade “saving” into allocation—emergency, growth, joy.\n\nWeekly close: two lists—what shipped, what to simplify—so order stays alive.\nAffirmation: I create freedom through structure and grow safely through smart risk."
+    "text": "You turn chaos into order and promises into reality. People relax around your steady execution — but your structure becomes a cage when you lock out smart risk.\n\nKeep your engine steady while piloting small, asymmetric bets: reserve 5% of time or budget for high-potential experiments and run a 90-day SOP audit to prevent calcification. Make progress visible—roadmaps, Kanban, working demos—so influence grows with reliability. In love, ritualize romance (predictable rhythms plus tiny surprises); in money, upgrade “saving” into allocation—emergency, growth, joy.\n\nWeekly close: two lists—what shipped, what to simplify—so order stays alive.\nAffirmation: I create freedom through structure and grow safely through smart risk."
   },
   "5": {
     "title": "The Voyager",
-    "text": "You learn by living, persuade by experience, and blossom when horizons stay open. The medicine is paradoxical: design freedom into your commitments so adventure fuels mastery instead of escaping it. When choice is honored on purpose, you become consistent without feeling confined.\n\nCap open projects at three and refuse a fourth until one lands clean. Write “adventure clauses” into life and love—solo days, personal quests, latitude to roam—so intimacy breathes. Swap impulse spending for an “experience investment ledger”: trips and trainings that expand skills, stories, and status. Movement is your reset button—walks, dance, travel sprints—so restlessness turns into renewal. At work, you’re a market scout; ship recaps and frameworks so exploration compounds.\n\nAffirmation: Freedom is my responsibility; I choose and I complete."
+    "text": "You learn by living bold experiences and persuade by magnetic presence. Adventure fuels your spirit — but your freedom fragments until you master the paradox of commitment.\n\nCap open projects at three and refuse a fourth until one lands clean. Write “adventure clauses” into life and love—solo days, personal quests, latitude to roam—so intimacy breathes. Swap impulse spending for an “experience investment ledger”: trips and trainings that expand skills, stories, and status. Movement is your reset button—walks, dance, travel sprints—so restlessness turns into renewal. At work, you’re a market scout; ship recaps and frameworks so exploration compounds.\n\nAffirmation: Freedom is my responsibility; I choose and I complete."
   },
   "6": {
     "title": "The Healer",
-    "text": "You stabilize teams, beautify spaces, and keep promises long after the applause. Your love multiplies when generosity stands beside boundaries and worth meets pricing—care is not free; it’s priceless and therefore must be priced. When you protect your energy, your nurture becomes renewable.\n\nRetire the inner ledger for a week and notice where help turns into a hidden invoice; then craft boundary scripts that are kind and clear. In partnership, make invisible labor visible—co-create a “home & emotional workload” map and rebalance seasonally. Professionally, charge for outcomes, not hours, and design packages that include care without burning you out.\n\nMorning rule: one act of self-nourishment before serving anyone else.\nAffirmation: I nourish the world and protect myself with clear, loving limits."
+    "text": "You stabilize teams, beautify spaces, and protect those you love. Your care builds sanctuary — but your energy leaks continuously until you price your invisible worth.\n\nRetire the inner ledger for a week and notice where help turns into a hidden invoice; then craft boundary scripts that are kind and clear. In partnership, make invisible labor visible—co-create a “home & emotional workload” map and rebalance seasonally. Professionally, charge for outcomes, not hours, and design packages that include care without burning you out.\n\nMorning rule: one act of self-nourishment before serving anyone else.\nAffirmation: I nourish the world and protect myself with clear, loving limits."
   },
   "7": {
     "title": "The Sage",
-    "text": "You hunt the pattern under the pattern, trust evidence, and speak only when it counts. Insight is your currency; action is your amplifier. Perfection delays impact—truth wants a body. When you give your conclusions legs, your accuracy becomes influence.\n\nAdopt the 72-hour rule: any conclusion must trigger one smallest executable next step within three days. Keep an Evidence Journal separating data from hunch so your intuition gets cleaner, not colder. Alternate “debate days” with “no-analysis days” in love so hearts get equal airtime. Professionally, design controlled experiments—pilot, measure, iterate—and publish your frameworks; authority accrues to those who share their method.\n\nNight ritual: write three questions, sleep on them, let the subconscious compute.\nAffirmation: I honor evidence and act before perfection is required."
+    "text": "You hunt the pattern under the pattern and speak only when it counts. Insight is your natural superpower — but your truth stays trapped in theory until you give your conclusions legs.\n\nAdopt the 72-hour rule: any conclusion must trigger one smallest executable next step within three days. Keep an Evidence Journal separating data from hunch so your intuition gets cleaner, not colder. Alternate “debate days” with “no-analysis days” in love so hearts get equal airtime. Professionally, design controlled experiments—pilot, measure, iterate—and publish your frameworks; authority accrues to those who share their method.\n\nNight ritual: write three questions, sleep on them, let the subconscious compute.\nAffirmation: I honor evidence and act before perfection is required."
   },
   "8": {
     "title": "The Power",
-    "text": "You orchestrate resources, hold pressure, and deliver outcomes with receipts. Control is a fine starter; trust is the only finisher. You scale when you share power and build assets that work while you rest. Lead like an engine room: steady, precise, and designed for endurance.\n\nSet a quarterly failure budget and run experiments bold enough to teach. Delegate 30% with crisp standards and review cadence; your job becomes orchestration, not constant intervention. Hold one weekly meeting about people, not metrics—safety is the soil of performance. Move from income to assets: equity, brand, media, systems, and leaders you’ve grown. In love, codify shared goals and money rhythms; sovereignty plus alliance beats dominance every time.\n\nAffirmation: I create value with power and multiply it by trust."
+    "text": "You orchestrate resources, hold immense pressure, and deliver results with receipts. Control comes naturally — but your scale is capped until you transform dominance into trust.\n\nSet a quarterly failure budget and run experiments bold enough to teach. Delegate 30% with crisp standards and review cadence; your job becomes orchestration, not constant intervention. Hold one weekly meeting about people, not metrics—safety is the soil of performance. Move from income to assets: equity, brand, media, systems, and leaders you’ve grown. In love, codify shared goals and money rhythms; sovereignty plus alliance beats dominance every time.\n\nAffirmation: I create value with power and multiply it by trust."
   },
   "9": {
     "title": "The Empath",
-    "text": "You dream of a kinder world and move people through meaning. The work is loving without leaking. Your heart becomes inexhaustible when your edges are honored and your giving is structured to sustain you too. Compassion expands when it’s carried by design.\n\nTranslate ideals into three executable steps and one metric; swap one unpaid obligation for one paid, values-aligned service. In relationships, write boundaries into the bond—help limits, alone time, emotional budgets—and let repair be a practice, not a punishment. Professionally, choose impact fields but refuse “discounts in the name of love”; charge fairly, deliver deeply, and build coalitions that share the load. Evening ritual: gratitude, release, recommit—three lines, then rest.\n\nAffirmation: My heart is vast, and my boundaries make it sustainable."
+    "text": "You dream of a kinder world and move people through profound meaning. Compassion is your core gift — but your heart leaks continuously until you honor your energetic limits.\n\nTranslate ideals into three executable steps and one metric; swap one unpaid obligation for one paid, values-aligned service. In relationships, write boundaries into the bond—help limits, alone time, emotional budgets—and let repair be a practice, not a punishment. Professionally, choose impact fields but refuse “discounts in the name of love”; charge fairly, deliver deeply, and build coalitions that share the load. Evening ritual: gratitude, release, recommit—three lines, then rest.\n\nAffirmation: My heart is vast, and my boundaries make it sustainable."
   }
 };
 
@@ -216,11 +216,11 @@ export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, tri }
           &times;
         </button>
 
-        <div className="text-center mb-3 sm:mb-6 pr-5 sm:pr-0">
-          <h3 className="text-sm sm:text-xl font-serif tracking-wider text-[#ecebe7] mb-1 break-words">
+        <div className="text-center mb-4 sm:mb-6 pr-5 sm:pr-0">
+          <h3 className="text-base sm:text-xl font-serif tracking-wider text-[#ecebe7] mb-1 break-words">
             Your Personalized Report Structure
           </h3>
-          <p className="text-[8px] sm:text-xs text-[#c5a880] font-mono tracking-widest uppercase">
+          <p className="text-[9px] sm:text-xs text-[#c5a880] font-mono tracking-widest uppercase">
             ✦ CALCULATED STRUCTURAL MAPPING FOR CODES ✦
           </p>
         </div>
@@ -230,7 +230,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, tri }
           <div className="border-b border-neutral-900 pb-4 sm:pb-5 text-left w-full">
             <div className="flex justify-between items-start gap-2.5 mb-2 flex-wrap w-full">
               <span className="font-semibold text-xs sm:text-sm text-[#dedcd7] break-words max-w-[75%] sm:max-w-none">
-                Chapter 1: Core Archetype — {archetypeTitle.startsWith("The ") ? archetypeTitle : `The ${archetypeTitle}`} (Number {archetypeNumber})
+                Chapter 1: Core Archetype — {archetypeTitle.startsWith("The ") ? archetypeTitle : `The ${archetypeTitle}`}
               </span>
               <span className="text-[10px] sm:text-[11px] text-red-400 bg-red-400/10 border border-red-500/30 px-2 py-0.5 rounded font-mono flex items-center gap-1 shrink-0">
                 🔒 Locked
@@ -248,7 +248,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, tri }
           <div className="border-b border-neutral-900 pb-4 sm:pb-5 text-left w-full">
             <div className="flex justify-between items-start gap-2.5 mb-2 flex-wrap w-full">
               <span className="font-semibold text-xs sm:text-sm text-[#dedcd7] break-words">
-                Chapter 2: Early Life-Phase (Ages 21–40)
+                Chapter 2: Early Life-Phase
               </span>
               <span className="text-[10px] sm:text-[11px] text-red-400 bg-red-400/10 border border-red-500/30 px-2 py-0.5 rounded font-mono flex items-center gap-1 shrink-0">
                 🔒 Locked
@@ -270,7 +270,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, tri }
           <div className="border-b border-neutral-900 pb-4 sm:pb-5 text-left w-full">
             <div className="flex justify-between items-start gap-2.5 mb-2 flex-wrap w-full">
               <span className="font-semibold text-xs sm:text-sm text-[#dedcd7] break-words">
-                Chapter 3: Mid Life-Phase (Ages 41–60)
+                Chapter 3: Mid Life-Phase
               </span>
               <span className="text-[10px] sm:text-[11px] text-red-400 bg-red-400/10 border border-red-500/30 px-2 py-0.5 rounded font-mono flex items-center gap-1 shrink-0">
                 🔒 Locked
@@ -292,7 +292,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, tri }
           <div className="border-b border-neutral-900 pb-1 text-left w-full">
             <div className="flex justify-between items-start gap-2.5 mb-2 flex-wrap w-full">
               <span className="font-semibold text-xs sm:text-sm text-[#dedcd7] break-words">
-                Chapter 4: Late Life-Phase (Ages 61–80)
+                Chapter 4: Late Life-Phase
               </span>
               <span className="text-[10px] sm:text-[11px] text-red-400 bg-red-400/10 border border-red-500/30 px-2 py-0.5 rounded font-mono flex items-center gap-1 shrink-0">
                 🔒 Locked
