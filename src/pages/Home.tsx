@@ -469,17 +469,13 @@ export default function App() {
         lastRomanUpdate = currentTime;
       }
 
-      // Dynamic cinematic phrases based on exact elapsed time (1000ms steps)
-      if (elapsed < 1000) {
-        setRitualText("1. Aligning Pythagorean axis coordinates…");
-      } else if (elapsed < 2000) {
-        setRitualText("2. Decoding birth coordinate variations…");
-      } else if (elapsed < 3000) {
-        setRitualText("3. Synthesizing triadic destiny signatures…");
-      } else if (elapsed < 4000) {
-        setRitualText("4. Forging active shadow medicine frequencies…");
+      // Dynamic cinematic phrases based on exact elapsed time (1800ms dwell steps) - Pure Luxury Pacing
+      if (elapsed < 1800) {
+        setRitualText("Calibrating your birth coordinates & magnetic field…");
+      } else if (elapsed < 3600) {
+        setRitualText("Isolating 81 geometric intersection points & archetypes…");
       } else {
-        setRitualText("5. Generating your 4-page cosmic vector map…");
+        setRitualText("Forging your personalized sacred codex & blueprint…");
       }
 
       if (elapsed < totalDuration) {
@@ -935,8 +931,8 @@ export default function App() {
                 <div className="absolute inset-3 rounded-full border border-dashed border-[#c5a880]/10 animate-[spin_25s_linear_infinite_reverse]" />
                 <div className="absolute inset-6 rounded-full border border-neutral-800/80" />
 
-                {/* Luxurious celestial SVG compass overlay */}
-                <svg className="absolute inset-0 w-full h-full pointer-events-none drop-shadow-[0_0_15px_rgba(197,168,128,0.08)]" viewBox="0 0 200 200">
+                {/* Luxurious celestial SVG compass overlay with Framer Motion Golden Line Drawing */}
+                <svg className="absolute inset-0 w-full h-full pointer-events-none drop-shadow-[0_0_20px_rgba(197,168,128,0.25)]" viewBox="0 0 200 200">
                   {/* Outer compass degree lines */}
                   {Array.from({ length: 24 }).map((_, idx) => {
                     const angle = (idx * 360) / 24;
@@ -949,33 +945,74 @@ export default function App() {
                         y2="10"
                         transform={`rotate(${angle} 100 100)`}
                         stroke="#c5a880"
-                        strokeWidth="0.4"
-                        strokeOpacity={idx % 6 === 0 ? "0.6" : "0.2"}
+                        strokeWidth="0.5"
+                        strokeOpacity={idx % 6 === 0 ? "0.8" : "0.3"}
                       />
                     );
                   })}
                   
                   {/* Intersecting constellation vector guidelines */}
-                  <line x1="100" y1="10" x2="100" y2="190" stroke="#c5a880" strokeWidth="0.2" strokeOpacity="0.15" />
-                  <line x1="10" y1="100" x2="190" y2="100" stroke="#c5a880" strokeWidth="0.2" strokeOpacity="0.15" />
-                  <circle cx="100" cy="100" r="82" stroke="#c5a880" strokeWidth="0.3" strokeOpacity="0.25" fill="none" />
-                  <circle cx="100" cy="100" r="64" stroke="#c5a880" strokeWidth="0.5" strokeOpacity="0.15" strokeDasharray="3,3" fill="none" />
-
-                  {/* Orbiting star node */}
-                  <g transform={`rotate(${(ritualProgress * 3.6).toFixed(1)} 100 100)`}>
-                    <circle cx="100" cy="18" r="3" fill="#c5a880" opacity="0.8" />
-                    <line x1="100" y1="18" x2="100" y2="100" stroke="#c5a880" strokeWidth="0.3" strokeOpacity="0.3" strokeDasharray="1,2" />
-                  </g>
-
-                  {/* Harmonic diamond construct */}
-                  <polygon
-                    points="100,34 166,100 100,166 34,100"
+                  <line x1="100" y1="10" x2="100" y2="190" stroke="#c5a880" strokeWidth="0.3" strokeOpacity="0.25" />
+                  <line x1="10" y1="100" x2="190" y2="100" stroke="#c5a880" strokeWidth="0.3" strokeOpacity="0.25" />
+                  
+                  {/* Golden Line Drawn Outer Ring */}
+                  <motion.circle
+                    cx="100"
+                    cy="100"
+                    r="84"
                     stroke="#c5a880"
-                    strokeWidth="0.3"
-                    strokeOpacity="0.2"
+                    strokeWidth="0.6"
+                    strokeOpacity="0.6"
                     fill="none"
-                    transform={`rotate(${(-ritualProgress * 0.72).toFixed(1)} 100 100)`}
+                    initial={{ pathLength: 0, rotate: 0 }}
+                    animate={{ pathLength: ritualProgress / 100, rotate: 360 }}
+                    transition={{ pathLength: { ease: "linear", duration: 0.1 }, rotate: { duration: 40, ease: "linear", repeat: Infinity } }}
                   />
+
+                  {/* Golden Line Drawn Inner Dashed Ring */}
+                  <motion.circle
+                    cx="100"
+                    cy="100"
+                    r="68"
+                    stroke="#c5a880"
+                    strokeWidth="0.8"
+                    strokeOpacity="0.4"
+                    strokeDasharray="4,4"
+                    fill="none"
+                    initial={{ pathLength: 0, rotate: 0 }}
+                    animate={{ pathLength: ritualProgress / 100, rotate: -360 }}
+                    transition={{ pathLength: { ease: "linear", duration: 0.1 }, rotate: { duration: 25, ease: "linear", repeat: Infinity } }}
+                  />
+
+                  {/* Sacred Geometry 8-Pointed Star Array (Golden Line Drawn Morph) */}
+                  <motion.path
+                    d="M 100,28 L 118,82 L 172,100 L 118,118 L 100,172 L 82,118 L 28,100 L 82,82 Z"
+                    stroke="#c5a880"
+                    strokeWidth="0.75"
+                    strokeOpacity="0.75"
+                    fill="rgba(197, 168, 128, 0.03)"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: ritualProgress / 100 }}
+                    transition={{ ease: "easeInOut", duration: 0.2 }}
+                  />
+
+                  {/* Secondary Intersecting Diamond Array */}
+                  <motion.polygon
+                    points="100,42 158,100 100,158 42,100"
+                    stroke="#c5a880"
+                    strokeWidth="0.4"
+                    strokeOpacity="0.5"
+                    fill="none"
+                    initial={{ pathLength: 0, rotate: 45 }}
+                    animate={{ pathLength: ritualProgress / 100, rotate: 45 + (ritualProgress * 0.72) }}
+                    transition={{ ease: "linear", duration: 0.1 }}
+                  />
+
+                  {/* Orbiting Golden Star Node */}
+                  <g transform={`rotate(${(ritualProgress * 3.6).toFixed(1)} 100 100)`}>
+                    <circle cx="100" cy="16" r="3.5" fill="#f4f3f1" opacity="0.9" />
+                    <line x1="100" y1="16" x2="100" y2="100" stroke="#c5a880" strokeWidth="0.4" strokeOpacity="0.4" strokeDasharray="1,2" />
+                  </g>
                 </svg>
 
                 {/* Glowing Golden Aura Circle behind numeral */}
@@ -1023,6 +1060,25 @@ export default function App() {
                     {Math.floor(ritualProgress)}%
                   </span>
                 </div>
+              </div>
+
+              {/* Dynamic High-Tech Computation Step Display (Borderless Pure Ethereal Shimmer Motion - 3 Spacious Steps) */}
+              <div className="relative z-10 mt-3 sm:mt-5 max-w-[92%] sm:max-w-lg mx-auto text-center h-12 flex items-center justify-center">
+                <AnimatePresence mode="wait">
+                  <motion.div 
+                    key={ritualText}
+                    initial={{ opacity: 0, y: 6, filter: "blur(12px)" }}
+                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, y: -6, filter: "blur(12px)" }}
+                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                    className="flex items-center justify-center gap-2.5 text-center px-4"
+                  >
+                    <span className="text-[#c5a880] text-xs animate-pulse font-serif">✦</span>
+                    <span className="text-xs sm:text-base font-serif italic text-[#f4f3f1] tracking-[0.1em] leading-relaxed break-words drop-shadow-[0_0_16px_rgba(197,168,128,0.45)]">
+                      {ritualText}
+                    </span>
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </motion.div>
           )}
